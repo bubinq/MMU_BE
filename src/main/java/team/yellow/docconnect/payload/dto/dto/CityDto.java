@@ -10,5 +10,5 @@ public record CityDto(
         @Size(min = 2, message = "City Should be at least 2 symbols long")
         @NotBlank(message = "City should not be left blank")
         String name
-)//
+)
 { }

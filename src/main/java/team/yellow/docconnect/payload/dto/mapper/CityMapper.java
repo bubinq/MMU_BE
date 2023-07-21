@@ -18,6 +18,6 @@ public interface CityMapper {
 
     @Mapping(target = "name", source = "name")
     City dtoToEntity(CityDto cityDto);
-//
+
     List<City> dtoToEntity(Iterable<CityDto> cityDtos);
 }

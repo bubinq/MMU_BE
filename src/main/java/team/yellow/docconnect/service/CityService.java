@@ -2,7 +2,7 @@ package team.yellow.docconnect.service;
 
 import team.yellow.docconnect.payload.dto.dto.CityDto;
 import team.yellow.docconnect.payload.dto.response.CityResponse;
-//
+
 public interface CityService {
     CityDto createCity(CityDto cityDto);
     CityDto getCityById(Long cityId);

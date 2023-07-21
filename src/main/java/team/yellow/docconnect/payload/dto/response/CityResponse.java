@@ -11,5 +11,5 @@ public record CityResponse (
         long totalElements,
         int totalPages,
         boolean last
-)//
+)
 {}
