@@ -13,7 +13,7 @@ import team.yellow.docconnect.utils.ErrorDetails;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+//
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
