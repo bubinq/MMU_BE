@@ -7,7 +7,7 @@ import team.yellow.docconnect.payload.dto.UserDto;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
@@ -17,6 +17,4 @@ public interface UserMapper {
     List<UserDto> entityToDTO(Iterable<User> users);
 
     User dtoToEntity(UserDto userDto);
-
-    List<User> dtoToEntity(Iterable<UserDto> userDtos);
 }

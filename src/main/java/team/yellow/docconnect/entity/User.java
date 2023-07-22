@@ -24,6 +24,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
+    @Column(columnDefinition = "Boolean default false")
     private Boolean verified;
 }

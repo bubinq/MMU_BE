@@ -1,8 +1,6 @@
 package team.yellow.docconnect.payload.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record UserDto(
 
@@ -16,13 +14,16 @@ public record UserDto(
         @Size(min = 2, message = "User last name should be at least 2 characters long")
         String last_name,
 
-        @Email
+        @Email(message = "Please enter a valid email")
+        @NotEmpty(message = "User email should not be null or empty")
         String email,
 
         @NotEmpty(message = "User password should not be null or empty")
         @Size(min = 8, message = "User password should be at least 8 characters long")
         String password,
 
+        @NotNull(message = "User verification should not be null")
+        @AssertTrue(message = "User should be verified!")
         Boolean verified
 ) {
 }
