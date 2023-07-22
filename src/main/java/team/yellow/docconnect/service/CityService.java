@@ -1,7 +1,7 @@
 package team.yellow.docconnect.service;
 
-import team.yellow.docconnect.payload.dto.dto.CityDto;
-import team.yellow.docconnect.payload.dto.response.CityResponse;
+import team.yellow.docconnect.payload.dto.CityDto;
+import team.yellow.docconnect.payload.response.CityResponse;
 
 public interface CityService {
     CityDto createCity(CityDto cityDto);

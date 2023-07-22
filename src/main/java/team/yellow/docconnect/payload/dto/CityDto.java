@@ -1,4 +1,4 @@
-package team.yellow.docconnect.payload.dto.dto;
+package team.yellow.docconnect.payload.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,10 +1,10 @@
-package team.yellow.docconnect.payload.dto.mapper;
+package team.yellow.docconnect.payload.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import team.yellow.docconnect.entity.City;
-import team.yellow.docconnect.payload.dto.dto.CityDto;
+import team.yellow.docconnect.payload.dto.CityDto;
 
 import java.util.List;
 

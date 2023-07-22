@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.yellow.docconnect.payload.dto.dto.CityDto;
-import team.yellow.docconnect.payload.dto.response.CityResponse;
+import team.yellow.docconnect.payload.dto.CityDto;
+import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.service.CityService;
 import team.yellow.docconnect.utils.AppConstants;
 

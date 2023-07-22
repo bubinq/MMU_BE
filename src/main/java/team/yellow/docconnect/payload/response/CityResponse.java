@@ -1,6 +1,6 @@
-package team.yellow.docconnect.payload.dto.response;
+package team.yellow.docconnect.payload.response;
 
-import team.yellow.docconnect.payload.dto.dto.CityDto;
+import team.yellow.docconnect.payload.dto.CityDto;
 
 import java.util.List;
 

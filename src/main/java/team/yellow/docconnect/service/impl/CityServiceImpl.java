@@ -7,9 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team.yellow.docconnect.entity.City;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
-import team.yellow.docconnect.payload.dto.dto.CityDto;
-import team.yellow.docconnect.payload.dto.mapper.CityMapper;
-import team.yellow.docconnect.payload.dto.response.CityResponse;
+import team.yellow.docconnect.payload.dto.CityDto;
+import team.yellow.docconnect.payload.mapper.CityMapper;
+import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.repository.CityRepository;
 import team.yellow.docconnect.service.CityService;
 
