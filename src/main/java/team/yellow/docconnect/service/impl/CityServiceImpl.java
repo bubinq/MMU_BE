@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team.yellow.docconnect.entity.City;
+import team.yellow.docconnect.entity.Country;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.CityDto;
 import team.yellow.docconnect.payload.mapper.CityMapper;
 import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.repository.CityRepository;
+import team.yellow.docconnect.repository.CountryRepository;
 import team.yellow.docconnect.service.CityService;
 
 import java.util.List;
@@ -19,14 +21,19 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
+    private final CountryRepository countryRepository;
 
-    public CityServiceImpl(CityRepository cityRepository) {
+    public CityServiceImpl(CityRepository cityRepository, CountryRepository countryRepository) {
         this.cityRepository = cityRepository;
+        this.countryRepository = countryRepository;
     }
 
     @Override
-    public CityDto createCity(CityDto cityDto) {
+    public CityDto createCity(CityDto cityDto, Long countryId) {
         City cityToCreate = CityMapper.INSTANCE.dtoToEntity(cityDto);
+        Country foundCountry = countryRepository.findById(countryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
+        cityToCreate.setCountry(foundCountry);
         return CityMapper.INSTANCE.entityToDTO(cityRepository.save(cityToCreate));
     }
 
