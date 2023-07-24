@@ -5,12 +5,18 @@ import lombok.*;
 
 @Entity
 @Table(name = "city")
-@Data
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+
 }

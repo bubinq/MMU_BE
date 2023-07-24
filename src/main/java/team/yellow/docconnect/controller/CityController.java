@@ -10,7 +10,7 @@ import team.yellow.docconnect.service.CityService;
 import team.yellow.docconnect.utils.AppConstants;
 
 @RestController
-@RequestMapping("api/v1/cities")
+@RequestMapping("api/v1/")
 
 public class CityController {
 
@@ -20,17 +20,17 @@ public class CityController {
         this.cityService = cityService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto){
-        return new ResponseEntity<>(cityService.createCity(cityDto), HttpStatus.CREATED);
+    @PostMapping("countries/{countryId}/cities")
+    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto, @PathVariable Long countryId){
+        return new ResponseEntity<>(cityService.createCity(cityDto, countryId), HttpStatus.CREATED);
     }
 
-    @GetMapping("{cityId}")
+    @GetMapping("cities/{cityId}")
     public ResponseEntity<CityDto> getCityById(@PathVariable Long cityId){
         return ResponseEntity.ok(cityService.getCityById(cityId));
     }
 
-    @GetMapping("")
+    @GetMapping("cities")
     public ResponseEntity<CityResponse> getAllCities
             (
                     @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -41,12 +41,12 @@ public class CityController {
          {
             return ResponseEntity.ok(cityService.getAllCities(pageNo, pageSize, sortBy, sortDir));
          }
-    @PutMapping("{cityId}")
+    @PutMapping("cities/{cityId}")
     public ResponseEntity<CityDto> updateCityById(@RequestBody @Valid CityDto cityDto, @PathVariable Long cityId){
         return ResponseEntity.ok(cityService.updateCityById(cityDto, cityId));
     }
 
-    @DeleteMapping("{cityId}")
+    @DeleteMapping("cities/{cityId}")
     public ResponseEntity<String> deleteCityById(@PathVariable Long cityId){
         cityService.deleteCityById(cityId);
         return ResponseEntity.ok("Successfully deleted");
