@@ -12,11 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CountryResponse {
-      private   List<CountryDto> content;
-      private int pageNo;
-      private int pageSize;
-      private Long totalElements;
-      private int totalPages;
-      private boolean last;
+public class CountryResponse extends GeneralResponse{
+      private List<CountryDto> content;
+
 }

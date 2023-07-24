@@ -66,12 +66,12 @@ public class HospitalServiceImpl implements HospitalService {
 
     private HospitalResponse getHospitalResponse(Page<Hospital> allHospitals) {
         List<HospitalDto> content = HospitalMapper.INSTANCE.entityToDTO(allHospitals.getContent());
-        return new HospitalResponse(
-                content,
-                allHospitals.getNumber(),
-                allHospitals.getSize(),
-                allHospitals.getTotalElements(),
-                allHospitals.getTotalPages(),
-                allHospitals.isLast());
+        HospitalResponse hospitalResponse = new HospitalResponse(content);
+        hospitalResponse.setPageNo(allHospitals.getNumber());
+        hospitalResponse.setLast(allHospitals.isLast());
+        hospitalResponse.setTotalPages(allHospitals.getTotalPages());
+        hospitalResponse.setPageSize(allHospitals.getSize());
+        hospitalResponse.setTotalElements(allHospitals.getTotalElements());
+        return hospitalResponse;
     }
 }
