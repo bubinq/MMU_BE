@@ -66,7 +66,7 @@ public class HospitalServiceImpl implements HospitalService {
 
     private HospitalResponse getHospitalResponse(Page<Hospital> allHospitals) {
         List<HospitalDto> content = HospitalMapper.INSTANCE.entityToDTO(allHospitals.getContent());
-        HospitalResponse hospitalResponse = new HospitalResponse(content); // Use the generated constructor
+        HospitalResponse hospitalResponse = new HospitalResponse(content);
         hospitalResponse.setPageNo(allHospitals.getNumber());
         hospitalResponse.setLast(allHospitals.isLast());
         hospitalResponse.setTotalPages(allHospitals.getTotalPages());
