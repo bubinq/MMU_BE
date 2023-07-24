@@ -7,7 +7,7 @@ import team.yellow.docconnect.payload.dto.CountryDto;
 
 import java.util.List;
 
-@Mapper()
+@Mapper
 public interface CountryMapper {
 
     CountryMapper INSTANCE = Mappers.getMapper(CountryMapper.class);

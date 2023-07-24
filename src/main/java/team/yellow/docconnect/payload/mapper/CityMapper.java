@@ -8,7 +8,7 @@ import team.yellow.docconnect.payload.dto.CityDto;
 
 import java.util.List;
 
-@Mapper()
+@Mapper
 public interface CityMapper {
     CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
