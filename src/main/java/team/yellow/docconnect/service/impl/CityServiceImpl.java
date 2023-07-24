@@ -72,14 +72,12 @@ public class CityServiceImpl implements CityService {
 
     private CityResponse getResponse(Page<City> cities) {
         List<CityDto> allCities = CityMapper.INSTANCE.entityToDTO(cities.getContent());
-        return new CityResponse
-                (
-                        allCities,
-                        cities.getNumber(),
-                        cities.getSize(),
-                        cities.getTotalElements(),
-                        cities.getTotalPages(),
-                        cities.isLast()
-                );
+        CityResponse cityResponse = new CityResponse(allCities);
+        cityResponse.setPageNo(cities.getNumber());
+        cityResponse.setLast(cities.isLast());
+        cityResponse.setTotalPages(cities.getTotalPages());
+        cityResponse.setPageSize(cities.getSize());
+        cityResponse.setTotalElements(cities.getTotalElements());
+        return cityResponse;
     }
 }

@@ -68,12 +68,12 @@ public class UserServiceImpl implements UserService {
 
     private UserResponse getUserResponse(Page<User> allUsers) {
         List<UserDto> content = UserMapper.INSTANCE.entityToDTO(allUsers.getContent());
-        return new UserResponse(
-                content,
-                allUsers.getNumber(),
-                allUsers.getSize(),
-                allUsers.getTotalElements(),
-                allUsers.getTotalPages(),
-                allUsers.isLast());
+        UserResponse userResponse = new UserResponse(content);
+        userResponse.setPageNo(allUsers.getNumber());
+        userResponse.setLast(allUsers.isLast());
+        userResponse.setTotalPages(allUsers.getTotalPages());
+        userResponse.setPageSize(allUsers.getSize());
+        userResponse.setTotalElements(allUsers.getTotalElements());
+        return userResponse;
     }
 }

@@ -64,14 +64,12 @@ public class CountryServiceImpl implements CountryService {
 
     private CountryResponse getResponse(Page<Country> countries) {
         List<CountryDto> content = CountryMapper.INSTANCE.entityToDTO(countries.getContent());
-        return new CountryResponse
-                (
-                        content,
-                        countries.getNumber(),
-                        countries.getSize(),
-                        countries.getTotalElements(),
-                        countries.getTotalPages(),
-                        countries.isLast()
-                );
+        CountryResponse countryResponse = new CountryResponse(content);
+        countryResponse.setPageNo(countries.getNumber());
+        countryResponse.setLast(countries.isLast());
+        countryResponse.setTotalPages(countries.getTotalPages());
+        countryResponse.setPageSize(countries.getSize());
+        countryResponse.setTotalElements(countries.getTotalElements());
+        return countryResponse;
     }
 }
