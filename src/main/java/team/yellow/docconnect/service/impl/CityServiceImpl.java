@@ -54,6 +54,16 @@ public class CityServiceImpl implements CityService {
         return getResponse(allCities);
     }
 
+    @Override
+    public CityResponse getAllCitiesByCountryId(Long countryId, int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<City> content = cityRepository.findAllByCountry_Id(countryId, pageable);
+        return getResponse(content);
+    }
+
 
     @Override
     public CityDto updateCityById(CityDto cityDto, Long cityId) {
