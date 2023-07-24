@@ -64,12 +64,12 @@ public class SpecialtyServiceImpl implements SpecialtyService {
 
     private SpecialtyResponse getSpecialtyResponse(Page<Specialty> allSpecialties) {
         List<SpecialtyDto> content = SpecialtyMapper.INSTANCE.entityToDTO(allSpecialties.getContent());
-        return new SpecialtyResponse(
-                content,
-                allSpecialties.getNumber(),
-                allSpecialties.getSize(),
-                allSpecialties.getTotalElements(),
-                allSpecialties.getTotalPages(),
-                allSpecialties.isLast());
+        SpecialtyResponse specialtyResponse = new SpecialtyResponse(content);
+        specialtyResponse.setPageNo(allSpecialties.getNumber());
+        specialtyResponse.setLast(allSpecialties.isLast());
+        specialtyResponse.setTotalPages(allSpecialties.getTotalPages());
+        specialtyResponse.setPageSize(allSpecialties.getSize());
+        specialtyResponse.setTotalElements(allSpecialties.getTotalElements());
+        return specialtyResponse;
     }
 }

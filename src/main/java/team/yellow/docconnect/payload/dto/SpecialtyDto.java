@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
 public record SpecialtyDto (
-        Long specialty_id,
+        Long id,
 
         @NotEmpty(message = "Specialty name should not be null or empty")
         @Size(min = 2, message = "Specialty name should be at least 2 characters long")
