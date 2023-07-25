@@ -15,4 +15,7 @@ public interface DoctorService {
     DoctorDto updateDoctorById(Long doctorId, DoctorDto doctorDto);
 
     void deleteDoctorById(Long doctorId);
-}
+
+    DoctorResponse getSearchedDoctors(int pageNo, int pageSize, String sortBy, String sortDir, Long specialtyId, Long cityId, String name);
+
+    }

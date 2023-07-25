@@ -99,4 +99,14 @@ public class DoctorServiceImpl implements DoctorService {
         doctorResponse.setTotalElements(doctors.getTotalElements());
         return doctorResponse;
     }
+
+    @Override
+    public DoctorResponse getSearchedDoctors(int pageNo, int pageSize, String sortBy, String sortDir, Long specialtyId, Long cityId, String name) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Page<Doctor> doctors = doctorRepository.findBySearchParams(specialtyId, cityId, name, pageable);
+        return getResponse(doctors);
+    }
 }

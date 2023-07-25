@@ -13,7 +13,7 @@ import team.yellow.docconnect.service.DoctorService;
 import team.yellow.docconnect.utils.AppConstants;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/doctors")
 @Tag(name = "CRUD REST APIs for Doctor Resource")
 public class DoctorController {
 
@@ -31,7 +31,7 @@ public class DoctorController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
-    @PostMapping("cities/{cityId}/doctors")
+    @PostMapping("cities/{cityId}")
     public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId){
        return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId), HttpStatus.CREATED);
     }
@@ -44,7 +44,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("doctors/{doctorId}")
+    @GetMapping("{doctorId}")
     public ResponseEntity<DoctorDto> getDoctorById(@PathVariable Long doctorId){
         return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
     }
@@ -57,7 +57,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("doctors")
+    @GetMapping("")
     public ResponseEntity<DoctorResponse> getAllDoctors
             (
                     @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
@@ -76,7 +76,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("cities/{cityId}/doctors")
+    @GetMapping("cities/{cityId}")
     public ResponseEntity<DoctorResponse> getAllDoctorsByCity
             (
                     @PathVariable Long cityId,
@@ -96,7 +96,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @PutMapping("doctors/{doctorId}")
+    @PutMapping("{doctorId}")
     public ResponseEntity<DoctorDto> updateDoctorById(@PathVariable Long doctorId, @RequestBody @Valid DoctorDto doctorDto){
         return ResponseEntity.ok(doctorService.updateDoctorById(doctorId, doctorDto));
     }
@@ -109,10 +109,23 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @DeleteMapping("doctors/{doctorId}")
+    @DeleteMapping("{doctorId}")
     public ResponseEntity<String> deleteDoctorById(@PathVariable Long doctorId){
         doctorService.deleteDoctorById(doctorId);
         return ResponseEntity.ok("Successfully deleted Doctor with id:" + doctorId);
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<DoctorResponse> searchDoctor(
+                                                  @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                                                  @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                  @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                                                  @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir,
+                                                  @RequestParam(value = "specialtyId", required = false) Long specialtyId,
+                                                  @RequestParam(value = "cityId", required = false) Long cityId,
+                                                  @RequestParam(value = "name", required = false) String name
+    ){
+        return ResponseEntity.ok(doctorService.getSearchedDoctors(pageNo, pageSize, sortBy, sortDir,specialtyId,cityId,name));
     }
 
 }
