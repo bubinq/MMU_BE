@@ -5,11 +5,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import team.yellow.docconnect.entity.City;
 import team.yellow.docconnect.entity.Hospital;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.HospitalDto;
 import team.yellow.docconnect.payload.mapper.HospitalMapper;
 import team.yellow.docconnect.payload.response.HospitalResponse;
+import team.yellow.docconnect.repository.CityRepository;
 import team.yellow.docconnect.repository.HospitalRepository;
 import team.yellow.docconnect.service.HospitalService;
 
@@ -19,9 +21,11 @@ import java.util.List;
 public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
+    private final CityRepository cityRepository;
 
-    public HospitalServiceImpl(HospitalRepository hospitalRepository) {
+    public HospitalServiceImpl(HospitalRepository hospitalRepository, CityRepository cityRepository) {
         this.hospitalRepository = hospitalRepository;
+        this.cityRepository = cityRepository;
     }
 
     @Override
@@ -51,7 +55,9 @@ public class HospitalServiceImpl implements HospitalService {
     public HospitalDto updateHospitalById(Long id, HospitalDto hospitalDto) {
         Hospital hospital = hospitalRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Hospital", "id", id));
-        hospital.setCity(hospitalDto.city());
+        City city = cityRepository.findById(id)
+                        .orElseThrow(() -> new ResourceNotFoundException("City", "id", id));
+        hospital.setCity(city);
         hospital.setAddress(hospitalDto.address());
         hospital.setName(hospitalDto.name());
         return HospitalMapper.INSTANCE.entityToDTO(hospitalRepository.save(hospital));
