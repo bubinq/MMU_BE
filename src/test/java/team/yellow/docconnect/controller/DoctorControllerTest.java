@@ -97,23 +97,32 @@ class DoctorControllerTest {
 
     @Test
     void shouldReturnAllDoctorsPaginated() {
+        Long specialtyId = 1L;
+        Long cityId = 1L;
+        String name = "name";
         DoctorResponse expectedDoctors = new DoctorResponse();
         Mockito.when(doctorService
-                .getAllDoctors
+                .getSearchedDoctors
                         (
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                                 AppConstants.DEFAULT_SORT_BY,
-                                AppConstants.DEFAULT_SORT_DIRECTION
+                                AppConstants.DEFAULT_SORT_DIRECTION,
+                                specialtyId,
+                                cityId,
+                                name
                         )
         ).thenReturn(expectedDoctors);
 
-        ResponseEntity<DoctorResponse> receivedResponse = doctorController.getAllDoctors
+        ResponseEntity<DoctorResponse> receivedResponse = doctorController.getSearchedDoctors
                 (
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                         AppConstants.DEFAULT_SORT_BY,
-                        AppConstants.DEFAULT_SORT_DIRECTION
+                        AppConstants.DEFAULT_SORT_DIRECTION,
+                        specialtyId,
+                        cityId,
+                        name
                  );
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assert.assertEquals(expectedDoctors, receivedResponse.getBody());

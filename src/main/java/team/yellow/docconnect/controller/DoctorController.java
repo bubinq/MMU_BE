@@ -49,24 +49,6 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
     }
 
-    @Operation(
-            summary = "Get All Doctors REST API",
-            description = "Get All Doctors REST API is used to fetch all the doctors from the database"
-    )
-    @ApiResponse(
-            responseCode = "200",
-            description = "Http Status 200 SUCCESS"
-    )
-    @GetMapping("")
-    public ResponseEntity<DoctorResponse> getAllDoctors
-            (
-                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
-                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
-                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
-                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            ){
-        return ResponseEntity.ok(doctorService.getAllDoctors(pageNo, pageSize, sortBy, sortDir));
-    }
 
     @Operation(
             summary = "Get All Doctors By City Id REST API",
@@ -115,8 +97,16 @@ public class DoctorController {
         return ResponseEntity.ok("Successfully deleted Doctor with id:" + doctorId);
     }
 
+    @Operation(
+            summary = "Get All Doctors Searched REST API",
+            description = "Get All Doctors Searched REST API is used to fetch all the doctors according to the search params from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("search")
-    public ResponseEntity<DoctorResponse> searchDoctor(
+    public ResponseEntity<DoctorResponse> getSearchedDoctors(
                                                   @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
                                                   @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                                                   @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
