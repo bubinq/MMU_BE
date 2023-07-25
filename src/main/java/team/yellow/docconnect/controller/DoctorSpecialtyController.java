@@ -19,9 +19,12 @@ public class DoctorSpecialtyController {
         this.doctorSpecialtyService = doctorSpecialtyService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<DoctorSpecialtyDto> createDoctorSpecialty(@RequestBody @Valid DoctorSpecialtyDto doctorSpecialtyDto){
-       return new ResponseEntity<>(doctorSpecialtyService.createDoctorSpecialty(doctorSpecialtyDto), HttpStatus.CREATED);
+    @PostMapping("/doctors/{doctorId}/specialties/{specialityId}")
+    public ResponseEntity<DoctorSpecialtyDto> createDoctorSpecialty(@RequestBody @Valid DoctorSpecialtyDto doctorSpecialtyDto,
+                                                                    @PathVariable Long doctorId,
+                                                                    @PathVariable Long specialityId
+    ){
+       return new ResponseEntity<>(doctorSpecialtyService.createDoctorSpecialty(doctorSpecialtyDto, doctorId, specialityId), HttpStatus.CREATED);
     }
 
     @GetMapping("/{doctorSpecialtyId}")
@@ -69,7 +72,7 @@ public class DoctorSpecialtyController {
     }
 
     @DeleteMapping("/{doctorSpecialtyId}")
-    public ResponseEntity<String> deleteDoctorById(@PathVariable Long doctorSpecialtyId){
+    public ResponseEntity<String> deleteDoctorSpecialtyById(@PathVariable Long doctorSpecialtyId){
         doctorSpecialtyService.deleteDoctorSpecialtyById(doctorSpecialtyId);
         return ResponseEntity.ok(AppConstants.SUCCESSFULLY_DELETED_MESSAGE);
     }

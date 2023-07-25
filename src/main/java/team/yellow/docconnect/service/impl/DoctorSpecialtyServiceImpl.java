@@ -33,14 +33,14 @@ public class DoctorSpecialtyServiceImpl implements DoctorSpecialtyService {
     }
 
     @Override
-    public DoctorSpecialtyDto createDoctorSpecialty(DoctorSpecialtyDto doctorSpecialtyDto) {
+    public DoctorSpecialtyDto createDoctorSpecialty(DoctorSpecialtyDto doctorSpecialtyDto,Long doctorId,Long specialtyId) {
         DoctorSpecialty doctorSpecialtyToCreate = DoctorSpecialtyMapper.INSTANCE.dtoToEntity(doctorSpecialtyDto);
 
-        Doctor foundDoctor = doctorRespository.findById(doctorSpecialtyDto.doctorId())
+        Doctor foundDoctor = doctorRespository.findById(doctorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor", "Id", doctorSpecialtyDto.doctorId()));
         doctorSpecialtyToCreate.setDoctor(foundDoctor);
 
-        Specialty foundSpecialty = specialtyRepository.findById(doctorSpecialtyDto.specialtyId())
+        Specialty foundSpecialty = specialtyRepository.findById(specialtyId)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty", "Id", doctorSpecialtyDto.doctorId()));
         doctorSpecialtyToCreate.setSpecialty(foundSpecialty);
 
