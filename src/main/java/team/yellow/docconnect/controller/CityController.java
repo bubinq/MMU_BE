@@ -1,5 +1,8 @@
 package team.yellow.docconnect.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +14,7 @@ import team.yellow.docconnect.utils.AppConstants;
 
 @RestController
 @RequestMapping("api/v1/")
-
+@Tag(name = "CRUD REST APIs for City Resource")
 public class CityController {
 
     private final CityService cityService;
@@ -20,16 +23,40 @@ public class CityController {
         this.cityService = cityService;
     }
 
+    @Operation(
+            summary = "Create City REST API",
+            description = "Create City REST API is used to save city into database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
     @PostMapping("countries/{countryId}/cities")
-    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto, @PathVariable Long countryId){
+    public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto, @PathVariable Long countryId) {
         return new ResponseEntity<>(cityService.createCity(cityDto, countryId), HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Get City By Id REST API",
+            description = "Get City By Id REST API is used to get a single city from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("cities/{cityId}")
-    public ResponseEntity<CityDto> getCityById(@PathVariable Long cityId){
+    public ResponseEntity<CityDto> getCityById(@PathVariable Long cityId) {
         return ResponseEntity.ok(cityService.getCityById(cityId));
     }
 
+    @Operation(
+            summary = "Get All Cities REST API",
+            description = "Get All Cities REST API is used to fetch all the cities from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("cities")
     public ResponseEntity<CityResponse> getAllCities
             (
@@ -37,11 +64,18 @@ public class CityController {
                     @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            )
-         {
-            return ResponseEntity.ok(cityService.getAllCities(pageNo, pageSize, sortBy, sortDir));
-         }
+            ) {
+        return ResponseEntity.ok(cityService.getAllCities(pageNo, pageSize, sortBy, sortDir));
+    }
 
+    @Operation(
+            summary = "Get All Cities By Country Id REST API",
+            description = "Get All Cities By Country Id REST API is used to fetch all the cities from the database by country id"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("countries/{countryId}/cities")
     public ResponseEntity<CityResponse> getAllCitiesByCountry
             (
@@ -50,17 +84,33 @@ public class CityController {
                     @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
-            )
-    {
+            ) {
         return ResponseEntity.ok(cityService.getAllCitiesByCountryId(countryId, pageNo, pageSize, sortBy, sortDir));
     }
+
+    @Operation(
+            summary = "Update City REST API",
+            description = "Update City REST API is used to update a particular city in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PutMapping("cities/{cityId}")
-    public ResponseEntity<CityDto> updateCityById(@RequestBody @Valid CityDto cityDto, @PathVariable Long cityId){
+    public ResponseEntity<CityDto> updateCityById(@RequestBody @Valid CityDto cityDto, @PathVariable Long cityId) {
         return ResponseEntity.ok(cityService.updateCityById(cityDto, cityId));
     }
 
+    @Operation(
+            summary = "Delete City REST API",
+            description = "Delete City REST API is used to delete city from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @DeleteMapping("cities/{cityId}")
-    public ResponseEntity<String> deleteCityById(@PathVariable Long cityId){
+    public ResponseEntity<String> deleteCityById(@PathVariable Long cityId) {
         cityService.deleteCityById(cityId);
         return ResponseEntity.ok("Successfully deleted");
     }
