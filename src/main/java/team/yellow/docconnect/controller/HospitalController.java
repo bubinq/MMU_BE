@@ -1,5 +1,8 @@
 package team.yellow.docconnect.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import team.yellow.docconnect.utils.AppConstants;
 
 @RestController
 @RequestMapping("api/v1/hospitals")
+@Tag(name = "CRUD REST APIs for Hospital Resource")
 public class HospitalController {
 
     private final HospitalService hospitalService;
@@ -19,16 +23,40 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
+    @Operation(
+            summary = "Create Hospital REST API",
+            description = "Create Hospital REST API is used to save hospital into database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
     @PostMapping
     public ResponseEntity<HospitalDto> createHospital(@Valid @RequestBody HospitalDto hospitalDto) {
         return new ResponseEntity<>(hospitalService.createHospital(hospitalDto), HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Get Hospital By Id REST API",
+            description = "Get Hospital By Id REST API is used to get a single hospital from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping("{id}")
     public ResponseEntity<HospitalDto> getHospitalById(@PathVariable Long id) {
         return ResponseEntity.ok(hospitalService.getHospitalById(id));
     }
 
+    @Operation(
+            summary = "Get All Hospitals REST API",
+            description = "Get All Hospitals REST API is used to fetch all the hospitals from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @GetMapping
     public ResponseEntity<HospitalResponse> getAllHospitals
             (
@@ -40,11 +68,27 @@ public class HospitalController {
         return ResponseEntity.ok(hospitalService.getAllHospitals(pageNo, pageSize, sortBy, sortDir));
     }
 
+    @Operation(
+            summary = "Update Hospital REST API",
+            description = "Update Hospital REST API is used to update a particular hospital in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @PutMapping("{id}")
     public ResponseEntity<HospitalDto> updateHospitalById(@RequestBody @Valid HospitalDto hospitalDto, @PathVariable Long id) {
         return ResponseEntity.ok(hospitalService.updateHospitalById(id, hospitalDto));
     }
 
+    @Operation(
+            summary = "Delete Hospital REST API",
+            description = "Delete Hospital REST API is used to delete hospital from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteHospitalById(@PathVariable Long id) {
         hospitalService.deleteHospitalById(id);
