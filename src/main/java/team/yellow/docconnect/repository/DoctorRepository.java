@@ -3,10 +3,10 @@ package team.yellow.docconnect.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import team.yellow.docconnect.entity.City;
+import team.yellow.docconnect.entity.Doctor;
 
+public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
-public interface CityRepository extends JpaRepository<City, Long> {
+    Page<Doctor> findAllByCity_Id(Long cityId, Pageable pageable);
 
-    Page<City> findAllByCountry_Id(Long countryId, Pageable pageable);
 }

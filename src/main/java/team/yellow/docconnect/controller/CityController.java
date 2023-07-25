@@ -41,6 +41,19 @@ public class CityController {
          {
             return ResponseEntity.ok(cityService.getAllCities(pageNo, pageSize, sortBy, sortDir));
          }
+
+    @GetMapping("countries/{countryId}/cities")
+    public ResponseEntity<CityResponse> getAllCitiesByCountry
+            (
+                    @PathVariable Long countryId,
+                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            )
+    {
+        return ResponseEntity.ok(cityService.getAllCitiesByCountryId(countryId, pageNo, pageSize, sortBy, sortDir));
+    }
     @PutMapping("cities/{cityId}")
     public ResponseEntity<CityDto> updateCityById(@RequestBody @Valid CityDto cityDto, @PathVariable Long cityId){
         return ResponseEntity.ok(cityService.updateCityById(cityDto, cityId));
