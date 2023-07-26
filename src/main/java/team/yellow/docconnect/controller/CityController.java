@@ -11,7 +11,7 @@ import team.yellow.docconnect.payload.dto.CityDto;
 import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.service.CityService;
 import team.yellow.docconnect.utils.AppConstants;
-
+@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/")
 @Tag(name = "CRUD REST APIs for City Resource")

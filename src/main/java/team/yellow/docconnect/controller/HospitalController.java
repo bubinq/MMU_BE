@@ -11,7 +11,7 @@ import team.yellow.docconnect.payload.dto.HospitalDto;
 import team.yellow.docconnect.payload.response.HospitalResponse;
 import team.yellow.docconnect.service.HospitalService;
 import team.yellow.docconnect.utils.AppConstants;
-
+@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/hospitals")
 @Tag(name = "CRUD REST APIs for Hospital Resource")
