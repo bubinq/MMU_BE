@@ -10,6 +10,7 @@ import team.yellow.docconnect.payload.dto.SpecialtyDto;
 import team.yellow.docconnect.payload.response.SpecialtyResponse;
 import team.yellow.docconnect.service.SpecialtyService;
 import team.yellow.docconnect.utils.AppConstants;
+@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/specialties")
 @Tag(name = "CRUD REST APIs for Specialty Resource")
