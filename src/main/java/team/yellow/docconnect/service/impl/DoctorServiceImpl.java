@@ -113,7 +113,10 @@ public class DoctorServiceImpl implements DoctorService {
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<Doctor> doctors = doctorRepository.findBySearchParams(specialtyId, cityId, name, pageable);
+
+        String searchableName = name != null ? "%" + name.trim().toLowerCase().replace(" ", "%") + "%" : null;
+
+        Page<Doctor> doctors = doctorRepository.findBySearchParams(specialtyId, cityId, searchableName, pageable);
         return getResponse(doctors);
     }
 }
