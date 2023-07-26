@@ -14,6 +14,8 @@ public interface DoctorMapper {
 
     DoctorMapper INSTANCE = Mappers.getMapper(DoctorMapper.class);
     @Mapping(target = "cityId", expression = "java(doctor.getCity().getId())")
+    @Mapping(target = "countryId", expression = "java(doctor.getCountry().getId())")
+    @Mapping(target = "specialtyId", expression = "java(doctor.getSpecialty().getId())")
     DoctorDto entityToDTO(Doctor doctor);
 
     List<DoctorDto> entityToDTO(Iterable<Doctor> doctors);
