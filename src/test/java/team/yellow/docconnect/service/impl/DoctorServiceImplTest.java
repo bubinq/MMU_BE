@@ -23,33 +23,41 @@ class DoctorServiceImplTest {
     }
 
     @Test
-    void shouldCreateDoctorWhenProvidedValidCityId() {
+    void shouldCreateDoctorWhenProvidedValidIds() {
         Long validCityId = 1L;
+        Long validSpecialtyId =  1L;
+        Long validCountryId = 1L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, validCityId
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        validCountryId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId)).thenReturn(doctorToInsert);
-        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, validCityId);
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+                .thenReturn(doctorToInsert);
+        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId);
         Assert.assertEquals(doctorToInsert,createdDoctor);
     }
 
     @Test
     void shouldNotCreateDoctorWhenProvidedInvalidCityId() {
         Long validCityId = 1L;
+        Long validSpecialtyId =  1L;
+        Long validCountryId = 1L;
         Long invalidCityId = 2L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, validCityId
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        validCountryId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId)).thenReturn(doctorToInsert);
-        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, invalidCityId);
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+                .thenReturn(doctorToInsert);
+        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, invalidCityId, validCountryId, validSpecialtyId);
         Assert.assertNotEquals(doctorToInsert,createdDoctor);
     }
 
@@ -62,7 +70,8 @@ class DoctorServiceImplTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.getDoctorById(validDoctorId)).thenReturn(expectedDoctor);
@@ -78,7 +87,8 @@ class DoctorServiceImplTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.getDoctorById(validDoctorId)).thenReturn(expectedDoctor);
@@ -184,7 +194,8 @@ class DoctorServiceImplTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.updateDoctorById(validDoctorId, updatedDoctor)).thenReturn(updatedDoctor);
@@ -200,7 +211,8 @@ class DoctorServiceImplTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.updateDoctorById(validDoctorId, updatedDoctor)).thenReturn(updatedDoctor);

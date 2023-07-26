@@ -11,7 +11,7 @@ import team.yellow.docconnect.payload.dto.DoctorDto;
 import team.yellow.docconnect.payload.response.DoctorResponse;
 import team.yellow.docconnect.service.DoctorService;
 import team.yellow.docconnect.utils.AppConstants;
-
+@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1")
 @Tag(name = "CRUD REST APIs for Doctor Resource")
@@ -31,9 +31,10 @@ public class DoctorController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
-    @PostMapping("cities/{cityId}/doctors")
-    public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId){
-       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId), HttpStatus.CREATED);
+    @PostMapping("countries/{countryId}/cities/{cityId}/specialties/{specialtyId}/doctors")
+    public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId,
+                                                  @PathVariable Long countryId, @PathVariable Long specialtyId){
+       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId, countryId, specialtyId), HttpStatus.CREATED);
     }
 
     @Operation(

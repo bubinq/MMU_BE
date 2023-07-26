@@ -11,7 +11,7 @@ import team.yellow.docconnect.payload.dto.UserDto;
 import team.yellow.docconnect.payload.response.UserResponse;
 import team.yellow.docconnect.service.UserService;
 import team.yellow.docconnect.utils.AppConstants;
-
+@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/users")
 @Tag(name = "CRUD REST APIs for User Resource")

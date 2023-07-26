@@ -30,17 +30,22 @@ class DoctorControllerTest {
     }
 
     @Test
-    void shouldCreateDoctorAndReturnCreatedResponseWhenProvidedValidCityId() {
+    void shouldCreateDoctorAndReturnCreatedResponseWhenProvidedValidIds() {
         Long validCityId = 1L;
+        Long validSpecialtyId =  1L;
+        Long validCountryId = 1L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                             1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, validCityId
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        validCountryId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId)).thenReturn(doctorToInsert);
-        ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, validCityId);
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+                .thenReturn(doctorToInsert);
+        ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, validCityId,
+                validCountryId, validSpecialtyId);
         Assert.assertEquals(HttpStatus.CREATED, receivedResponse.getStatusCode());
         Assert.assertEquals(doctorToInsert, receivedResponse.getBody());
     }
@@ -48,16 +53,21 @@ class DoctorControllerTest {
     @Test
     void shouldNotCreateDoctorWhenProvidedInvalidCityId() {
         Long validCityId = 1L;
+        Long validSpecialtyId =  1L;
+        Long validCountryId = 1L;
         Long invalidCityId = 2L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, validCityId
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        validCountryId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId)).thenReturn(doctorToInsert);
-        ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, invalidCityId);
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+                .thenReturn(doctorToInsert);
+        ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, invalidCityId,
+                validCountryId , validSpecialtyId);
         Assert.assertNotEquals(doctorToInsert, receivedResponse.getBody());
     }
 
@@ -70,7 +80,8 @@ class DoctorControllerTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.getDoctorById(validDoctorId)).thenReturn(foundDoctor);
@@ -80,14 +91,15 @@ class DoctorControllerTest {
     }
 
     @Test
-    void shouldNotReturnDtoAWhenProvidedInvalidId() {
+    void shouldNotReturnDtoWhenProvidedInvalidId() {
         Long validDoctorId = 1L;
         Long invalidDoctorId = 2L;
         DoctorDto foundDoctor = new DoctorDto
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.getDoctorById(validDoctorId)).thenReturn(foundDoctor);
@@ -191,7 +203,8 @@ class DoctorControllerTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.updateDoctorById(validDoctorId, updatedDoctor)).thenReturn(updatedDoctor);
@@ -208,7 +221,8 @@ class DoctorControllerTest {
                 (
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
         Mockito.when(doctorService.updateDoctorById(validDoctorId, updatedDoctor)).thenReturn(updatedDoctor);
@@ -224,10 +238,11 @@ class DoctorControllerTest {
                 (
                         doctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
-                        2.5, 1L
+                        2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        1L, 1L, 1L
 
                 );
-        doctorService.createDoctor(doctorToDelete, 1L);
+        doctorService.createDoctor(doctorToDelete, 1L, 1L, 1L);
         ResponseEntity<String> receivedResponse = doctorController.deleteDoctorById(doctorId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
         Assertions.assertEquals("Successfully deleted Doctor with id:"+ doctorId, receivedResponse.getBody());
