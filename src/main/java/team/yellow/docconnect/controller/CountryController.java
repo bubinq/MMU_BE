@@ -11,7 +11,6 @@ import team.yellow.docconnect.payload.dto.CountryDto;
 import team.yellow.docconnect.payload.response.CountryResponse;
 import team.yellow.docconnect.service.CountryService;
 import team.yellow.docconnect.utils.AppConstants;
-@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("/api/v1/countries")
 @Tag(name = "CRUD REST APIs for Country Resource")
