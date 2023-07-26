@@ -13,7 +13,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Query("SELECT d FROM Doctor d " +
             "WHERE (:specialtyId IS NULL OR d.specialty.id = :specialtyId) " +
             "AND (:cityId IS NULL OR d.city.id = :cityId) " +
-            "AND CONCAT(' ', LOWER(d.firstName), ' ', LOWER(d.lastName), ' ') LIKE %:name%")
+            "AND (:name IS NULL OR CONCAT(LOWER(d.firstName), ' ', LOWER(d.lastName)) LIKE %:name%)")
     Page<Doctor> findBySearchParams(Long specialtyId, Long cityId, String name, Pageable pageable);
 }
 
