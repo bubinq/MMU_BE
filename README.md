@@ -28,18 +28,26 @@ cd <path to project>
 ```
 replace < path to project > with the path where you cloned the repository
 
+**3. After navigating to the project directory, build the backend with docker compose**
+
+```bash
+docker-compose build
+```
 
 
-**3. After navigating to the project directory, run the backend with docker compose**
+**4. After building backend, run the backend with docker compose**
 
 ```bash
 docker-compose up -d
 ```
 REST API will start running at <http://localhost:8080>
 
-**4. You can stop the backend from running with**
+**5. You can stop the backend from running with**
 
 ```bash
 docker-compose down
 ```
+
+## Endpoints
++ http://localhost:8080/swagger-ui/index.html - Every endpoint is documented here.
 
