@@ -10,10 +10,10 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
 
     Page<Doctor> findAllByCity_Id(Long cityId, Pageable pageable);
 
-    @Query("SELECT ds.doctor FROM DoctorSpecialty ds " +
-            "WHERE (:specialtyId IS NULL OR ds.specialty.id = :specialtyId) " +
-            "AND (:cityId IS NULL OR ds.doctor.city.id = :cityId) " +
-            "AND (:name IS NULL OR LOWER(ds.doctor.firstName) LIKE %:name%) OR LOWER(ds.doctor.lastName) LIKE %:name%")
+    @Query("SELECT d FROM Doctor d " +
+                  "WHERE (:specialtyId IS NULL OR d.specialty.id = :specialtyId) " +
+                  "AND (:cityId IS NULL OR d.city.id = :cityId) " +
+                  "AND (:name IS NULL OR LOWER(d.firstName) LIKE %:name% OR LOWER(d.lastName) LIKE %:name%)")
     Page<Doctor> findBySearchParams(Long specialtyId, Long cityId, String name, Pageable pageable);
 }
 
