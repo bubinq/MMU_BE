@@ -31,9 +31,10 @@ public class DoctorController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
-    @PostMapping("cities/{cityId}/doctors")
-    public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId){
-       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId), HttpStatus.CREATED);
+    @PostMapping("countries/{countryId}/cities/{cityId}/specialties/{specialtyId}/doctors")
+    public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId,
+                                                  @PathVariable Long countryId, @PathVariable Long specialtyId){
+       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId, countryId, specialtyId), HttpStatus.CREATED);
     }
 
     @Operation(

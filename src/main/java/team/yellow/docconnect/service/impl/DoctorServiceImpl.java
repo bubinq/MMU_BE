@@ -6,13 +6,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team.yellow.docconnect.entity.City;
+import team.yellow.docconnect.entity.Country;
 import team.yellow.docconnect.entity.Doctor;
+import team.yellow.docconnect.entity.Specialty;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.DoctorDto;
 import team.yellow.docconnect.payload.mapper.DoctorMapper;
 import team.yellow.docconnect.payload.response.DoctorResponse;
 import team.yellow.docconnect.repository.CityRepository;
+import team.yellow.docconnect.repository.CountryRepository;
 import team.yellow.docconnect.repository.DoctorRepository;
+import team.yellow.docconnect.repository.SpecialtyRepository;
 import team.yellow.docconnect.service.DoctorService;
 
 import java.util.List;
@@ -23,17 +27,30 @@ public class DoctorServiceImpl implements DoctorService {
     private final DoctorRepository doctorRepository;
     private final CityRepository cityRepository;
 
-    public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository) {
+    private final CountryRepository countryRepository;
+    private final SpecialtyRepository specialtyRepository;
+
+
+    public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository,
+                             CountryRepository countryRepository, SpecialtyRepository specialtyRepository) {
         this.doctorRepository = doctorRepository;
         this.cityRepository = cityRepository;
+        this.countryRepository = countryRepository;
+        this.specialtyRepository = specialtyRepository;
     }
 
     @Override
-    public DoctorDto createDoctor(DoctorDto doctorDto, Long cityId) {
+    public DoctorDto createDoctor(DoctorDto doctorDto, Long cityId, Long countryId, Long specialtyId) {
         City foundCity = cityRepository.findById(cityId)
                 .orElseThrow(() -> new ResourceNotFoundException("City", "Id", cityId));
+        Country foundCountry = countryRepository.findById(countryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
+        Specialty foundSpecialty = specialtyRepository.findById(specialtyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Specialty", "id", specialtyId));
         Doctor doctor = DoctorMapper.INSTANCE.dtoToEntity(doctorDto);
         doctor.setCity(foundCity);
+        doctor.setCountry(foundCountry);
+        doctor.setSpecialty(foundSpecialty);
         return DoctorMapper.INSTANCE.entityToDTO(doctorRepository.save(doctor));
     }
 
