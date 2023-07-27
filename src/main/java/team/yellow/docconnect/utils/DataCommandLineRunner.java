@@ -117,7 +117,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         johnDoe.setExperience(10);
         johnDoe.setEducation("Medical School A, Residency B");
         johnDoe.setAverageRating(4.9);
-        johnDoe.setImageUrl("https://example.com/doctors/john-doe.png");
+        johnDoe.setImageUrl("https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg");
         johnDoe.setAddress("123 Main Street, New York, USA");
         johnDoe.setCountry(bulgaria);
         johnDoe.setSpecialty(cardiology);
@@ -132,7 +132,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         lisaSmith.setExperience(8);
         lisaSmith.setEducation("Medical School X, Residency Y");
         lisaSmith.setAverageRating(4.8);
-        lisaSmith.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        lisaSmith.setImageUrl("https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop");
         lisaSmith.setAddress("456 Oak Street, Berlin, Germany");
         lisaSmith.setCountry(bulgaria);
         lisaSmith.setSpecialty(neurology);
@@ -148,7 +148,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sarahJohnson.setExperience(12);
         sarahJohnson.setEducation("Medical School C, Residency D");
         sarahJohnson.setAverageRating(4.7);
-        sarahJohnson.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        sarahJohnson.setImageUrl("https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=2000");
         sarahJohnson.setAddress("789 Elm Street, Paris, France");
         sarahJohnson.setCountry(bulgaria);
         sarahJohnson.setSpecialty(pediatrics);
@@ -163,7 +163,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         michaelBrown.setExperience(15);
         michaelBrown.setEducation("Medical School P, Residency Q");
         michaelBrown.setAverageRating(4.9);
-        michaelBrown.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        michaelBrown.setImageUrl("https://yt3.googleusercontent.com/ytc/AOPolaQJKYE-RdHOoh0NbbF_dsOPsyVpFbAVDC51sd9xMQ=s900-c-k-c0x00ffffff-no-rj");
         michaelBrown.setAddress("101 Baker Street, London, UK");
         michaelBrown.setCountry(bulgaria);
         michaelBrown.setSpecialty(dermatology);
@@ -179,7 +179,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         ivanGeorgiev.setExperience(9);
         ivanGeorgiev.setEducation("Medical School M, Residency N");
         ivanGeorgiev.setAverageRating(4.6);
-        ivanGeorgiev.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        ivanGeorgiev.setImageUrl("https://bdc2020.o0bc.com/wp-content/uploads/2021/05/Elon-Musk-SNL-recap-60978518a78f8-768x432.png");
         ivanGeorgiev.setAddress("15 Ivan Vazov Street, Sofia, Bulgaria");
         ivanGeorgiev.setCountry(bulgaria);
         ivanGeorgiev.setSpecialty(cardiology);
@@ -194,7 +194,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         mariaPetrova.setExperience(7);
         mariaPetrova.setEducation("Medical School R, Residency S");
         mariaPetrova.setAverageRating(4.7);
-        mariaPetrova.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        mariaPetrova.setImageUrl("https://www.onlineshs.com/wp-content/uploads/2022/12/shutterstock_1901822248-1-1.png");
         mariaPetrova.setAddress("10 Hristo Botev Street, Plovdiv, Bulgaria");
         mariaPetrova.setCountry(bulgaria);
         mariaPetrova.setSpecialty(neurology);
@@ -209,7 +209,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         petarIliev.setExperience(11);
         petarIliev.setEducation("Medical School T, Residency U");
         petarIliev.setAverageRating(4.9);
-        petarIliev.setImageUrl("https://static.scientificamerican.com/blogs/cache/file/4BDAD746-77B3-458A-B6961D5FE18C9EFC.jpg");
+        petarIliev.setImageUrl("https://hackensackmeridianhealth.org/-/media/project/hmh/hmh/public/healthu-images/patient-perspectives/20220826-ofer-avi-werthaim-md.png");
         petarIliev.setAddress("5 G.S. Rakovski Street, Varna, Bulgaria");
         petarIliev.setCountry(bulgaria);
         petarIliev.setSpecialty(dermatology);
