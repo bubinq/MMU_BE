@@ -255,4 +255,24 @@ class DoctorControllerTest {
         Assertions.assertEquals("Successfully deleted Doctor with id:"+ doctorId, receivedResponse.getBody());
 
     }
+
+    @Test
+    void shouldGetAllDoctorsWhenProvidedValidCityIdAndSpecialtyIdAndNameThenOKResponse() {
+        Long validCityId = 1L;
+        Long validSpecialtyId = 1L;
+
+        DoctorResponse doctorResponse = new DoctorResponse();
+        Mockito.when(doctorService.getSearchedDoctors(
+                Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION,
+                validSpecialtyId, validCityId, "II")).thenReturn(doctorResponse);
+
+        ResponseEntity<DoctorResponse> response = doctorController.getSearchedDoctors(
+                Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION,
+                validSpecialtyId, validCityId, "II");
+
+        Assert.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assert.assertEquals(doctorResponse, response.getBody());
+    }
 }

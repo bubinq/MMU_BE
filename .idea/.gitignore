@@ -3,3 +3,7 @@
 /workspace.xml
 target/generated-sources
 target/classes
+target/test-classes
+target/surefire-reports
+target/generated-test-sources
+src/test

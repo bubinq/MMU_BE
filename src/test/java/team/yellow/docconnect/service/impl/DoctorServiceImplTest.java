@@ -1,6 +1,7 @@
 package team.yellow.docconnect.service.impl;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -223,5 +224,24 @@ class DoctorServiceImplTest {
         DoctorDto receivedDto = doctorService.updateDoctorById(invalidDoctorId, updatedDoctor);
 
         Assert.assertNotEquals(updatedDoctor,receivedDto);
+    }
+
+    @Test
+    void shouldGetAllDoctorsWhenProvidedValidCityIdAndSpecialtyIdAndName() {
+        Long validCityId = 1L;
+        Long validSpecialtyId = 1L;
+
+        DoctorResponse doctorResponse = new DoctorResponse();
+        Mockito.when(doctorService.getSearchedDoctors(
+                Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION,
+                validSpecialtyId, validCityId, "II")).thenReturn(doctorResponse);
+
+        DoctorResponse newDoctorResponse = doctorService.getSearchedDoctors(
+                Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER), Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                AppConstants.DEFAULT_SORT_BY, AppConstants.DEFAULT_SORT_DIRECTION,
+                validSpecialtyId, validCityId, "II");
+
+        Assertions.assertEquals(doctorResponse, newDoctorResponse);
     }
 }
