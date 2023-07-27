@@ -32,7 +32,7 @@ class DoctorServiceImplTest {
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
-                        validCountryId, validSpecialtyId, validCityId
+                        "Necromancer", validCountryId, validSpecialtyId, validCityId
 
                 );
         Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
@@ -52,7 +52,7 @@ class DoctorServiceImplTest {
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
-                        validCountryId, validSpecialtyId, validCityId
+                         "Dracula", validCountryId, validSpecialtyId, validCityId
 
                 );
         Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
@@ -71,6 +71,7 @@ class DoctorServiceImplTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "French Kisser",
                         1L, 1L, 1L
 
                 );
@@ -88,6 +89,7 @@ class DoctorServiceImplTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );
@@ -195,6 +197,7 @@ class DoctorServiceImplTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "First Human On Mars",
                         1L, 1L, 1L
 
                 );
@@ -212,6 +215,7 @@ class DoctorServiceImplTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );

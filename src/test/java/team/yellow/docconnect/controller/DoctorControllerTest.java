@@ -39,6 +39,7 @@ class DoctorControllerTest {
                             1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         validCountryId, validSpecialtyId, validCityId
 
                 );
@@ -61,6 +62,7 @@ class DoctorControllerTest {
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         validCountryId, validSpecialtyId, validCityId
 
                 );
@@ -81,6 +83,7 @@ class DoctorControllerTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );
@@ -99,6 +102,7 @@ class DoctorControllerTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );
@@ -204,6 +208,7 @@ class DoctorControllerTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );
@@ -222,6 +227,7 @@ class DoctorControllerTest {
                         validDoctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );
@@ -239,6 +245,7 @@ class DoctorControllerTest {
                         doctorId, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
+                        "Surgeon",
                         1L, 1L, 1L
 
                 );

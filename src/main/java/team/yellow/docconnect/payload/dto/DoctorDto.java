@@ -39,6 +39,7 @@ public record DoctorDto
                 @Size(min = 10, message = "Address should be at least 10 symbols long")
                 String address,
 
+                String specialtyName,
                 Long countryId,
                 Long specialtyId,
                 Long cityId
