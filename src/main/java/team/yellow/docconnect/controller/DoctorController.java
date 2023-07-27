@@ -45,6 +45,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @CrossOrigin(maxAge = 999999999)
     @GetMapping("doctors/{doctorId}")
     public ResponseEntity<DoctorDto> getDoctorById(@PathVariable Long doctorId){
         return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
