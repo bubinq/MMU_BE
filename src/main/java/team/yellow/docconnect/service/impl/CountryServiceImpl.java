@@ -52,7 +52,7 @@ public class CountryServiceImpl implements CountryService {
         Country foundCountry = countryRepository.findById(countryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
         foundCountry.setName(countryDto.name());
-        return CountryMapper.INSTANCE.entityToDTO(foundCountry);
+        return CountryMapper.INSTANCE.entityToDTO(countryRepository.save(foundCountry));
     }
 
     @Override
