@@ -339,7 +339,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         borisKamenov.setExperience(6);
         borisKamenov.setEducation("Medical School L, Residency V");
         borisKamenov.setAverageRating(4);
-        borisKamenov.setImageUrl("https://img.freepik.com/free-photo/hospital-healthcare-workers-covid-19-treatment-concept-young-doctor-scrubs-making-daily-errands-clinic-listening-patient-symptoms-look-camera-professional-physician-curing-diseases_1258-57233.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        borisKamenov.setImageUrl("https://images.wsj.net/im-43344/8SR");
         borisKamenov.setAddress("24 Oven Street, Plovdiv, Bulgaria");
         borisKamenov.setCountry(bulgaria);
         borisKamenov.setSpecialty(ophthalmology);
@@ -354,11 +354,26 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sheiLu.setExperience(17);
         sheiLu.setEducation("Medical School Z, Residency X");
         sheiLu.setAverageRating(4.2);
-        sheiLu.setImageUrl("https://img.freepik.com/free-photo/covid19-healthcare-workers-pandemic-concept-confident-smiling-asian-nurse-scrubs-standing-selfassured-cross-arms-chest-professional-doctor-ready-surgery-standing-white-background_1258-107804.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        sheiLu.setImageUrl("https://www.uclahealth.org/sites/default/files/styles/portrait_3x4_016000_480x640/public/images/female-doc-with-other-docs.jpg?h=dd028d5a&itok=ajLNibn5");
         sheiLu.setAddress("8 Kapitan Andreev Street, Sliven, Bulgaria");
         sheiLu.setCountry(bulgaria);
         sheiLu.setSpecialty(dermatology);
         sheiLu.setCity(sliven);
         doctorRepository.save(sheiLu);
+
+        Doctor johnnySins = new Doctor();
+        johnnySins.setFirstName("Johnny");
+        johnnySins.setLastName("Sins");
+        johnnySins.setEmail("johnny.sins@example.com");
+        johnnySins.setSummary("Summary for Doctor Johny Sins");
+        johnnySins.setExperience(100);
+        johnnySins.setEducation("Medical School HH, Residency OP");
+        johnnySins.setAverageRating(5);
+        johnnySins.setImageUrl("https://wallpapers.com/images/high/doctor-johnny-sins-6vleyqyzdu5tcn5c.webp");
+        johnnySins.setAddress("8 Great Street, Sofia, Bulgaria");
+        johnnySins.setCountry(bulgaria);
+        johnnySins.setSpecialty(urology);
+        johnnySins.setCity(sofia);
+        doctorRepository.save(johnnySins);
     }
 }
