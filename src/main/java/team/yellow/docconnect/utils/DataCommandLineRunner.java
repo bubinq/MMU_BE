@@ -93,20 +93,45 @@ public class DataCommandLineRunner implements CommandLineRunner {
         cardiology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
         specialtyRepository.save(cardiology);
 
+        Specialty orthopedics = new Specialty();
+        orthopedics.setName("Orthopedics");
+        orthopedics.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(orthopedics);
+
         Specialty neurology = new Specialty();
         neurology.setName("Neurology");
         neurology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
         specialtyRepository.save(neurology);
+
+        Specialty oncology = new Specialty();
+        oncology.setName("Oncology");
+        oncology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(oncology);
+
+        Specialty gastroenterology = new Specialty();
+        gastroenterology.setName("Gastroenterology");
+        gastroenterology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(gastroenterology);
+
+        Specialty dermatology = new Specialty();
+        dermatology.setName("Dermatology");
+        dermatology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(dermatology);
 
         Specialty pediatrics = new Specialty();
         pediatrics.setName("Pediatrics");
         pediatrics.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
         specialtyRepository.save(pediatrics);
 
-        Specialty dermatology = new Specialty();
-        dermatology.setName("Dermatology");
-        dermatology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
-        specialtyRepository.save(dermatology);
+        Specialty urology = new Specialty();
+        urology.setName("Urology");
+        urology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(urology);
+
+        Specialty ophthalmology = new Specialty();
+        ophthalmology.setName("Ophthalmology");
+        ophthalmology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        specialtyRepository.save(ophthalmology);
 
 
         Doctor johnDoe = new Doctor();
@@ -215,5 +240,125 @@ public class DataCommandLineRunner implements CommandLineRunner {
         petarIliev.setSpecialty(dermatology);
         petarIliev.setCity(varna);
         doctorRepository.save(petarIliev);
+
+        Doctor gerardoRamos = new Doctor();
+        gerardoRamos.setFirstName("Gerardo");
+        gerardoRamos.setLastName("Ramos");
+        gerardoRamos.setEmail("gerardo.ramos@example.com");
+        gerardoRamos.setSummary("Summary for Doctor Gerardo Ramos");
+        gerardoRamos.setExperience(21);
+        gerardoRamos.setEducation("Medical School SS, Residency AA");
+        gerardoRamos.setAverageRating(4.2);
+        gerardoRamos.setImageUrl("https://img.freepik.com/free-photo/smiling-doctor-with-strethoscope-isolated-grey_651396-974.jpg?size=626&ext=jpg");
+        gerardoRamos.setAddress("Bul. Andrej Lyapchev 32, Sofia, Bulgaria");
+        gerardoRamos.setCountry(bulgaria);
+        gerardoRamos.setSpecialty(ophthalmology);
+        gerardoRamos.setCity(sofia);
+        doctorRepository.save(gerardoRamos);
+
+        Doctor yuliaTenincheva = new Doctor();
+        yuliaTenincheva.setFirstName("Yulia");
+        yuliaTenincheva.setLastName("Tenincheva");
+        yuliaTenincheva.setEmail("yulia.tenincheva@example.com");
+        yuliaTenincheva.setSummary("Summary for Doctor Yulia Tenincheva");
+        yuliaTenincheva.setExperience(14);
+        yuliaTenincheva.setEducation("Medical School H, Residency P");
+        yuliaTenincheva.setAverageRating(4.4);
+        yuliaTenincheva.setImageUrl("https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?size=626&ext=jpg");
+        yuliaTenincheva.setAddress("6 Mihail Sarafov Street, Sofia, Bulgaria");
+        yuliaTenincheva.setCountry(bulgaria);
+        yuliaTenincheva.setSpecialty(urology);
+        yuliaTenincheva.setCity(sofia);
+        doctorRepository.save(yuliaTenincheva);
+
+        Doctor loganFlynn = new Doctor();
+        loganFlynn.setFirstName("Logan");
+        loganFlynn.setLastName("Flynn");
+        loganFlynn.setEmail("logan.flynn@example.com");
+        loganFlynn.setSummary("Summary for Doctor Logan Flynn");
+        loganFlynn.setExperience(14);
+        loganFlynn.setEducation("Medical School Q, Residency Z");
+        loganFlynn.setAverageRating(5);
+        loganFlynn.setImageUrl("https://img.freepik.com/free-photo/doctor-with-his-arms-crossed-white-background_1368-5789.jpg?size=626&ext=jpg");
+        loganFlynn.setAddress("14 Dickson Street, Arkansas, USA");
+        loganFlynn.setCountry(bulgaria);
+        loganFlynn.setSpecialty(oncology);
+        loganFlynn.setCity(velikoTarnovo);
+        doctorRepository.save(loganFlynn);
+
+        Doctor skylaHodge = new Doctor();
+        skylaHodge.setFirstName("Skyla");
+        skylaHodge.setLastName("Hodge");
+        skylaHodge.setEmail("skyla.hodge@example.com");
+        skylaHodge.setSummary("Summary for Doctor Skyla Hodge");
+        skylaHodge.setExperience(4);
+        skylaHodge.setEducation("Medical School D, Residency L");
+        skylaHodge.setAverageRating(3.8);
+        skylaHodge.setImageUrl("https://img.freepik.com/free-photo/portrait-smiling-medical-worker-girl-doctor-white-coat-with-stethoscope-pointing-fingers-left-showing-medical-clinic-advertisement-torquoise-background_1258-87675.jpg?size=626&ext=jpg");
+        skylaHodge.setAddress("1 Lombard Street, California, USA");
+        skylaHodge.setCountry(bulgaria);
+        skylaHodge.setSpecialty(orthopedics);
+        skylaHodge.setCity(ruse);
+        doctorRepository.save(skylaHodge);
+
+        Doctor rebeccaPeters = new Doctor();
+        rebeccaPeters.setFirstName("Rebecca");
+        rebeccaPeters.setLastName("Peters");
+        rebeccaPeters.setEmail("rebecca.peters@example.com");
+        rebeccaPeters.setSummary("Summary for Doctor Rebecca Peters");
+        rebeccaPeters.setExperience(16);
+        rebeccaPeters.setEducation("Medical School Y, Residency U");
+        rebeccaPeters.setAverageRating(4.8);
+        rebeccaPeters.setImageUrl("https://img.freepik.com/free-photo/young-beautiful-successful-female-doctor-with-stethoscope-portrait_186202-1506.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        rebeccaPeters.setAddress("36 Angel Voyvoda Street, Stara Zagora, Bulgaria");
+        rebeccaPeters.setCountry(bulgaria);
+        rebeccaPeters.setSpecialty(gastroenterology);
+        rebeccaPeters.setCity(staraZagora);
+        doctorRepository.save(rebeccaPeters);
+
+        Doctor alanPollard = new Doctor();
+        alanPollard.setFirstName("Alan");
+        alanPollard.setLastName("Pollard");
+        alanPollard.setEmail("alan.pollard@example.com");
+        alanPollard.setSummary("Summary for Doctor Alan Pollard");
+        alanPollard.setExperience(26);
+        alanPollard.setEducation("Medical School J, Residency B");
+        alanPollard.setAverageRating(4.6);
+        alanPollard.setImageUrl("https://img.freepik.com/free-photo/medium-shot-medical-specialist-standing-with-arms-pockets-looking-camera_1098-19294.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        alanPollard.setAddress("2 Angista Street, Dobrich, Bulgaria");
+        alanPollard.setCountry(bulgaria);
+        alanPollard.setSpecialty(pediatrics);
+        alanPollard.setCity(dobrich);
+        doctorRepository.save(alanPollard);
+
+        Doctor borisKamenov = new Doctor();
+        borisKamenov.setFirstName("Boris");
+        borisKamenov.setLastName("Kamenov");
+        borisKamenov.setEmail("boris.kamenov@example.com");
+        borisKamenov.setSummary("Summary for Doctor Boris Kamenov");
+        borisKamenov.setExperience(6);
+        borisKamenov.setEducation("Medical School L, Residency V");
+        borisKamenov.setAverageRating(4);
+        borisKamenov.setImageUrl("https://img.freepik.com/free-photo/hospital-healthcare-workers-covid-19-treatment-concept-young-doctor-scrubs-making-daily-errands-clinic-listening-patient-symptoms-look-camera-professional-physician-curing-diseases_1258-57233.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        borisKamenov.setAddress("24 Oven Street, Plovdiv, Bulgaria");
+        borisKamenov.setCountry(bulgaria);
+        borisKamenov.setSpecialty(ophthalmology);
+        borisKamenov.setCity(plovdiv);
+        doctorRepository.save(borisKamenov);
+
+        Doctor sheiLu = new Doctor();
+        sheiLu.setFirstName("Shei");
+        sheiLu.setLastName("Lu");
+        sheiLu.setEmail("shei.lu@example.com");
+        sheiLu.setSummary("Summary for Doctor Shei Lu");
+        sheiLu.setExperience(17);
+        sheiLu.setEducation("Medical School Z, Residency X");
+        sheiLu.setAverageRating(4.2);
+        sheiLu.setImageUrl("https://img.freepik.com/free-photo/covid19-healthcare-workers-pandemic-concept-confident-smiling-asian-nurse-scrubs-standing-selfassured-cross-arms-chest-professional-doctor-ready-surgery-standing-white-background_1258-107804.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        sheiLu.setAddress("8 Kapitan Andreev Street, Sliven, Bulgaria");
+        sheiLu.setCountry(bulgaria);
+        sheiLu.setSpecialty(dermatology);
+        sheiLu.setCity(sliven);
+        doctorRepository.save(sheiLu);
     }
 }
