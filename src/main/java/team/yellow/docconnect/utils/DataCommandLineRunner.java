@@ -90,47 +90,47 @@ public class DataCommandLineRunner implements CommandLineRunner {
 
         Specialty cardiology = new Specialty();
         cardiology.setName("Cardiology");
-        cardiology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        cardiology.setImage_url("https://mayureshhospital.com/images/services/cardiology.jpg");
         specialtyRepository.save(cardiology);
 
         Specialty orthopedics = new Specialty();
         orthopedics.setName("Orthopedics");
-        orthopedics.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        orthopedics.setImage_url("https://media.istockphoto.com/id/1133629763/photo/therapist-showing-knee-joint-model.jpg?s=612x612&w=0&k=20&c=-8Wc0qP3mwPlqR-rIGlQX1GnpALhxcvTeOUFcmK5A1g=");
         specialtyRepository.save(orthopedics);
 
         Specialty neurology = new Specialty();
         neurology.setName("Neurology");
-        neurology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        neurology.setImage_url("https://www.cnos.net/wp-content/uploads/2022/12/Neurology.jpg");
         specialtyRepository.save(neurology);
 
         Specialty oncology = new Specialty();
         oncology.setName("Oncology");
-        oncology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        oncology.setImage_url("https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/iStock-1181263174edit-1024x575.jpg?w=1155&h=1528");
         specialtyRepository.save(oncology);
 
         Specialty gastroenterology = new Specialty();
         gastroenterology.setName("Gastroenterology");
-        gastroenterology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        gastroenterology.setImage_url("https://shalamarhospital.org.pk/wp-content/uploads/2022/05/gas01.jpg");
         specialtyRepository.save(gastroenterology);
 
         Specialty dermatology = new Specialty();
         dermatology.setName("Dermatology");
-        dermatology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        dermatology.setImage_url("https://www.mylrh.org/wp-content/uploads/2021/10/cosmetic-laser-surgical-skin-treatment-1-scaled.jpg");
         specialtyRepository.save(dermatology);
 
         Specialty pediatrics = new Specialty();
         pediatrics.setName("Pediatrics");
-        pediatrics.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        pediatrics.setImage_url("https://d2jx2rerrg6sh3.cloudfront.net/image-handler/picture/2014/7/147059167-620x480.jpg");
         specialtyRepository.save(pediatrics);
 
         Specialty urology = new Specialty();
         urology.setName("Urology");
-        urology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        urology.setImage_url("https://media.istockphoto.com/id/1171778559/photo/a-medical-worker-shows-the-urinary-system.jpg?s=612x612&w=0&k=20&c=Fk2iNfuGtzFTkoyU2htYoWW6S5QAFOuy0lgHu8e9KPM=");
         specialtyRepository.save(urology);
 
         Specialty ophthalmology = new Specialty();
         ophthalmology.setName("Ophthalmology");
-        ophthalmology.setImage_url("https://www.cardio.com/hubfs/human%20heart%20illustration.jpeg");
+        ophthalmology.setImage_url("https://www.westernlasereye.com/wp-content/uploads/shutterstock_1565916823-1.jpg");
         specialtyRepository.save(ophthalmology);
 
 
@@ -143,7 +143,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         johnDoe.setEducation("Medical School A, Residency B");
         johnDoe.setAverageRating(4.9);
         johnDoe.setImageUrl("https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg");
-        johnDoe.setAddress("123 Main Street, New York, USA");
+        johnDoe.setAddress("123 Main Street, Varna, Bulgaria");
         johnDoe.setCountry(bulgaria);
         johnDoe.setSpecialty(cardiology);
         johnDoe.setCity(varna);
@@ -158,7 +158,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         lisaSmith.setEducation("Medical School X, Residency Y");
         lisaSmith.setAverageRating(4.8);
         lisaSmith.setImageUrl("https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop");
-        lisaSmith.setAddress("456 Oak Street, Berlin, Germany");
+        lisaSmith.setAddress("456 Oak Street, Sofia, Bulgaria");
         lisaSmith.setCountry(bulgaria);
         lisaSmith.setSpecialty(neurology);
         lisaSmith.setCity(sofia);
@@ -174,7 +174,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sarahJohnson.setEducation("Medical School C, Residency D");
         sarahJohnson.setAverageRating(4.7);
         sarahJohnson.setImageUrl("https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=2000");
-        sarahJohnson.setAddress("789 Elm Street, Paris, France");
+        sarahJohnson.setAddress("789 Elm Street, Dobrich, Bulgaria");
         sarahJohnson.setCountry(bulgaria);
         sarahJohnson.setSpecialty(pediatrics);
         sarahJohnson.setCity(dobrich);
@@ -189,7 +189,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         michaelBrown.setEducation("Medical School P, Residency Q");
         michaelBrown.setAverageRating(4.9);
         michaelBrown.setImageUrl("https://yt3.googleusercontent.com/ytc/AOPolaQJKYE-RdHOoh0NbbF_dsOPsyVpFbAVDC51sd9xMQ=s900-c-k-c0x00ffffff-no-rj");
-        michaelBrown.setAddress("101 Baker Street, London, UK");
+        michaelBrown.setAddress("101 Baker Street, Sliven, Bulgaria");
         michaelBrown.setCountry(bulgaria);
         michaelBrown.setSpecialty(dermatology);
         michaelBrown.setCity(sliven);
@@ -280,7 +280,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         loganFlynn.setEducation("Medical School Q, Residency Z");
         loganFlynn.setAverageRating(5);
         loganFlynn.setImageUrl("https://img.freepik.com/free-photo/doctor-with-his-arms-crossed-white-background_1368-5789.jpg?size=626&ext=jpg");
-        loganFlynn.setAddress("14 Dickson Street, Arkansas, USA");
+        loganFlynn.setAddress("14 Dickson Street, Veliko Tarnovo, Bulgaria");
         loganFlynn.setCountry(bulgaria);
         loganFlynn.setSpecialty(oncology);
         loganFlynn.setCity(velikoTarnovo);
@@ -295,7 +295,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         skylaHodge.setEducation("Medical School D, Residency L");
         skylaHodge.setAverageRating(3.8);
         skylaHodge.setImageUrl("https://img.freepik.com/free-photo/portrait-smiling-medical-worker-girl-doctor-white-coat-with-stethoscope-pointing-fingers-left-showing-medical-clinic-advertisement-torquoise-background_1258-87675.jpg?size=626&ext=jpg");
-        skylaHodge.setAddress("1 Lombard Street, California, USA");
+        skylaHodge.setAddress("1 Lombard Street, Ruse, Bulgaria");
         skylaHodge.setCountry(bulgaria);
         skylaHodge.setSpecialty(orthopedics);
         skylaHodge.setCity(ruse);
