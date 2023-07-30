@@ -90,47 +90,47 @@ public class DataCommandLineRunner implements CommandLineRunner {
 
         Specialty cardiology = new Specialty();
         cardiology.setName("Cardiology");
-        cardiology.setImage_url("https://mayureshhospital.com/images/services/cardiology.jpg");
+        cardiology.setImage_url("https://images.pexels.com/photos/7659564/pexels-photo-7659564.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         specialtyRepository.save(cardiology);
 
         Specialty orthopedics = new Specialty();
         orthopedics.setName("Orthopedics");
-        orthopedics.setImage_url("https://media.istockphoto.com/id/1133629763/photo/therapist-showing-knee-joint-model.jpg?s=612x612&w=0&k=20&c=-8Wc0qP3mwPlqR-rIGlQX1GnpALhxcvTeOUFcmK5A1g=");
+        orthopedics.setImage_url("https://images.pexels.com/photos/7446990/pexels-photo-7446990.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         specialtyRepository.save(orthopedics);
 
         Specialty neurology = new Specialty();
         neurology.setName("Neurology");
-        neurology.setImage_url("https://www.cnos.net/wp-content/uploads/2022/12/Neurology.jpg");
+        neurology.setImage_url("https://img.freepik.com/free-photo/doctor-reading-brain-mri-x-ray-result_53876-13389.jpg?w=740&t=st=1677172789~exp=1677173389~hmac=2d0be25306f47a4f0b4aa04d50dac96dd242ad9af01f8b8a9e5ed90385ffaadc");
         specialtyRepository.save(neurology);
 
         Specialty oncology = new Specialty();
         oncology.setName("Oncology");
-        oncology.setImage_url("https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/iStock-1181263174edit-1024x575.jpg?w=1155&h=1528");
+        oncology.setImage_url("https://img.freepik.com/free-photo/middle-aged-woman-with-skin-cancer-talking-with-her-doctor_23-2148988517.jpg?w=1380&t=st=1677172867~exp=1677173467~hmac=05adb54dceafc6fce6f602ff87188ba97ebfb7463a91cbf48f7651f7e798d2a5");
         specialtyRepository.save(oncology);
 
         Specialty gastroenterology = new Specialty();
         gastroenterology.setName("Gastroenterology");
-        gastroenterology.setImage_url("https://shalamarhospital.org.pk/wp-content/uploads/2022/05/gas01.jpg");
+        gastroenterology.setImage_url("https://img.freepik.com/free-photo/this-pain-stomach-is-unbearable_329181-2191.jpg?w=1380&t=st=1677172914~exp=1677173514~hmac=b03857f0631c3fd1b4f4ac82b219a5d68dd98e2eed413f5f7c1ffc57a05c4455");
         specialtyRepository.save(gastroenterology);
 
         Specialty dermatology = new Specialty();
         dermatology.setName("Dermatology");
-        dermatology.setImage_url("https://www.mylrh.org/wp-content/uploads/2021/10/cosmetic-laser-surgical-skin-treatment-1-scaled.jpg");
+        dermatology.setImage_url("https://images.pexels.com/photos/5069432/pexels-photo-5069432.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         specialtyRepository.save(dermatology);
 
         Specialty pediatrics = new Specialty();
         pediatrics.setName("Pediatrics");
-        pediatrics.setImage_url("https://d2jx2rerrg6sh3.cloudfront.net/image-handler/picture/2014/7/147059167-620x480.jpg");
+        pediatrics.setImage_url("https://img.freepik.com/free-photo/doctor-doing-their-work-pediatrics-office_23-2149224121.jpg?w=1380&t=st=1677173488~exp=1677174088~hmac=c7742512982c2d4bed8e1b407380e3ae5854843d43dd54716cd6aaf9c11b55aa");
         specialtyRepository.save(pediatrics);
 
         Specialty urology = new Specialty();
         urology.setName("Urology");
-        urology.setImage_url("https://media.istockphoto.com/id/1171778559/photo/a-medical-worker-shows-the-urinary-system.jpg?s=612x612&w=0&k=20&c=Fk2iNfuGtzFTkoyU2htYoWW6S5QAFOuy0lgHu8e9KPM=");
+        urology.setImage_url("https://img.freepik.com/free-photo/medical-exam_1098-16897.jpg?w=1380&t=st=1677173522~exp=1677174122~hmac=019e51a1790adec4e1ce26eb0c3fe193fece36e400270fd08a406bb8d5d0023c");
         specialtyRepository.save(urology);
 
         Specialty ophthalmology = new Specialty();
         ophthalmology.setName("Ophthalmology");
-        ophthalmology.setImage_url("https://www.westernlasereye.com/wp-content/uploads/shutterstock_1565916823-1.jpg");
+        ophthalmology.setImage_url("https://images.pexels.com/photos/5765827/pexels-photo-5765827.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
         specialtyRepository.save(ophthalmology);
 
 
@@ -241,35 +241,35 @@ public class DataCommandLineRunner implements CommandLineRunner {
         petarIliev.setCity(varna);
         doctorRepository.save(petarIliev);
 
-        Doctor gerardoRamos = new Doctor();
-        gerardoRamos.setFirstName("Gerardo");
-        gerardoRamos.setLastName("Ramos");
-        gerardoRamos.setEmail("gerardo.ramos@example.com");
-        gerardoRamos.setSummary("Summary for Doctor Gerardo Ramos");
-        gerardoRamos.setExperience(21);
-        gerardoRamos.setEducation("Medical School SS, Residency AA");
-        gerardoRamos.setAverageRating(4.2);
-        gerardoRamos.setImageUrl("https://img.freepik.com/free-photo/smiling-doctor-with-strethoscope-isolated-grey_651396-974.jpg?size=626&ext=jpg");
-        gerardoRamos.setAddress("Bul. Andrej Lyapchev 32, Sofia, Bulgaria");
-        gerardoRamos.setCountry(bulgaria);
-        gerardoRamos.setSpecialty(ophthalmology);
-        gerardoRamos.setCity(sofia);
-        doctorRepository.save(gerardoRamos);
+        Doctor stanleyRivera = new Doctor();
+        stanleyRivera.setFirstName("Stanley");
+        stanleyRivera.setLastName("Rivera");
+        stanleyRivera.setEmail("stanley.rivera@example.com");
+        stanleyRivera.setSummary("Summary for Doctor Stanley Rivera");
+        stanleyRivera.setExperience(21);
+        stanleyRivera.setEducation("Medical School SS, Residency AA");
+        stanleyRivera.setAverageRating(4.2);
+        stanleyRivera.setImageUrl("https://img.freepik.com/free-photo/smiling-doctor-with-strethoscope-isolated-grey_651396-974.jpg?size=626&ext=jpg");
+        stanleyRivera.setAddress("Bul. Andrej Lyapchev 32, Sofia, Bulgaria");
+        stanleyRivera.setCountry(bulgaria);
+        stanleyRivera.setSpecialty(ophthalmology);
+        stanleyRivera.setCity(sofia);
+        doctorRepository.save(stanleyRivera);
 
-        Doctor yuliaTenincheva = new Doctor();
-        yuliaTenincheva.setFirstName("Yulia");
-        yuliaTenincheva.setLastName("Tenincheva");
-        yuliaTenincheva.setEmail("yulia.tenincheva@example.com");
-        yuliaTenincheva.setSummary("Summary for Doctor Yulia Tenincheva");
-        yuliaTenincheva.setExperience(14);
-        yuliaTenincheva.setEducation("Medical School H, Residency P");
-        yuliaTenincheva.setAverageRating(4.4);
-        yuliaTenincheva.setImageUrl("https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?size=626&ext=jpg");
-        yuliaTenincheva.setAddress("6 Mihail Sarafov Street, Sofia, Bulgaria");
-        yuliaTenincheva.setCountry(bulgaria);
-        yuliaTenincheva.setSpecialty(urology);
-        yuliaTenincheva.setCity(sofia);
-        doctorRepository.save(yuliaTenincheva);
+        Doctor jolieRose = new Doctor();
+        jolieRose.setFirstName("Jolie");
+        jolieRose.setLastName("Rose");
+        jolieRose.setEmail("jolie.rose@example.com");
+        jolieRose.setSummary("Summary for Doctor Jolie Rose");
+        jolieRose.setExperience(14);
+        jolieRose.setEducation("Medical School H, Residency P");
+        jolieRose.setAverageRating(4.4);
+        jolieRose.setImageUrl("https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?size=626&ext=jpg");
+        jolieRose.setAddress("6 Mihail Sarafov Street, Sofia, Bulgaria");
+        jolieRose.setCountry(bulgaria);
+        jolieRose.setSpecialty(urology);
+        jolieRose.setCity(sofia);
+        doctorRepository.save(jolieRose);
 
         Doctor loganFlynn = new Doctor();
         loganFlynn.setFirstName("Logan");
@@ -361,19 +361,19 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sheiLu.setCity(sliven);
         doctorRepository.save(sheiLu);
 
-        Doctor johnnySins = new Doctor();
-        johnnySins.setFirstName("Johnny");
-        johnnySins.setLastName("Sins");
-        johnnySins.setEmail("johnny.sins@example.com");
-        johnnySins.setSummary("Summary for Doctor Johny Sins");
-        johnnySins.setExperience(100);
-        johnnySins.setEducation("Medical School HH, Residency OP");
-        johnnySins.setAverageRating(5);
-        johnnySins.setImageUrl("https://wallpapers.com/images/high/doctor-johnny-sins-6vleyqyzdu5tcn5c.webp");
-        johnnySins.setAddress("8 Great Street, Sofia, Bulgaria");
-        johnnySins.setCountry(bulgaria);
-        johnnySins.setSpecialty(urology);
-        johnnySins.setCity(sofia);
-        doctorRepository.save(johnnySins);
+//        Doctor johnnySins = new Doctor();
+//        johnnySins.setFirstName("Johnny");
+//        johnnySins.setLastName("Sins");
+//        johnnySins.setEmail("johnny.sins@example.com");
+//        johnnySins.setSummary("Summary for Doctor Johny Sins");
+//        johnnySins.setExperience(100);
+//        johnnySins.setEducation("Medical School HH, Residency OP");
+//        johnnySins.setAverageRating(5);
+//        johnnySins.setImageUrl("https://wallpapers.com/images/high/doctor-johnny-sins-6vleyqyzdu5tcn5c.webp");
+//        johnnySins.setAddress("8 Great Street, Sofia, Bulgaria");
+//        johnnySins.setCountry(bulgaria);
+//        johnnySins.setSpecialty(urology);
+//        johnnySins.setCity(sofia);
+//        doctorRepository.save(johnnySins);
     }
 }
