@@ -2,6 +2,7 @@ package team.yellow.docconnect.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import team.yellow.docconnect.entity.City;
 import team.yellow.docconnect.entity.Country;
@@ -13,6 +14,7 @@ import team.yellow.docconnect.repository.DoctorRepository;
 import team.yellow.docconnect.repository.SpecialtyRepository;
 
 @Component
+@Profile("dev")
 public class DataCommandLineRunner implements CommandLineRunner {
 
     private final CountryRepository countryRepository;
