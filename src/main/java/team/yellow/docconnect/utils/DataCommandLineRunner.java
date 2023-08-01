@@ -159,7 +159,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         lisaSmith.setExperience(8);
         lisaSmith.setEducation("Medical School X, Residency Y");
         lisaSmith.setAverageRating(4.8);
-        lisaSmith.setImageUrl("https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop");
+        lisaSmith.setImageUrl("https://t3.ftcdn.net/jpg/01/30/45/54/360_F_130455409_fTuinPO1LXECv5hlk9VBREnL6yowYUo3.jpg");
         lisaSmith.setAddress("456 Oak Street, Sofia, Bulgaria");
         lisaSmith.setCountry(bulgaria);
         lisaSmith.setSpecialty(neurology);
@@ -175,7 +175,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sarahJohnson.setExperience(12);
         sarahJohnson.setEducation("Medical School C, Residency D");
         sarahJohnson.setAverageRating(4.7);
-        sarahJohnson.setImageUrl("https://img.freepik.com/free-photo/beautiful-young-female-doctor-looking-camera-office_1301-7807.jpg?w=2000");
+        sarahJohnson.setImageUrl("https://cdn.create.vista.com/api/media/small/80150956/stock-photo-confident-female-doctor-at-office");
         sarahJohnson.setAddress("789 Elm Street, Dobrich, Bulgaria");
         sarahJohnson.setCountry(bulgaria);
         sarahJohnson.setSpecialty(pediatrics);
@@ -190,7 +190,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         michaelBrown.setExperience(15);
         michaelBrown.setEducation("Medical School P, Residency Q");
         michaelBrown.setAverageRating(4.9);
-        michaelBrown.setImageUrl("https://yt3.googleusercontent.com/ytc/AOPolaQJKYE-RdHOoh0NbbF_dsOPsyVpFbAVDC51sd9xMQ=s900-c-k-c0x00ffffff-no-rj");
+        michaelBrown.setImageUrl("https://media.istockphoto.com/id/1385197689/photo/portrait-of-cheerful-handsome-black-doctor-posing-at-clinic.webp?b=1&s=170667a&w=0&k=20&c=aAVV7sLkOzWb4tv1z5wy-UWCcSTt4ALZW2Q6V1UqNP4=");
         michaelBrown.setAddress("101 Baker Street, Sliven, Bulgaria");
         michaelBrown.setCountry(bulgaria);
         michaelBrown.setSpecialty(dermatology);
@@ -311,7 +311,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         rebeccaPeters.setExperience(16);
         rebeccaPeters.setEducation("Medical School Y, Residency U");
         rebeccaPeters.setAverageRating(4.8);
-        rebeccaPeters.setImageUrl("https://img.freepik.com/free-photo/young-beautiful-successful-female-doctor-with-stethoscope-portrait_186202-1506.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        rebeccaPeters.setImageUrl("https://media.istockphoto.com/id/1189304032/photo/doctor-holding-digital-tablet-at-meeting-room.jpg?s=612x612&w=0&k=20&c=RtQn8w_vhzGYbflSa1B5ea9Ji70O8wHpSgGBSh0anUg=");
         rebeccaPeters.setAddress("36 Angel Voyvoda Street, Stara Zagora, Bulgaria");
         rebeccaPeters.setCountry(bulgaria);
         rebeccaPeters.setSpecialty(gastroenterology);
@@ -326,7 +326,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         alanPollard.setExperience(26);
         alanPollard.setEducation("Medical School J, Residency B");
         alanPollard.setAverageRating(4.6);
-        alanPollard.setImageUrl("https://img.freepik.com/free-photo/medium-shot-medical-specialist-standing-with-arms-pockets-looking-camera_1098-19294.jpg?size=626&ext=jpg&ga=GA1.1.2039581601.1690553949&semt=sph");
+        alanPollard.setImageUrl("https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg");
         alanPollard.setAddress("2 Angista Street, Dobrich, Bulgaria");
         alanPollard.setCountry(bulgaria);
         alanPollard.setSpecialty(pediatrics);
