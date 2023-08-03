@@ -8,3 +8,4 @@ docker-compose build
 
 rem Start the containers in background mode
 docker-compose up -d
+
