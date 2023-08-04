@@ -4,7 +4,7 @@ target/classes
 target/test-classes
 target/surefire-reports
 target/generated-test-sources
-src/test
+#src/test
 #target/
 #!.mvn/wrapper/maven-wrapper.jar
 #!**/src/main/**/target/

@@ -16,7 +16,7 @@ public class City {
     @Column(nullable = false)
     private String name;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id")
-    private Country country;
+    @JoinColumn(name = "state_id")
+    private State state;
 
 }

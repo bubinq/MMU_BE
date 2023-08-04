@@ -8,5 +8,5 @@ import team.yellow.docconnect.entity.City;
 
 public interface CityRepository extends JpaRepository<City, Long> {
 
-    Page<City> findAllByCountry_Id(Long countryId, Pageable pageable);
+    Page<City> findAllByState_Id(Long stateId, Pageable pageable);
 }

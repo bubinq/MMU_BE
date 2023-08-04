@@ -32,28 +32,28 @@ class CityControllerTest {
 
     @Test
     void shouldCreateCityAndReturnCreatedResponseWhenProvidedValidCountryId() {
-        Long validCountryId = 1L;
-        CityDto cityToInsert = new CityDto(1L, "Varna", validCountryId);
-        Mockito.when(cityService.createCity(cityToInsert, validCountryId)).thenReturn(cityToInsert);
-        ResponseEntity<CityDto> receivedResponse = cityController.createCity(cityToInsert, validCountryId);
+        Long validStateId = 1L;
+        CityDto cityToInsert = new CityDto(1L, "Varna", "State");
+        Mockito.when(cityService.createCity(cityToInsert, validStateId)).thenReturn(cityToInsert);
+        ResponseEntity<CityDto> receivedResponse = cityController.createCity(cityToInsert, validStateId);
         Assert.assertEquals(HttpStatus.CREATED, receivedResponse.getStatusCode());
         Assert.assertEquals(cityToInsert, receivedResponse.getBody());
     }
 
     @Test
     void shouldNotCreateCityWhenProvidedInvalidCountryId() {
-        Long validCountryId = 1L;
-        Long invalidCountryId = 2L;
-        CityDto cityToInsert = new CityDto(1L, "Varna", validCountryId);
-        Mockito.when(cityService.createCity(cityToInsert, validCountryId)).thenReturn(cityToInsert);
-        ResponseEntity<CityDto> receivedResponse = cityController.createCity(cityToInsert, invalidCountryId);
+        Long validStateId = 1L;
+        Long invalidStateId = 2L;
+        CityDto cityToInsert = new CityDto(1L, "Varna", "State");
+        Mockito.when(cityService.createCity(cityToInsert, validStateId)).thenReturn(cityToInsert);
+        ResponseEntity<CityDto> receivedResponse = cityController.createCity(cityToInsert, invalidStateId);
         Assert.assertNotEquals(cityToInsert, receivedResponse.getBody());
     }
 
     @Test
     void shouldReturnDtoAndOKResponseWhenProvidedValidId() {
         Long validCityId = 1L;
-        CityDto expectedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto expectedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.getCityById(validCityId)).thenReturn(expectedCity);
         ResponseEntity<CityDto> receivedResponse = cityController.getCityById(validCityId);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
@@ -65,7 +65,7 @@ class CityControllerTest {
     void shouldNotReturnDtoWhenProvidedInvalidId() {
         Long validCityId = 1L;
         Long invalidCityId = 2L;
-        CityDto expectedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto expectedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.getCityById(validCityId)).thenReturn(expectedCity);
         ResponseEntity<CityDto> receivedResponse = cityController.getCityById(invalidCityId);
         Assert.assertNotEquals(expectedCity, receivedResponse.getBody());
@@ -96,11 +96,11 @@ class CityControllerTest {
         Assert.assertEquals(expectedCities, receivedResponse.getBody());
     }
     @Test
-    void shouldReturnAllCitiesInCountryWhenProvidedValidCountryId() {
+    void shouldReturnAllCitiesInStateWhenProvidedValidStateId() {
         Long validCountryId = 1L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
-                .getAllCitiesByCountryId
+                .getAllCitiesByStateId
                         (
                                 validCountryId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -110,7 +110,7 @@ class CityControllerTest {
                         )
         ).thenReturn(expectedCities);
 
-        ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByCountry
+        ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByState
                 (
                         validCountryId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -125,12 +125,12 @@ class CityControllerTest {
 
 
     @Test
-    void shouldNotReturnAllCitiesInCountryWhenProvidedInvalidCountryId() {
+    void shouldNotReturnAllCitiesInStateWhenProvidedInvalidStateId() {
         Long validCountryId = 1L;
         Long invalidCountryId = 2L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
-                .getAllCitiesByCountryId
+                .getAllCitiesByStateId
                         (
                                 validCountryId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -140,7 +140,7 @@ class CityControllerTest {
                         )
         ).thenReturn(expectedCities);
 
-        ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByCountry
+        ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByState
                 (
                         invalidCountryId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -154,7 +154,7 @@ class CityControllerTest {
     @Test
     void shouldUpdateDtoAndReturnOKWhenProvidedValidId() {
         Long validCityId = 1L;
-        CityDto updatedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto updatedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.updateCityById(updatedCity, validCityId)).thenReturn(updatedCity);
         ResponseEntity<CityDto> receivedResponse = cityController.updateCityById(updatedCity, validCityId);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
@@ -165,7 +165,7 @@ class CityControllerTest {
     void shouldNotUpdateDtoWhenProvidedInvalidId() {
         Long validCityId = 1L;
         Long invalidCityId = 2L;
-        CityDto updatedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto updatedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.updateCityById(updatedCity, validCityId)).thenReturn(updatedCity);
         ResponseEntity<CityDto> receivedResponse = cityController.updateCityById(updatedCity, invalidCityId);
         Assert.assertNotEquals(updatedCity, receivedResponse.getBody());
@@ -174,7 +174,7 @@ class CityControllerTest {
     @Test
     void shouldDeleteCityAndReturnOKResponse() {
         Long validCityId = 1L;
-        CityDto cityToDelete = new CityDto(validCityId, "Varna", 1L);
+        CityDto cityToDelete = new CityDto(validCityId, "Varna", "State");
         cityService.createCity(cityToDelete, 1L);
         ResponseEntity<String> receivedResponse = cityController.deleteCityById(validCityId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());

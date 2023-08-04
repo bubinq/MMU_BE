@@ -35,8 +35,8 @@ public class Doctor {
     @Column(name = "working_address", nullable = false)
     private String address;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id")
-    private Country country;
+    @JoinColumn(name = "state_id")
+    private State state;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_specialty_id")
     private Specialty specialty;
