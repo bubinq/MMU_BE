@@ -13,7 +13,7 @@ import java.util.List;
 public interface CityMapper {
     CityMapper INSTANCE = Mappers.getMapper(CityMapper.class);
 
-    @Mapping(target = "countryId", expression = "java(city.getCountry().getId())")
+    @Mapping(expression = "java(String.valueOf(city.getState().getName()))", target = "stateName")
     CityDto entityToDTO(City city);
 
     List<CityDto> entityToDTO(Iterable<City> cities);

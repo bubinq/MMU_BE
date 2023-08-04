@@ -40,7 +40,7 @@ public record DoctorDto
                 String address,
 
                 String specialtyName,
-                Long countryId,
+                Long stateId,
                 Long specialtyId,
                 Long cityId
 

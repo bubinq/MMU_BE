@@ -10,6 +10,6 @@ public record CityDto(
         @Size(min = 2, message = "City name Should be at least 2 symbols long")
         @NotBlank(message = "City name should not be left blank")
         String name,
-        Long countryId
+        String stateName
 )
 { }

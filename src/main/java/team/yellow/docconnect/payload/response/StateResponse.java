@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import team.yellow.docconnect.payload.dto.CountryDto;
+import team.yellow.docconnect.payload.dto.StateDto;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CountryResponse extends GeneralResponse{
-      private List<CountryDto> content;
+public class StateResponse extends GeneralResponse{
+      private List<StateDto> content;
 
 }

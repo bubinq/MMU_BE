@@ -25,19 +25,19 @@ class CityServiceImplTest {
 
     @Test
     void shouldCreateCityWhenProvidedValidCountryId() {
-        Long validCountryId = 1L;
-        CityDto cityToInsert = new CityDto(1L, "Varna", validCountryId);
-        Mockito.when(cityService.createCity(cityToInsert, validCountryId)).thenReturn(cityToInsert);
-        CityDto receivedDto = cityService.createCity(cityToInsert, validCountryId);
+        Long validStateId = 1L;
+        CityDto cityToInsert = new CityDto(1L, "Varna", "State");
+        Mockito.when(cityService.createCity(cityToInsert, validStateId)).thenReturn(cityToInsert);
+        CityDto receivedDto = cityService.createCity(cityToInsert, validStateId);
         Assert.assertEquals(cityToInsert, receivedDto);
     }
 
     @Test
     void shouldNotCreateCityWhenProvidedInvalidCountryId() {
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         Long invalidCountryId = 2L;
-        CityDto cityToInsert = new CityDto(1L, "Varna", validCountryId);
-        Mockito.when(cityService.createCity(cityToInsert, validCountryId)).thenReturn(cityToInsert);
+        CityDto cityToInsert = new CityDto(1L, "Varna", "State");
+        Mockito.when(cityService.createCity(cityToInsert, validStateId)).thenReturn(cityToInsert);
         CityDto receivedDto = cityService.createCity(cityToInsert, invalidCountryId);
         Assert.assertNotEquals(cityToInsert, receivedDto);
     }
@@ -45,7 +45,7 @@ class CityServiceImplTest {
     @Test
     void shouldReturnDtoWhenProvidedValidId() {
         Long validCityId = 1L;
-        CityDto expectedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto expectedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.getCityById(validCityId)).thenReturn(expectedCity);
         CityDto receivedDto = cityService.getCityById(validCityId);
         Assert.assertEquals(expectedCity, receivedDto);
@@ -56,7 +56,7 @@ class CityServiceImplTest {
     void shouldNotReturnDtoWhenProvidedInvalidId() {
         Long validCityId = 1L;
         Long invalidCityId = 2L;
-        CityDto expectedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto expectedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.getCityById(validCityId)).thenReturn(expectedCity);
         CityDto receivedDto = cityService.getCityById(invalidCityId);
         Assert.assertNotEquals(expectedCity, receivedDto);
@@ -90,7 +90,7 @@ class CityServiceImplTest {
         Long validCountryId = 1L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
-                .getAllCitiesByCountryId
+                .getAllCitiesByStateId
                         (
                                 validCountryId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -100,7 +100,7 @@ class CityServiceImplTest {
                         )
         ).thenReturn(expectedCities);
 
-       CityResponse receivedCities = cityService.getAllCitiesByCountryId
+       CityResponse receivedCities = cityService.getAllCitiesByStateId
                 (
                         validCountryId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -119,7 +119,7 @@ class CityServiceImplTest {
         Long invalidCountryId = 2L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
-                .getAllCitiesByCountryId
+                .getAllCitiesByStateId
                         (
                                 validCountryId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -129,7 +129,7 @@ class CityServiceImplTest {
                         )
         ).thenReturn(expectedCities);
 
-        CityResponse receivedCities = cityService.getAllCitiesByCountryId
+        CityResponse receivedCities = cityService.getAllCitiesByStateId
                 (
                         invalidCountryId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
@@ -143,7 +143,7 @@ class CityServiceImplTest {
     @Test
     void shouldUpdateDtoWhenProvidedValidId() {
         Long validCityId = 1L;
-        CityDto updatedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto updatedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.updateCityById(updatedCity, validCityId)).thenReturn(updatedCity);
         CityDto receivedDto = cityService.updateCityById(updatedCity, validCityId);
         Assert.assertEquals(updatedCity, receivedDto);
@@ -153,7 +153,7 @@ class CityServiceImplTest {
     void shouldNotUpdateDtoWhenProvidedInvalidId() {
         Long validCityId = 1L;
         Long invalidCityId = 2L;
-        CityDto updatedCity = new CityDto(validCityId, "Varna", 1L);
+        CityDto updatedCity = new CityDto(validCityId, "Varna", "State");
         Mockito.when(cityService.updateCityById(updatedCity, validCityId)).thenReturn(updatedCity);
         CityDto receivedDto = cityService.updateCityById(updatedCity, invalidCityId);
         Assert.assertNotEquals(updatedCity, receivedDto);

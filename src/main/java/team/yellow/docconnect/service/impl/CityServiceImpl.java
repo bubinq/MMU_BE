@@ -6,13 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team.yellow.docconnect.entity.City;
-import team.yellow.docconnect.entity.Country;
+import team.yellow.docconnect.entity.State;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.CityDto;
 import team.yellow.docconnect.payload.mapper.CityMapper;
 import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.repository.CityRepository;
-import team.yellow.docconnect.repository.CountryRepository;
+import team.yellow.docconnect.repository.StateRepository;
 import team.yellow.docconnect.service.CityService;
 
 import java.util.List;
@@ -21,19 +21,19 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
-    private final CountryRepository countryRepository;
+    private final StateRepository stateRepository;
 
-    public CityServiceImpl(CityRepository cityRepository, CountryRepository countryRepository) {
+    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository) {
         this.cityRepository = cityRepository;
-        this.countryRepository = countryRepository;
+        this.stateRepository = stateRepository;
     }
 
     @Override
     public CityDto createCity(CityDto cityDto, Long countryId) {
         City cityToCreate = CityMapper.INSTANCE.dtoToEntity(cityDto);
-        Country foundCountry = countryRepository.findById(countryId)
+        State foundState = stateRepository.findById(countryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
-        cityToCreate.setCountry(foundCountry);
+        cityToCreate.setState(foundState);
         return CityMapper.INSTANCE.entityToDTO(cityRepository.save(cityToCreate));
     }
 
@@ -55,12 +55,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityResponse getAllCitiesByCountryId(Long countryId, int pageNo, int pageSize, String sortBy, String sortDir) {
+    public CityResponse getAllCitiesByStateId(Long stateId, int pageNo, int pageSize, String sortBy, String sortDir) {
         Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<City> content = cityRepository.findAllByCountry_Id(countryId, pageable);
+        Page<City> content = cityRepository.findAllByState_Id(stateId, pageable);
         return getResponse(content);
     }
 
