@@ -16,6 +16,7 @@ import team.yellow.docconnect.payload.dto.SpecialtyDto;
 import team.yellow.docconnect.payload.response.SpecialtyResponse;
 import team.yellow.docconnect.service.SpecialtyService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
 
 @RunWith(MockitoJUnitRunner.class)
 class SpecialtyControllerTest {
@@ -113,6 +114,6 @@ class SpecialtyControllerTest {
         specialtyService.createSpecialty(specialtyToInsert);
         ResponseEntity<String> receivedResponse = specialtyController.deleteSpecialtyById(specialtyId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals(AppConstants.SUCCESSFULLY_DELETED_MESSAGE, receivedResponse.getBody());
+        Assertions.assertEquals(Messages.SUCCESSFULLY_DELETED_MESSAGE, receivedResponse.getBody());
     }
 }

@@ -10,6 +10,8 @@ import team.yellow.docconnect.payload.dto.SpecialtyDto;
 import team.yellow.docconnect.payload.response.SpecialtyResponse;
 import team.yellow.docconnect.service.SpecialtyService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
+
 @CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/specialties")
@@ -91,6 +93,6 @@ public class SpecialtyController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteSpecialtyById(@PathVariable Long id) {
         specialtyService.deleteSpecialtyById(id);
-        return ResponseEntity.ok(AppConstants.SUCCESSFULLY_DELETED_MESSAGE);
+        return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_MESSAGE);
     }
 }
