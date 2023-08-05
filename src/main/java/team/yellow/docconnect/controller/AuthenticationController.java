@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
@@ -18,6 +15,7 @@ import team.yellow.docconnect.service.AuthenticationService;
 
 @Slf4j
 @RestController
+@CrossOrigin(maxAge = 999999999)
 @RequestMapping("api/v1/auth")
 @Tag(name = "CRUD REST APIs for Authentication Resource")
 public class AuthenticationController {
