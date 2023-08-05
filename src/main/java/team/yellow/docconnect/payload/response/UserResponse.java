@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import team.yellow.docconnect.payload.dto.UserDto;
 
 import java.util.List;
 @Getter
