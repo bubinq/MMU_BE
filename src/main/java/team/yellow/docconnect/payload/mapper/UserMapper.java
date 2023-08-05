@@ -3,7 +3,6 @@ package team.yellow.docconnect.payload.mapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.payload.dto.UserDto;
 
 import java.util.List;

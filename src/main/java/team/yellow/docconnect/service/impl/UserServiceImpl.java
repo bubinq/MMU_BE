@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.UserDto;
 import team.yellow.docconnect.payload.mapper.UserMapper;
