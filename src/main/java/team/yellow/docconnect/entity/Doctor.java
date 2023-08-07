@@ -40,7 +40,7 @@ public class Doctor {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_specialty_id")
     private Specialty specialty;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "city_id")
     private City city;
 }
