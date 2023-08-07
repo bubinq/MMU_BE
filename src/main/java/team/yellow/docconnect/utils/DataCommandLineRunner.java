@@ -4,14 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import team.yellow.docconnect.entity.City;
-import team.yellow.docconnect.entity.State;
-import team.yellow.docconnect.entity.Doctor;
-import team.yellow.docconnect.entity.Specialty;
-import team.yellow.docconnect.repository.CityRepository;
-import team.yellow.docconnect.repository.StateRepository;
-import team.yellow.docconnect.repository.DoctorRepository;
-import team.yellow.docconnect.repository.SpecialtyRepository;
+import team.yellow.docconnect.entity.*;
+import team.yellow.docconnect.repository.*;
 
 @Component
 @Profile("dev")
@@ -21,21 +15,31 @@ public class DataCommandLineRunner implements CommandLineRunner {
     private final CityRepository cityRepository;
     private final SpecialtyRepository specialtyRepository;
     private final DoctorRepository doctorRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public DataCommandLineRunner(
             StateRepository stateRepository,
             CityRepository cityRepository,
             SpecialtyRepository specialtyRepository,
-            DoctorRepository doctorRepository) {
+            DoctorRepository doctorRepository,
+            RoleRepository roleRepository) {
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
         this.specialtyRepository = specialtyRepository;
         this.doctorRepository = doctorRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public void run(String... args) {
+        Role roleAdmin = new Role();
+        roleAdmin.setName("ROLE_ADMIN");
+        Role roleUser = new Role();
+        roleUser.setName("ROLE_USER");
+        roleRepository.save(roleAdmin);
+        roleRepository.save(roleUser);
+
         State alabama = new State();
         alabama.setName("Alabama");
         stateRepository.save(alabama);
@@ -1538,7 +1542,6 @@ public class DataCommandLineRunner implements CommandLineRunner {
 //        rockSprings.setName("Rock Springs");
 //        rockSprings.setState(wyoming);
 //        cityRepository.save(rockSprings);
-
 
 
         Specialty cardiology = new Specialty();
