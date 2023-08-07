@@ -17,7 +17,7 @@ import team.yellow.docconnect.service.AuthenticationService;
 @RestController
 @CrossOrigin(maxAge = 999999999)
 @RequestMapping("api/v1/auth")
-@Tag(name = "CRUD REST APIs for Authentication Resource")
+@Tag(name = "Login and Register REST APIs for Authentication Resource")
 public class AuthenticationController {
 
     private final AuthenticationService authService;
