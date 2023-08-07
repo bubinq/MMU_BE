@@ -38,15 +38,13 @@ import java.security.interfaces.RSAPublicKey;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Value("${jwt.public.key}")
-    RSAPublicKey key;
-
-    @Value("${jwt.private.key}")
-    RSAPrivateKey privateKey;
-
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    @Value("${jwt.public.key}")
+    RSAPublicKey key;
+    @Value("${jwt.private.key}")
+    RSAPrivateKey privateKey;
 
     public SecurityConfig(UserDetailsService userDetailsService, JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.userDetailsService = userDetailsService;
@@ -68,6 +66,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers(
