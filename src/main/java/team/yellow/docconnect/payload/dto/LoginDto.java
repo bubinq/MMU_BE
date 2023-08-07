@@ -1,13 +1,15 @@
 package team.yellow.docconnect.payload.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 public record LoginDto(
 
-        @NotEmpty(message = "Email should not be null or empty")
+        @NotEmpty(message = "Please enter your email address")
+        @Email(message = "Please enter a valid email address")
         String email,
 
-        @NotEmpty(message = "Password should not be null or empty")
+        @NotEmpty(message = "Please enter your password")
         String password
 ) {
 }
