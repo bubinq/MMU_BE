@@ -12,5 +12,6 @@ public class Messages {
     public static final String UNSUPPORTED_JWT_TOKEN = "Unsupported JWT Token";
     public static final String JWT_CLAIM_EMPTY = "JWT claim string is empty";
     public static final String SUCCESSFULLY_DELETED_MESSAGE = "Successfully deleted!";
+    public static final String INCORRECT_CREDENTIALS = "Incorrect email or password. Please try again.";
 
 }
