@@ -16,6 +16,7 @@ import team.yellow.docconnect.payload.dto.HospitalDto;
 import team.yellow.docconnect.payload.response.HospitalResponse;
 import team.yellow.docconnect.service.HospitalService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
 
 @RunWith(MockitoJUnitRunner.class)
 class HospitalControllerTest {
@@ -119,6 +120,6 @@ class HospitalControllerTest {
         hospitalService.createHospital(hospital);
         ResponseEntity<String> receivedResponse = hospitalController.deleteHospitalById(hospitalId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals(AppConstants.SUCCESSFULLY_DELETED_MESSAGE, receivedResponse.getBody());
+        Assertions.assertEquals(Messages.SUCCESSFULLY_DELETED_MESSAGE, receivedResponse.getBody());
     }
 }

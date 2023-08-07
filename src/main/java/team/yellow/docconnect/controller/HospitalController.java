@@ -11,6 +11,7 @@ import team.yellow.docconnect.payload.dto.HospitalDto;
 import team.yellow.docconnect.payload.response.HospitalResponse;
 import team.yellow.docconnect.service.HospitalService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
 
 @CrossOrigin(maxAge = 999999999)
 @RestController
@@ -93,6 +94,6 @@ public class HospitalController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteHospitalById(@PathVariable Long id) {
         hospitalService.deleteHospitalById(id);
-        return ResponseEntity.ok(AppConstants.SUCCESSFULLY_DELETED_MESSAGE);
+        return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_MESSAGE);
     }
 }

@@ -1,22 +1,23 @@
 package team.yellow.docconnect.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "city")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class City {
+@AllArgsConstructor
+@Entity
+@Table(name = "role")
+public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "state_id")
-    private State state;
-
 }
