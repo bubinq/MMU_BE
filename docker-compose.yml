@@ -1,6 +1,14 @@
 version: "3.8"
 
 services:
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+    networks:
+      springboot-mysql-net:
   server:
     container_name: springboot-rest
     build:
@@ -13,15 +21,6 @@ services:
     restart: on-failure
     depends_on:
       - mysqldb
-  mysqldb:
-    container_name: mysqldb
-    image: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
-    networks:
-      springboot-mysql-net:
-
 
 
 
