@@ -3,9 +3,14 @@ package team.yellow.docconnect.utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import team.yellow.docconnect.entity.*;
 import team.yellow.docconnect.repository.*;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Profile("dev")
@@ -16,6 +21,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
     private final SpecialtyRepository specialtyRepository;
     private final DoctorRepository doctorRepository;
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public DataCommandLineRunner(
@@ -23,22 +29,129 @@ public class DataCommandLineRunner implements CommandLineRunner {
             CityRepository cityRepository,
             SpecialtyRepository specialtyRepository,
             DoctorRepository doctorRepository,
-            RoleRepository roleRepository) {
+            RoleRepository roleRepository, UserRepository userRepository) {
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
         this.specialtyRepository = specialtyRepository;
         this.doctorRepository = doctorRepository;
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void run(String... args) {
         Role roleAdmin = new Role();
         roleAdmin.setName("ROLE_ADMIN");
+        roleRepository.save(roleAdmin);
         Role roleUser = new Role();
         roleUser.setName("ROLE_USER");
-        roleRepository.save(roleAdmin);
         roleRepository.save(roleUser);
+
+        Set<Role> rolesAdmin = new HashSet<>();
+        rolesAdmin.add(roleAdmin);
+
+        Set<Role> rolesUser = new HashSet<>();
+        rolesUser.add(roleUser);
+
+        User admin = new User();
+        admin.setFirstName("admin");
+        admin.setLastName("admin");
+        admin.setEmail("admin@gmail.com");
+        admin.setPassword(new BCryptPasswordEncoder().encode("!Admin123"));
+        admin.setCreatedAt(LocalDateTime.now());
+        admin.setIsVerified(false);
+        admin.setRoles(rolesAdmin);
+        userRepository.save(admin);
+
+        User martin = new User();
+        martin.setFirstName("Martin");
+        martin.setLastName("Ivanov");
+        martin.setEmail("martin@gmail.com");
+        martin.setPassword(new BCryptPasswordEncoder().encode("!Martin123"));
+        martin.setCreatedAt(LocalDateTime.now());
+        martin.setIsVerified(false);
+        martin.setRoles(rolesUser);
+        userRepository.save(martin);
+
+        User ivan = new User();
+        ivan.setFirstName("Ivan");
+        ivan.setLastName("Petrov");
+        ivan.setEmail("ivan@gmail.com");
+        ivan.setPassword(new BCryptPasswordEncoder().encode("!Ivan123"));
+        ivan.setCreatedAt(LocalDateTime.now());
+        ivan.setIsVerified(false);
+        ivan.setRoles(rolesUser);
+        userRepository.save(ivan);
+
+        User petar = new User();
+        petar.setFirstName("Petar");
+        petar.setLastName("Dimitrov");
+        petar.setEmail("petar@gmail.com");
+        petar.setPassword(new BCryptPasswordEncoder().encode("!Petar123"));
+        petar.setCreatedAt(LocalDateTime.now());
+        petar.setIsVerified(false);
+        petar.setRoles(rolesUser);
+        userRepository.save(petar);
+
+        User james = new User();
+        james.setFirstName("James");
+        james.setLastName("Owen");
+        james.setEmail("james@gmail.com");
+        james.setPassword(new BCryptPasswordEncoder().encode("!James123"));
+        james.setCreatedAt(LocalDateTime.now());
+        james.setIsVerified(false);
+        james.setRoles(rolesUser);
+        userRepository.save(james);
+
+        User susan = new User();
+        susan.setFirstName("Susan");
+        susan.setLastName("Gilbert");
+        susan.setEmail("susan@gmail.com");
+        susan.setPassword(new BCryptPasswordEncoder().encode("!Susan123"));
+        susan.setCreatedAt(LocalDateTime.now());
+        susan.setIsVerified(false);
+        susan.setRoles(rolesUser);
+        userRepository.save(susan);
+
+        User nash = new User();
+        nash.setFirstName("Nash");
+        nash.setLastName("Underwood");
+        nash.setEmail("nash@gmail.com");
+        nash.setPassword(new BCryptPasswordEncoder().encode("!Nash123"));
+        nash.setCreatedAt(LocalDateTime.now());
+        nash.setIsVerified(false);
+        nash.setRoles(rolesUser);
+        userRepository.save(nash);
+
+        User sammy = new User();
+        sammy.setFirstName("Sammy");
+        sammy.setLastName("Wolf");
+        sammy.setEmail("sammy@gmail.com");
+        sammy.setPassword(new BCryptPasswordEncoder().encode("!Sammy123"));
+        sammy.setCreatedAt(LocalDateTime.now());
+        sammy.setIsVerified(false);
+        sammy.setRoles(rolesUser);
+        userRepository.save(sammy);
+
+        User kara = new User();
+        kara.setFirstName("Kara");
+        kara.setLastName("Dixon");
+        kara.setEmail("kara@gmail.com");
+        kara.setPassword(new BCryptPasswordEncoder().encode("!Kara123"));
+        kara.setCreatedAt(LocalDateTime.now());
+        kara.setIsVerified(false);
+        kara.setRoles(rolesUser);
+        userRepository.save(kara);
+
+        User devin = new User();
+        devin.setFirstName("Devin");
+        devin.setLastName("Snyder");
+        devin.setEmail("devin@gmail.com");
+        devin.setPassword(new BCryptPasswordEncoder().encode("!Devin123"));
+        devin.setCreatedAt(LocalDateTime.now());
+        devin.setIsVerified(false);
+        devin.setRoles(rolesUser);
+        userRepository.save(devin);
 
         State alabama = new State();
         alabama.setName("Alabama");
@@ -1816,20 +1929,5 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sheiLu.setSpecialty(dermatology);
         sheiLu.setCity(denver);
         doctorRepository.save(sheiLu);
-
-//        Doctor johnnySins = new Doctor();
-//        johnnySins.setFirstName("Johnny");
-//        johnnySins.setLastName("Sins");
-//        johnnySins.setEmail("johnny.sins@example.com");
-//        johnnySins.setSummary("Summary for Doctor Johny Sins");
-//        johnnySins.setExperience(100);
-//        johnnySins.setEducation("Medical School HH, Residency OP");
-//        johnnySins.setAverageRating(5);
-//        johnnySins.setImageUrl("https://wallpapers.com/images/high/doctor-johnny-sins-6vleyqyzdu5tcn5c.webp");
-//        johnnySins.setAddress("8 Great Street, Sofia, Bulgaria");
-//        johnnySins.setCountry(bulgaria);
-//        johnnySins.setSpecialty(urology);
-//        johnnySins.setCity(sofia);
-//        doctorRepository.save(johnnySins);
     }
 }

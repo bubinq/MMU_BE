@@ -66,24 +66,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(registerDto.email());
 
         Set<Role> roles = new HashSet<>();
-        if (userRepository.count() == 0) {
-            Optional<Role> userRole = roleRepository.findByName("ROLE_ADMIN");
-            Role role = new Role();
-            if (userRole.isPresent()) {
-                role = userRole.get();
-            }
-            roles.add(role);
-            user.setRoles(roles);
-        } else {
-            Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-            Role role = new Role();
-            if (userRole.isPresent()) {
-                role = userRole.get();
-            }
-            roles.add(role);
-            user.setRoles(roles);
+        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+        Role role = new Role();
+        if (userRole.isPresent()) {
+            role = userRole.get();
         }
-
+        roles.add(role);
+        user.setRoles(roles);
         return user;
     }
 }
