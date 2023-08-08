@@ -2,10 +2,12 @@ package team.yellow.docconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.yellow.docconnect.payload.dto.DoctorDto;
 import team.yellow.docconnect.payload.response.DoctorResponse;
@@ -30,11 +32,14 @@ public class DoctorController {
     @ApiResponse(
             responseCode = "201",
             description = "Http Status 201 CREATED"
+    )@SecurityRequirement(
+            name = "Bearer Authentication"
     )
-    @PostMapping("countries/{countryId}/cities/{cityId}/specialties/{specialtyId}/doctors")
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("states/{stateId}/cities/{cityId}/specialties/{specialtyId}/doctors")
     public ResponseEntity<DoctorDto> createDoctor(@RequestBody @Valid DoctorDto doctorDto, @PathVariable Long cityId,
-                                                  @PathVariable Long countryId, @PathVariable Long specialtyId){
-       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId, countryId, specialtyId), HttpStatus.CREATED);
+                                                  @PathVariable Long stateId, @PathVariable Long specialtyId){
+       return new ResponseEntity<>(doctorService.createDoctor(doctorDto, cityId, stateId, specialtyId), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -45,7 +50,7 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @CrossOrigin(maxAge = 999999999)
+
     @GetMapping("doctors/{doctorId}")
     public ResponseEntity<DoctorDto> getDoctorById(@PathVariable Long doctorId){
         return ResponseEntity.ok(doctorService.getDoctorById(doctorId));
@@ -80,6 +85,10 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("doctors/{doctorId}")
     public ResponseEntity<DoctorDto> updateDoctorById(@PathVariable Long doctorId, @RequestBody @Valid DoctorDto doctorDto){
         return ResponseEntity.ok(doctorService.updateDoctorById(doctorId, doctorDto));
@@ -93,6 +102,10 @@ public class DoctorController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("doctors/{doctorId}")
     public ResponseEntity<String> deleteDoctorById(@PathVariable Long doctorId){
         doctorService.deleteDoctorById(doctorId);

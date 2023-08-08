@@ -2,10 +2,12 @@ package team.yellow.docconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.yellow.docconnect.payload.dto.StateDto;
 import team.yellow.docconnect.payload.response.StateResponse;
@@ -31,6 +33,10 @@ public class StateController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<StateDto> createState(@RequestBody @Valid StateDto stateDto) {
         return new ResponseEntity<>(stateService.createState(stateDto), HttpStatus.CREATED);
@@ -76,6 +82,10 @@ public class StateController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{stateId}")
     public ResponseEntity<StateDto> updateStateById(@PathVariable Long stateId, @RequestBody @Valid StateDto stateDto) {
         return ResponseEntity.ok(stateService.updateStateById(stateDto, stateId));
@@ -89,6 +99,10 @@ public class StateController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{stateId}")
     public ResponseEntity<String> deleteStateById(@PathVariable Long stateId) {
         stateService.deleteStateId(stateId);
