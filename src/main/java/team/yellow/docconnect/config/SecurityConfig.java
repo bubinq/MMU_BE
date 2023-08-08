@@ -76,18 +76,17 @@ public class SecurityConfig {
                                 .requestMatchers("/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling((exceptions) ->
                         exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .oauth2Login(oauth2Login ->
-                        oauth2Login.loginPage("/api/v1/auth/login"))
-                .oauth2ResourceServer(
-                        httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
-                                .jwt(
-                                        jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())));
-
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        oauth2Login.loginPage("/api/v1/auth/google_login"));
+//                .oauth2ResourceServer(
+//                        httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
+//                                .jwt(
+//                                        jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())));
 
         return http.build();
 
