@@ -2,10 +2,12 @@ package team.yellow.docconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team.yellow.docconnect.payload.dto.CityDto;
 import team.yellow.docconnect.payload.response.CityResponse;
@@ -31,6 +33,10 @@ public class CityController {
             responseCode = "201",
             description = "Http Status 201 CREATED"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("states/{stateId}/cities")
     public ResponseEntity<CityDto> createCity(@Valid @RequestBody CityDto cityDto, @PathVariable Long stateId) {
         return new ResponseEntity<>(cityService.createCity(cityDto, stateId), HttpStatus.CREATED);
@@ -96,6 +102,10 @@ public class CityController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("cities/{cityId}")
     public ResponseEntity<CityDto> updateCityById(@RequestBody @Valid CityDto cityDto, @PathVariable Long cityId) {
         return ResponseEntity.ok(cityService.updateCityById(cityDto, cityId));
@@ -109,6 +119,10 @@ public class CityController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("cities/{cityId}")
     public ResponseEntity<String> deleteCityById(@PathVariable Long cityId) {
         cityService.deleteCityById(cityId);

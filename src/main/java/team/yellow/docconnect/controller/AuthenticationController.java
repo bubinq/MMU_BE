@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,22 @@ public class AuthenticationController {
         JWTAuthenticationResponse response = new JWTAuthenticationResponse();
         response.setAccessToken(token);
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(
+            summary = "Google Login User REST API",
+            description = "Google Login User REST API is used to redirect user to google login"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @GetMapping("/google_login")
+    public ResponseEntity<String> googleLogin() {
+        return ResponseEntity
+                .status(HttpStatus.FOUND) // Redirect status
+                .header(HttpHeaders.LOCATION, "/oauth2/authorization/google")
+                .body("Redirecting to Google OAuth2 login page...");
     }
 
     @Operation(
