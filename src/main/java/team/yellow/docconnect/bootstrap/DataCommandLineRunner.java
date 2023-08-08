@@ -1,4 +1,4 @@
-package team.yellow.docconnect.utils;
+package team.yellow.docconnect.bootstrap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
