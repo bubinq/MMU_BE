@@ -72,14 +72,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String googleSignIn(String token) throws IOException {
         GoogleUserDto googleUserDto = googleTokenDecoder.decodeGoogleToken(token);
 
-
+        String randomPassword = UUID.randomUUID().toString();
 
         User user = new User();
         if(!userRepository.existsByEmailIgnoreCase(googleUserDto.email())){
             user.setEmail(googleUserDto.email());
             user.setFirstName(googleUserDto.given_name());
             user.setLastName(googleUserDto.last_name());
-            user.setPassword(new BCryptPasswordEncoder().encode(UUID.randomUUID().toString()));
+            user.setPassword(new BCryptPasswordEncoder().encode(randomPassword));
             Set<Role> roles = new HashSet<>();
             Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
             Role role = new Role();
@@ -97,7 +97,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         System.out.println(user.getEmail());
         Authentication authentication = authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+                        .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
