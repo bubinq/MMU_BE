@@ -73,13 +73,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         GoogleUserDto googleUserDto = googleTokenDecoder.decodeGoogleToken(token);
 
         String randomPassword = UUID.randomUUID().toString();
+        String encodedPassword = new BCryptPasswordEncoder().encode(randomPassword);
 
         User user = new User();
-        if(!userRepository.existsByEmailIgnoreCase(googleUserDto.email())){
+
+        if(userRepository.existsByEmailIgnoreCase(googleUserDto.email())){
+            user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
+                    .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
             user.setEmail(googleUserDto.email());
             user.setFirstName(googleUserDto.given_name());
             user.setLastName(googleUserDto.last_name());
-            user.setPassword(new BCryptPasswordEncoder().encode(randomPassword));
+            user.setPassword(encodedPassword);
+            Set<Role> roles = new HashSet<>();
+            Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+            Role role = new Role();
+            if (userRole.isPresent()) {
+                role = userRole.get();
+            }
+            roles.add(role);
+            user.setRoles(roles);
+            userRepository.save(user);
+        }
+        else{
+            user.setEmail(googleUserDto.email());
+            user.setFirstName(googleUserDto.given_name());
+            user.setLastName(googleUserDto.last_name());
+            user.setPassword(encodedPassword);
             Set<Role> roles = new HashSet<>();
             Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
             Role role = new Role();
@@ -95,7 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                 .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
 
-        System.out.println(user.getEmail());
+//        System.out.println(user.getEmail());
         Authentication authentication = authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
 
