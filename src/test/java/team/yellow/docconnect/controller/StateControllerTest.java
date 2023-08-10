@@ -44,26 +44,26 @@ class StateControllerTest {
     @Test
     void shouldReturnOKResponseAndProperStateWhenProvidedValidId() {
         Long validStateId = 1L;
-        StateDto expectedCountry = new StateDto(validStateId, "Bulgaria");
-        Mockito.when(stateService.getStateById(validStateId)).thenReturn(expectedCountry);
+        StateDto expectedState = new StateDto(validStateId, "Bulgaria");
+        Mockito.when(stateService.getStateById(validStateId)).thenReturn(expectedState);
         ResponseEntity<StateDto> receivedResponse = stateController.getStateById(validStateId);
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assert.assertEquals(expectedCountry, receivedResponse.getBody());
+        Assert.assertEquals(expectedState, receivedResponse.getBody());
     }
 
     @Test
     void shouldNotReturnProperStateWhenProvidedInvalidId() {
         Long validStateId = 1L;
         Long invalidStateId = 2L;
-        StateDto expectedCountry = new StateDto(validStateId, "Bulgaria");
-        Mockito.when(stateService.getStateById(validStateId)).thenReturn(expectedCountry);
+        StateDto expectedState = new StateDto(validStateId, "Bulgaria");
+        Mockito.when(stateService.getStateById(validStateId)).thenReturn(expectedState);
         ResponseEntity<StateDto> receivedResponse = stateController.getStateById(invalidStateId);
-        Assert.assertNotEquals(expectedCountry, receivedResponse.getBody());
+        Assert.assertNotEquals(expectedState, receivedResponse.getBody());
     }
 
     @Test
     void shouldReturnOKResponseAndAllStatesPaginated() {
-        StateResponse expectedCountries = new StateResponse();
+        StateResponse expectedStates = new StateResponse();
 
         Mockito.when(stateService
                 .getAllStates
@@ -73,7 +73,7 @@ class StateControllerTest {
                                 AppConstants.DEFAULT_SORT_BY,
                                 AppConstants.DEFAULT_SORT_DIRECTION
                         )
-        ).thenReturn(expectedCountries);
+        ).thenReturn(expectedStates);
 
         ResponseEntity<StateResponse> receivedResponse = stateController.getAllStates
                 (
@@ -83,7 +83,7 @@ class StateControllerTest {
                         AppConstants.DEFAULT_SORT_DIRECTION
                 );
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assert.assertEquals(expectedCountries, receivedResponse.getBody());
+        Assert.assertEquals(expectedStates, receivedResponse.getBody());
     }
 
     @Test
@@ -108,11 +108,11 @@ class StateControllerTest {
 
     @Test
     void shouldDeleteStateAndReturnOKResponse() {
-        Long countryId = 1L;
-        StateDto stateToInsert = new StateDto(countryId, "Bulgaria");
+        Long stateId = 1L;
+        StateDto stateToInsert = new StateDto(stateId, "Bulgaria");
         stateService.createState(stateToInsert);
-        ResponseEntity<String> receivedResponse = stateController.deleteStateById(countryId);
+        ResponseEntity<String> receivedResponse = stateController.deleteStateById(stateId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals("Successfully deleted country with id: "+ countryId, receivedResponse.getBody());
+        Assertions.assertEquals("Successfully deleted state with id: "+ stateId, receivedResponse.getBody());
     }
 }

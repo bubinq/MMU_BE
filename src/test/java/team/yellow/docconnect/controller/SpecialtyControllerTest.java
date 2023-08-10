@@ -63,8 +63,8 @@ class SpecialtyControllerTest {
     }
 
     @Test
-    void shouldReturnOKResponseAndAllCountriesPaginated() {
-        SpecialtyResponse expectedCountries = new SpecialtyResponse();
+    void shouldReturnOKResponseAndAllStatesPaginated() {
+        SpecialtyResponse expectedStates = new SpecialtyResponse();
 
         Mockito.when(specialtyService
                 .getAllSpecialties
@@ -74,7 +74,7 @@ class SpecialtyControllerTest {
                                 AppConstants.DEFAULT_SORT_BY,
                                 AppConstants.DEFAULT_SORT_DIRECTION
                         )
-        ).thenReturn(expectedCountries);
+        ).thenReturn(expectedStates);
 
         ResponseEntity<SpecialtyResponse> receivedResponse = specialtyController.getAllSpecialties
                 (
@@ -84,7 +84,7 @@ class SpecialtyControllerTest {
                         AppConstants.DEFAULT_SORT_DIRECTION
                 );
         Assert.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assert.assertEquals(expectedCountries, receivedResponse.getBody());
+        Assert.assertEquals(expectedStates, receivedResponse.getBody());
     }
 
     @Test

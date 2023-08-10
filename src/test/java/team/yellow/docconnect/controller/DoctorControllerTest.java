@@ -33,20 +33,20 @@ class DoctorControllerTest {
     void shouldCreateDoctorAndReturnCreatedResponseWhenProvidedValidIds() {
         Long validCityId = 1L;
         Long validSpecialtyId =  1L;
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                             1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
                         "Surgeon",
-                        validCountryId, validSpecialtyId, validCityId
+                        validStateId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validStateId, validSpecialtyId))
                 .thenReturn(doctorToInsert);
         ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, validCityId,
-                validCountryId, validSpecialtyId);
+                validStateId, validSpecialtyId);
         Assert.assertEquals(HttpStatus.CREATED, receivedResponse.getStatusCode());
         Assert.assertEquals(doctorToInsert, receivedResponse.getBody());
     }
@@ -55,7 +55,7 @@ class DoctorControllerTest {
     void shouldNotCreateDoctorWhenProvidedInvalidCityId() {
         Long validCityId = 1L;
         Long validSpecialtyId =  1L;
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         Long invalidCityId = 2L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
@@ -63,13 +63,13 @@ class DoctorControllerTest {
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
                         "Surgeon",
-                        validCountryId, validSpecialtyId, validCityId
+                        validStateId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validStateId, validSpecialtyId))
                 .thenReturn(doctorToInsert);
         ResponseEntity<DoctorDto> receivedResponse = doctorController.createDoctor(doctorToInsert, invalidCityId,
-                validCountryId , validSpecialtyId);
+                validStateId , validSpecialtyId);
         Assert.assertNotEquals(doctorToInsert, receivedResponse.getBody());
     }
 

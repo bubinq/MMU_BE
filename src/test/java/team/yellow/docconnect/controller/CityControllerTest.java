@@ -31,7 +31,7 @@ class CityControllerTest {
     }
 
     @Test
-    void shouldCreateCityAndReturnCreatedResponseWhenProvidedValidCountryId() {
+    void shouldCreateCityAndReturnCreatedResponseWhenProvidedValidStateId() {
         Long validStateId = 1L;
         CityDto cityToInsert = new CityDto(1L, "Varna", "State");
         Mockito.when(cityService.createCity(cityToInsert, validStateId)).thenReturn(cityToInsert);
@@ -41,7 +41,7 @@ class CityControllerTest {
     }
 
     @Test
-    void shouldNotCreateCityWhenProvidedInvalidCountryId() {
+    void shouldNotCreateCityWhenProvidedInvalidStateId() {
         Long validStateId = 1L;
         Long invalidStateId = 2L;
         CityDto cityToInsert = new CityDto(1L, "Varna", "State");
@@ -97,12 +97,12 @@ class CityControllerTest {
     }
     @Test
     void shouldReturnAllCitiesInStateWhenProvidedValidStateId() {
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
                 .getAllCitiesByStateId
                         (
-                                validCountryId,
+                                validStateId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                                 AppConstants.DEFAULT_SORT_BY,
@@ -112,7 +112,7 @@ class CityControllerTest {
 
         ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByState
                 (
-                        validCountryId,
+                        validStateId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                         AppConstants.DEFAULT_SORT_BY,
@@ -126,13 +126,13 @@ class CityControllerTest {
 
     @Test
     void shouldNotReturnAllCitiesInStateWhenProvidedInvalidStateId() {
-        Long validCountryId = 1L;
-        Long invalidCountryId = 2L;
+        Long validStateId = 1L;
+        Long invalidStateId = 2L;
         CityResponse expectedCities = new CityResponse();
         Mockito.when(cityService
                 .getAllCitiesByStateId
                         (
-                                validCountryId,
+                                validStateId,
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                                 Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                                 AppConstants.DEFAULT_SORT_BY,
@@ -142,7 +142,7 @@ class CityControllerTest {
 
         ResponseEntity<CityResponse> receivedResponse = cityController.getAllCitiesByState
                 (
-                        invalidCountryId,
+                        invalidStateId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                         AppConstants.DEFAULT_SORT_BY,

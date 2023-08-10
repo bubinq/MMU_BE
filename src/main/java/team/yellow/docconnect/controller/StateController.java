@@ -106,6 +106,6 @@ public class StateController {
     @DeleteMapping("{stateId}")
     public ResponseEntity<String> deleteStateById(@PathVariable Long stateId) {
         stateService.deleteStateId(stateId);
-        return ResponseEntity.ok("Successfully deleted country with id: " + stateId);
+        return ResponseEntity.ok("Successfully deleted State with id: " + stateId);
     }
 }

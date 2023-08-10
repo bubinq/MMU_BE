@@ -14,10 +14,10 @@ public interface StateMapper {
     StateMapper INSTANCE = Mappers.getMapper(StateMapper.class);
     StateDto entityToDTO(State state);
 
-    List<StateDto> entityToDTO(Iterable<State> countries);
+    List<StateDto> entityToDTO(Iterable<State> states);
 
     State dtoToEntity(StateDto stateDto);
 
-    List<State> dtoToEntity(Iterable<StateDto> countryDtos);
+    List<State> dtoToEntity(Iterable<StateDto> stateDtos);
 
 }

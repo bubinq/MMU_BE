@@ -29,10 +29,10 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDto createCity(CityDto cityDto, Long countryId) {
+    public CityDto createCity(CityDto cityDto, Long stateId) {
         City cityToCreate = CityMapper.INSTANCE.dtoToEntity(cityDto);
-        State foundState = stateRepository.findById(countryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
+        State foundState = stateRepository.findById(stateId)
+                .orElseThrow(() -> new ResourceNotFoundException("State", "Id", stateId));
         cityToCreate.setState(foundState);
         return CityMapper.INSTANCE.entityToDTO(cityRepository.save(cityToCreate));
     }

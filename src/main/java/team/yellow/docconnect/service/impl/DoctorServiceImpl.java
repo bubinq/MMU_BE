@@ -40,11 +40,11 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public DoctorDto createDoctor(DoctorDto doctorDto, Long cityId, Long countryId, Long specialtyId) {
+    public DoctorDto createDoctor(DoctorDto doctorDto, Long cityId, Long stateId, Long specialtyId) {
         City foundCity = cityRepository.findById(cityId)
                 .orElseThrow(() -> new ResourceNotFoundException("City", "Id", cityId));
-        State foundState = stateRepository.findById(countryId)
-                .orElseThrow(() -> new ResourceNotFoundException("Country", "Id", countryId));
+        State foundState = stateRepository.findById(stateId)
+                .orElseThrow(() -> new ResourceNotFoundException("State", "Id", stateId));
         Specialty foundSpecialty = specialtyRepository.findById(specialtyId)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty", "id", specialtyId));
         Doctor doctor = DoctorMapper.INSTANCE.dtoToEntity(doctorDto);
