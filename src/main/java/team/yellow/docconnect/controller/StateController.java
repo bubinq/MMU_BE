@@ -36,7 +36,7 @@ public class StateController {
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("")
     public ResponseEntity<StateDto> createState(@RequestBody @Valid StateDto stateDto) {
         return new ResponseEntity<>(stateService.createState(stateDto), HttpStatus.CREATED);
