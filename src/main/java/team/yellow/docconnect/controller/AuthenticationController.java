@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,8 @@ import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
 import team.yellow.docconnect.service.AuthenticationService;
+
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -52,11 +53,11 @@ public class AuthenticationController {
             description = "Http Status 200 SUCCESS"
     )
     @GetMapping("/google_login")
-    public ResponseEntity<String> googleLogin() {
-        return ResponseEntity
-                .status(HttpStatus.FOUND) // Redirect status
-                .header(HttpHeaders.LOCATION, "/oauth2/authorization/google")
-                .body("Redirecting to Google OAuth2 login page...");
+    public ResponseEntity<JWTAuthenticationResponse> googleLogin(@RequestParam(name = "access_token") String idToken) throws IOException {
+        String token = authService.googleSignIn(idToken);
+        JWTAuthenticationResponse response = new JWTAuthenticationResponse();
+        response.setAccessToken(token);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(
