@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface ValidPassword {
 
-    String message() default "Your password must have at least 8 characters, with a mix of uppercase, lowercase, numbers and symbols";
+    String message() default "Your password must have at least 8 characters, with a mix of uppercase, lowercase, numbers and symbols.";
 
     Class<?>[] groups() default {};
 
