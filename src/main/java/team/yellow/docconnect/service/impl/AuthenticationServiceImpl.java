@@ -99,6 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             user.setFirstName(googleUserDto.given_name());
             user.setLastName(googleUserDto.last_name());
             user.setPassword(encodedPassword);
+            user.setIsVerified(true);
             Set<Role> roles = new HashSet<>();
             Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
             Role role = new Role();

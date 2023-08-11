@@ -5,15 +5,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
 import team.yellow.docconnect.service.AuthenticationService;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -23,9 +30,11 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService authService;
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
-    public AuthenticationController(AuthenticationService authService) {
+    public AuthenticationController(AuthenticationService authService, ClientRegistrationRepository clientRegistrationRepository) {
         this.authService = authService;
+        this.clientRegistrationRepository = clientRegistrationRepository;
     }
 
     @Operation(
@@ -58,6 +67,59 @@ public class AuthenticationController {
         JWTAuthenticationResponse response = new JWTAuthenticationResponse();
         response.setAccessToken(token);
         return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/initiate-google")
+    public ResponseEntity<String> initiateGoogleOAuth() {
+        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
+
+        String authorizationUri = googleRegistration.getProviderDetails().getAuthorizationUri();
+        String redirectUri = UriComponentsBuilder.fromHttpUrl(googleRegistration.getRedirectUri()).build().encode().toUriString();
+        String clientId = googleRegistration.getClientId();
+//        String scopes = String.join(" ", googleRegistration.getScopes());
+        String scopes = "openid profile email ";
+        String authorizationUrl = UriComponentsBuilder.fromHttpUrl(authorizationUri)
+                .queryParam("redirect_uri", redirectUri)
+                .queryParam("prompt", "consent")
+                .queryParam("response_type", "code")
+                .queryParam("client_id", clientId)
+                .queryParam("scope", scopes)
+                .build().encode().toUriString();
+        return ResponseEntity.ok(authorizationUrl);
+    }
+
+    @GetMapping("/login/oauth2/code/google")
+    public ResponseEntity<String> handleGoogleCallback(@RequestParam String code) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
+        if(googleRegistration != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBasicAuth(googleRegistration.getClientId(), googleRegistration.getClientSecret());
+
+            Map<String, String> requestBody = new HashMap<>();
+            requestBody.put(OAuth2ParameterNames.GRANT_TYPE, "authorization_code");
+            requestBody.put(OAuth2ParameterNames.CODE, code);
+            requestBody.put(OAuth2ParameterNames.REDIRECT_URI, googleRegistration.getRedirectUri());
+            requestBody.put(OAuth2ParameterNames.CLIENT_ID, googleRegistration.getClientId());
+            requestBody.put(OAuth2ParameterNames.CLIENT_SECRET, googleRegistration.getClientSecret());
+           // requestBody.put(OAuth2ParameterNames.SCOPE,  String.join(" ", googleRegistration.getScopes()));
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
+            ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(
+                    googleRegistration.getProviderDetails().getTokenUri(),
+                    request,
+                    Map.class
+            );
+            String idToken = (String) Objects.requireNonNull(tokenResponse.getBody()).get("id_token");
+
+            return ResponseEntity.ok(idToken);
+        }
+        else{
+            return  ResponseEntity.ok("invalid code");
+        }
+
     }
 
     @Operation(
