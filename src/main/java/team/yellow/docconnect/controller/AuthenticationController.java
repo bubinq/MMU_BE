@@ -64,9 +64,17 @@ public class AuthenticationController {
     @GetMapping("/google_login")
     public ResponseEntity<JWTAuthenticationResponse> googleLogin(@RequestParam(name = "access_token") String idToken) throws IOException {
         String token = authService.googleSignIn(idToken);
-        JWTAuthenticationResponse response = new JWTAuthenticationResponse();
-        response.setAccessToken(token);
-        return ResponseEntity.ok(response);
+        String redirectUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:5173")
+                .queryParam("jwt_token", token)
+                .build()
+                .toUriString();
+//        JWTAuthenticationResponse response = new JWTAuthenticationResponse();
+//        response.setAccessToken(token);
+//        return ResponseEntity.ok(response);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", redirectUrl);
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
 
