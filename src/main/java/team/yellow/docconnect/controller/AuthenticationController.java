@@ -78,7 +78,7 @@ public class AuthenticationController {
         String redirectUri = UriComponentsBuilder.fromHttpUrl(googleRegistration.getRedirectUri()).build().encode().toUriString();
         String clientId = googleRegistration.getClientId();
 //        String scopes = String.join(" ", googleRegistration.getScopes());
-        String scopes = "openid profile email ";
+        String scopes = "openid profile email";
         String authorizationUrl = UriComponentsBuilder.fromHttpUrl(authorizationUri)
                 .queryParam("redirect_uri", redirectUri)
                 .queryParam("prompt", "consent")
