@@ -37,7 +37,7 @@ In Command Prompt
 docker-script.bat
 ```
 
-Or in Intellij
+Or in Intellij/ Or any other IDE/Editor
 ```bash
 ./docker-script.bat
 ```
@@ -46,7 +46,7 @@ REST API will start running at <http://localhost:8080>
 **4. You can stop the backend from running with**
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## Endpoints
