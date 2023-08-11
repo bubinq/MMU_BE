@@ -88,7 +88,7 @@ public class SecurityConfig {
                 .exceptionHandling((exceptions) ->
                         exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .oauth2Login(oauth2Login ->
-                        oauth2Login.loginPage("/api/v1/auth/google_login"))
+                        oauth2Login.loginPage("/api/v1/auth/login/oauth2/code/google"))
 //                .oauth2ResourceServer(
 //                        httpSecurityOAuth2ResourceServerConfigurer -> httpSecurityOAuth2ResourceServerConfigurer
 //                                .jwt(
