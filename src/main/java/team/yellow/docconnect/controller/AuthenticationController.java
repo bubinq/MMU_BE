@@ -114,7 +114,18 @@ public class AuthenticationController {
             );
             String idToken = (String) Objects.requireNonNull(tokenResponse.getBody()).get("id_token");
 
-            return ResponseEntity.ok(idToken);
+            String redirectUrl = UriComponentsBuilder
+                    .fromUriString("http://localhost:8080/api/v1/auth/google_login")
+                    .queryParam("access_token", idToken)
+                    .build()
+                    .toUriString();
+
+
+            HttpHeaders headerz = new HttpHeaders();
+            headerz.add("Location", redirectUrl);
+            return new ResponseEntity<>(headerz, HttpStatus.FOUND);
+
+
         }
         else{
             return  ResponseEntity.ok("invalid code");
