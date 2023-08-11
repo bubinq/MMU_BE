@@ -98,7 +98,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login/oauth2/code/google")
-    public ResponseEntity<String> handleGoogleCallback(@RequestParam String code) {
+    public ResponseEntity<String> handleGoogleCallback(@RequestParam String code) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
 
         ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
@@ -113,18 +113,20 @@ public class AuthenticationController {
             requestBody.put(OAuth2ParameterNames.REDIRECT_URI, googleRegistration.getRedirectUri());
             requestBody.put(OAuth2ParameterNames.CLIENT_ID, googleRegistration.getClientId());
             requestBody.put(OAuth2ParameterNames.CLIENT_SECRET, googleRegistration.getClientSecret());
-           // requestBody.put(OAuth2ParameterNames.SCOPE,  String.join(" ", googleRegistration.getScopes()));
+            requestBody.put(OAuth2ParameterNames.SCOPE, "openid profile email");
             HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
             ResponseEntity<Map> tokenResponse = restTemplate.postForEntity(
                     googleRegistration.getProviderDetails().getTokenUri(),
                     request,
                     Map.class
             );
+
             String idToken = (String) Objects.requireNonNull(tokenResponse.getBody()).get("id_token");
 
+            String token = authService.googleSignIn(idToken);
             String redirectUrl = UriComponentsBuilder
-                    .fromUriString("http://localhost:8080/api/v1/auth/google_login")
-                    .queryParam("access_token", idToken)
+                    .fromUriString("http://localhost:5173")
+                    .queryParam("jwt_token", token)
                     .build()
                     .toUriString();
 
@@ -132,7 +134,7 @@ public class AuthenticationController {
             HttpHeaders headerz = new HttpHeaders();
             headerz.add("Location", redirectUrl);
             return new ResponseEntity<>(headerz, HttpStatus.FOUND);
-
+//            return ResponseEntity.ok(idToken);
 
         }
         else{
