@@ -1707,12 +1707,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         johnDoe.setFirstName("John");
         johnDoe.setLastName("Doe");
         johnDoe.setEmail("john.doe@example.com");
-        johnDoe.setSummary("Summary for Doctor John Doe");
+        johnDoe.setSummary("Experienced cardiologist with 10 years of practice. " +
+                "Dedicated to providing high-quality cardiac care to patients. " +
+                "Graduated from Medical School A and completed Residency B. Proud to serve the Los Angeles community.");
         johnDoe.setExperience(10);
         johnDoe.setEducation("Medical School A, Residency B");
         johnDoe.setAverageRating(4.9);
         johnDoe.setImageUrl("https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg");
-        johnDoe.setAddress("123 Main Street, Varna, Bulgaria");
+        johnDoe.setAddress("123 Main Street, Los Angeles, California");
         johnDoe.setState(california);
         johnDoe.setSpecialty(cardiology);
         johnDoe.setCity(losAngeles);
@@ -1722,12 +1724,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         lisaSmith.setFirstName("Lisa");
         lisaSmith.setLastName("Smith");
         lisaSmith.setEmail("lisa.smith@example.com");
-        lisaSmith.setSummary("Summary for Doctor Lisa Smith");
+        lisaSmith.setSummary("Neurologist with 8 years of experience specializing in neurological disorders." +
+                " Graduated from Medical School X and completed Residency Y. " +
+                "Committed to offering top-notch neurological care to San Francisco residents");
         lisaSmith.setExperience(8);
         lisaSmith.setEducation("Medical School X, Residency Y");
         lisaSmith.setAverageRating(4.8);
         lisaSmith.setImageUrl("https://t3.ftcdn.net/jpg/01/30/45/54/360_F_130455409_fTuinPO1LXECv5hlk9VBREnL6yowYUo3.jpg");
-        lisaSmith.setAddress("456 Oak Street, Sofia, Bulgaria");
+        lisaSmith.setAddress("456 Oak Street, San Francisco, California");
         lisaSmith.setState(california);
         lisaSmith.setSpecialty(neurology);
         lisaSmith.setCity(sanFrancisco);
@@ -1738,12 +1742,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sarahJohnson.setFirstName("Sarah");
         sarahJohnson.setLastName("Johnson");
         sarahJohnson.setEmail("sarah.johnson@example.com");
-        sarahJohnson.setSummary("Summary for Doctor Sarah Johnson");
+        sarahJohnson.setSummary("Dedicated pediatrician with 12 years of experience in caring for children's health. " +
+                "Graduated from Medical School C and completed Residency D." +
+                " Passionate about ensuring the well-being of young patients in New York City");
         sarahJohnson.setExperience(12);
         sarahJohnson.setEducation("Medical School C, Residency D");
         sarahJohnson.setAverageRating(4.7);
         sarahJohnson.setImageUrl("https://cdn.create.vista.com/api/media/small/80150956/stock-photo-confident-female-doctor-at-office");
-        sarahJohnson.setAddress("789 Elm Street, Dobrich, Bulgaria");
+        sarahJohnson.setAddress("789 Elm Street, New York City, New York");
         sarahJohnson.setState(newYork);
         sarahJohnson.setSpecialty(pediatrics);
         sarahJohnson.setCity(newYorkNY);
@@ -1753,58 +1759,66 @@ public class DataCommandLineRunner implements CommandLineRunner {
         michaelBrown.setFirstName("Michael");
         michaelBrown.setLastName("Brown");
         michaelBrown.setEmail("michael.brown@example.com");
-        michaelBrown.setSummary("Summary for Doctor Michael Brown");
+        michaelBrown.setSummary("Experienced dermatologist with 15 years of expertise in skin health. " +
+                "Graduated from Medical School P and completed Residency Q. " +
+                "Committed to providing comprehensive dermatological care to the Portland community.");
         michaelBrown.setExperience(15);
         michaelBrown.setEducation("Medical School P, Residency Q");
         michaelBrown.setAverageRating(4.9);
         michaelBrown.setImageUrl("https://media.istockphoto.com/id/1385197689/photo/portrait-of-cheerful-handsome-black-doctor-posing-at-clinic.webp?b=1&s=170667a&w=0&k=20&c=aAVV7sLkOzWb4tv1z5wy-UWCcSTt4ALZW2Q6V1UqNP4=");
-        michaelBrown.setAddress("101 Baker Street, Sliven, Bulgaria");
+        michaelBrown.setAddress("101 Baker Street, Portland, Oregon");
         michaelBrown.setState(oregon);
         michaelBrown.setSpecialty(dermatology);
         michaelBrown.setCity(portlandOR);
         doctorRepository.save(michaelBrown);
 
 
-        Doctor ivanGeorgiev = new Doctor();
-        ivanGeorgiev.setFirstName("Ivan");
-        ivanGeorgiev.setLastName("Georgiev");
-        ivanGeorgiev.setEmail("ivan.georgiev@example.com");
-        ivanGeorgiev.setSummary("Summary for Doctor Ivan Georgiev");
-        ivanGeorgiev.setExperience(9);
-        ivanGeorgiev.setEducation("Medical School M, Residency N");
-        ivanGeorgiev.setAverageRating(4.6);
-        ivanGeorgiev.setImageUrl("https://bdc2020.o0bc.com/wp-content/uploads/2021/05/Elon-Musk-SNL-recap-60978518a78f8-768x432.png");
-        ivanGeorgiev.setAddress("15 Ivan Vazov Street, Sofia, Bulgaria");
-        ivanGeorgiev.setState(ohio);
-        ivanGeorgiev.setSpecialty(cardiology);
-        ivanGeorgiev.setCity(columbusOH);
-        doctorRepository.save(ivanGeorgiev);
+        Doctor bruceWayne = new Doctor();
+        bruceWayne.setFirstName("Bruce");
+        bruceWayne.setLastName("Wayne");
+        bruceWayne.setEmail("bruce.wayne@example.com");
+        bruceWayne.setSummary("Cardiologist with 9 years of practice, dedicated to heart health. " +
+                "Graduated from Medical School M and completed Residency N. " +
+                "Committed to serving the heart care needs of Columbus, Ohio.");
+        bruceWayne.setExperience(9);
+        bruceWayne.setEducation("Medical School M, Residency N");
+        bruceWayne.setAverageRating(4.6);
+        bruceWayne.setImageUrl("https://bdc2020.o0bc.com/wp-content/uploads/2021/05/Elon-Musk-SNL-recap-60978518a78f8-768x432.png");
+        bruceWayne.setAddress("Central Station, Columbus, Ohio");
+        bruceWayne.setState(ohio);
+        bruceWayne.setSpecialty(cardiology);
+        bruceWayne.setCity(columbusOH);
+        doctorRepository.save(bruceWayne);
 
-        Doctor mariaPetrova = new Doctor();
-        mariaPetrova.setFirstName("Maria");
-        mariaPetrova.setLastName("Petrova");
-        mariaPetrova.setEmail("maria.petrova@example.com");
-        mariaPetrova.setSummary("Summary for Doctor Maria Petrova");
-        mariaPetrova.setExperience(7);
-        mariaPetrova.setEducation("Medical School R, Residency S");
-        mariaPetrova.setAverageRating(4.7);
-        mariaPetrova.setImageUrl("https://www.onlineshs.com/wp-content/uploads/2022/12/shutterstock_1901822248-1-1.png");
-        mariaPetrova.setAddress("10 Hristo Botev Street, Plovdiv, Bulgaria");
-        mariaPetrova.setState(massachusetts);
-        mariaPetrova.setSpecialty(neurology);
-        mariaPetrova.setCity(boston);
-        doctorRepository.save(mariaPetrova);
+        Doctor mariaLaclerc = new Doctor();
+        mariaLaclerc.setFirstName("Maria");
+        mariaLaclerc.setLastName("LaClerc");
+        mariaLaclerc.setEmail("maria.laclerc@example.com");
+        mariaLaclerc.setSummary("Neurologist with 7 years of experience in diagnosing and treating neurological conditions. " +
+                "Graduated from Medical School R and completed Residency S. " +
+                "Committed to providing expert neurological care to the Boston community.");
+        mariaLaclerc.setExperience(7);
+        mariaLaclerc.setEducation("Medical School R, Residency S");
+        mariaLaclerc.setAverageRating(4.7);
+        mariaLaclerc.setImageUrl("https://www.onlineshs.com/wp-content/uploads/2022/12/shutterstock_1901822248-1-1.png");
+        mariaLaclerc.setAddress("High Ground 456, Boston, Massachusetts");
+        mariaLaclerc.setState(massachusetts);
+        mariaLaclerc.setSpecialty(neurology);
+        mariaLaclerc.setCity(boston);
+        doctorRepository.save(mariaLaclerc);
 
         Doctor petarIliev = new Doctor();
         petarIliev.setFirstName("Petar");
         petarIliev.setLastName("Iliev");
         petarIliev.setEmail("petar.iliev@example.com");
-        petarIliev.setSummary("Summary for Doctor Petar Iliev");
+        petarIliev.setSummary("Experienced dermatologist with 11 years of practice, specializing in skin health and aesthetics." +
+                " Graduated from Medical School T and completed Residency U. " +
+                "Dedicated to delivering top-quality dermatological care in Des Moines.");
         petarIliev.setExperience(11);
         petarIliev.setEducation("Medical School T, Residency U");
         petarIliev.setAverageRating(4.9);
         petarIliev.setImageUrl("https://hackensackmeridianhealth.org/-/media/project/hmh/hmh/public/healthu-images/patient-perspectives/20220826-ofer-avi-werthaim-md.png");
-        petarIliev.setAddress("5 G.S. Rakovski Street, Varna, Bulgaria");
+        petarIliev.setAddress("5 Buckingham Street, Des Moines, Iowa");
         petarIliev.setState(iowa);
         petarIliev.setSpecialty(dermatology);
         petarIliev.setCity(desMoines);
@@ -1814,12 +1828,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         stanleyRivera.setFirstName("Stanley");
         stanleyRivera.setLastName("Rivera");
         stanleyRivera.setEmail("stanley.rivera@example.com");
-        stanleyRivera.setSummary("Summary for Doctor Stanley Rivera");
+        stanleyRivera.setSummary("Seasoned ophthalmologist with 21 years of expertise in eye care. " +
+                "Graduated from Medical School SS and completed Residency AA. " +
+                "Devoted to enhancing vision health for the community of Iowa City.");
         stanleyRivera.setExperience(21);
         stanleyRivera.setEducation("Medical School SS, Residency AA");
         stanleyRivera.setAverageRating(4.2);
         stanleyRivera.setImageUrl("https://img.freepik.com/free-photo/smiling-doctor-with-strethoscope-isolated-grey_651396-974.jpg?size=626&ext=jpg");
-        stanleyRivera.setAddress("Bul. Andrej Lyapchev 32, Sofia, Bulgaria");
+        stanleyRivera.setAddress("Kingston Bul. 32, Iowa City, Iowa");
         stanleyRivera.setState(iowa);
         stanleyRivera.setSpecialty(ophthalmology);
         stanleyRivera.setCity(iowaCity);
@@ -1829,12 +1845,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         jolieRose.setFirstName("Jolie");
         jolieRose.setLastName("Rose");
         jolieRose.setEmail("jolie.rose@example.com");
-        jolieRose.setSummary("Summary for Doctor Jolie Rose");
+        jolieRose.setSummary("Experienced urologist with 14 years of practice, dedicated to urinary and reproductive health." +
+                " Graduated from Medical School H and completed Residency P. " +
+                "Committed to providing specialized care to Atlanta residents.");
         jolieRose.setExperience(14);
         jolieRose.setEducation("Medical School H, Residency P");
         jolieRose.setAverageRating(4.4);
         jolieRose.setImageUrl("https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg?size=626&ext=jpg");
-        jolieRose.setAddress("6 Mihail Sarafov Street, Sofia, Bulgaria");
+        jolieRose.setAddress("6 Francesco Street, Atlanta, Georgia");
         jolieRose.setState(georgia);
         jolieRose.setSpecialty(urology);
         jolieRose.setCity(atlanta);
@@ -1844,12 +1862,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         loganFlynn.setFirstName("Logan");
         loganFlynn.setLastName("Flynn");
         loganFlynn.setEmail("logan.flynn@example.com");
-        loganFlynn.setSummary("Summary for Doctor Logan Flynn");
+        loganFlynn.setSummary("Oncologist with 14 years of experience in cancer diagnosis and treatment." +
+                " Graduated from Medical School Q and completed Residency Z. " +
+                "Dedicated to offering comprehensive oncology care in Atlanta");
         loganFlynn.setExperience(14);
         loganFlynn.setEducation("Medical School Q, Residency Z");
         loganFlynn.setAverageRating(5);
         loganFlynn.setImageUrl("https://img.freepik.com/free-photo/doctor-with-his-arms-crossed-white-background_1368-5789.jpg?size=626&ext=jpg");
-        loganFlynn.setAddress("14 Dickson Street, Veliko Tarnovo, Bulgaria");
+        loganFlynn.setAddress("14 Dickson Street, Atlanta, Georgia");
         loganFlynn.setState(georgia);
         loganFlynn.setSpecialty(oncology);
         loganFlynn.setCity(atlanta);
@@ -1859,12 +1879,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         skylaHodge.setFirstName("Skyla");
         skylaHodge.setLastName("Hodge");
         skylaHodge.setEmail("skyla.hodge@example.com");
-        skylaHodge.setSummary("Summary for Doctor Skyla Hodge");
+        skylaHodge.setSummary("Orthopedic specialist with 4 years of practice, dedicated to musculoskeletal health. " +
+                "Graduated from Medical School D and completed Residency L. " +
+                "Committed to providing orthopedic care in Los Angeles.");
         skylaHodge.setExperience(4);
         skylaHodge.setEducation("Medical School D, Residency L");
         skylaHodge.setAverageRating(3.8);
         skylaHodge.setImageUrl("https://img.freepik.com/free-photo/portrait-smiling-medical-worker-girl-doctor-white-coat-with-stethoscope-pointing-fingers-left-showing-medical-clinic-advertisement-torquoise-background_1258-87675.jpg?size=626&ext=jpg");
-        skylaHodge.setAddress("1 Lombard Street, Ruse, Bulgaria");
+        skylaHodge.setAddress("1 Lombard Street, Los Angeles, California");
         skylaHodge.setState(california);
         skylaHodge.setSpecialty(orthopedics);
         skylaHodge.setCity(losAngeles);
@@ -1874,12 +1896,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         rebeccaPeters.setFirstName("Rebecca");
         rebeccaPeters.setLastName("Peters");
         rebeccaPeters.setEmail("rebecca.peters@example.com");
-        rebeccaPeters.setSummary("Summary for Doctor Rebecca Peters");
+        rebeccaPeters.setSummary("Experienced gastroenterologist with 16 years of expertise in digestive health. " +
+                "Graduated from Medical School Y and completed Residency U. " +
+                "Devoted to delivering top-level gastroenterology care in Miami.");
         rebeccaPeters.setExperience(16);
         rebeccaPeters.setEducation("Medical School Y, Residency U");
         rebeccaPeters.setAverageRating(4.8);
         rebeccaPeters.setImageUrl("https://media.istockphoto.com/id/1189304032/photo/doctor-holding-digital-tablet-at-meeting-room.jpg?s=612x612&w=0&k=20&c=RtQn8w_vhzGYbflSa1B5ea9Ji70O8wHpSgGBSh0anUg=");
-        rebeccaPeters.setAddress("36 Angel Voyvoda Street, Stara Zagora, Bulgaria");
+        rebeccaPeters.setAddress("36 Holy Angels Street, Miami, Florida");
         rebeccaPeters.setState(florida);
         rebeccaPeters.setSpecialty(gastroenterology);
         rebeccaPeters.setCity(miami);
@@ -1889,42 +1913,48 @@ public class DataCommandLineRunner implements CommandLineRunner {
         alanPollard.setFirstName("Alan");
         alanPollard.setLastName("Pollard");
         alanPollard.setEmail("alan.pollard@example.com");
-        alanPollard.setSummary("Summary for Doctor Alan Pollard");
+        alanPollard.setSummary("Pediatrician with 26 years of experience in caring for children's health." +
+                " Graduated from Medical School J and completed Residency B. " +
+                "Committed to providing compassionate pediatric care in Miami.");
         alanPollard.setExperience(26);
         alanPollard.setEducation("Medical School J, Residency B");
         alanPollard.setAverageRating(4.6);
         alanPollard.setImageUrl("https://img.freepik.com/free-photo/attractive-young-male-nutriologist-lab-coat-smiling-against-white-background_662251-2960.jpg");
-        alanPollard.setAddress("2 Angista Street, Dobrich, Bulgaria");
+        alanPollard.setAddress("2 Angista Street, Miami, Florida");
         alanPollard.setState(florida);
         alanPollard.setSpecialty(pediatrics);
         alanPollard.setCity(miami);
         doctorRepository.save(alanPollard);
 
-        Doctor borisKamenov = new Doctor();
-        borisKamenov.setFirstName("Boris");
-        borisKamenov.setLastName("Kamenov");
-        borisKamenov.setEmail("boris.kamenov@example.com");
-        borisKamenov.setSummary("Summary for Doctor Boris Kamenov");
-        borisKamenov.setExperience(6);
-        borisKamenov.setEducation("Medical School L, Residency V");
-        borisKamenov.setAverageRating(4);
-        borisKamenov.setImageUrl("https://images.wsj.net/im-43344/8SR");
-        borisKamenov.setAddress("24 Oven Street, Plovdiv, Bulgaria");
-        borisKamenov.setState(florida);
-        borisKamenov.setSpecialty(ophthalmology);
-        borisKamenov.setCity(miami);
-        doctorRepository.save(borisKamenov);
+        Doctor michaelLowrey = new Doctor();
+        michaelLowrey.setFirstName("Michael");
+        michaelLowrey.setLastName("Lowrey");
+        michaelLowrey.setEmail("michael.jordan@example.com");
+        michaelLowrey.setSummary("Ophthalmologist with 6 years of practice, specializing in eye health. " +
+                "Graduated from Medical School L and completed Residency V. " +
+                "Dedicated to enhancing vision health in Miami.");
+        michaelLowrey.setExperience(6);
+        michaelLowrey.setEducation("Medical School L, Residency V");
+        michaelLowrey.setAverageRating(4);
+        michaelLowrey.setImageUrl("https://images.wsj.net/im-43344/8SR");
+        michaelLowrey.setAddress("24 Oven Street, Miami, Florida");
+        michaelLowrey.setState(florida);
+        michaelLowrey.setSpecialty(ophthalmology);
+        michaelLowrey.setCity(miami);
+        doctorRepository.save(michaelLowrey);
 
         Doctor sheiLu = new Doctor();
         sheiLu.setFirstName("Shei");
         sheiLu.setLastName("Lu");
         sheiLu.setEmail("shei.lu@example.com");
-        sheiLu.setSummary("Summary for Doctor Shei Lu");
+        sheiLu.setSummary("Experienced dermatologist with 17 years of practice, focusing on skin health and aesthetics." +
+                " Graduated from Medical School Z and completed Residency X. " +
+                "Devoted to providing top-tier dermatological care in Denver.");
         sheiLu.setExperience(17);
         sheiLu.setEducation("Medical School Z, Residency X");
         sheiLu.setAverageRating(4.2);
         sheiLu.setImageUrl("https://www.uclahealth.org/sites/default/files/styles/portrait_3x4_016000_480x640/public/images/female-doc-with-other-docs.jpg?h=dd028d5a&itok=ajLNibn5");
-        sheiLu.setAddress("8 Kapitan Andreev Street, Sliven, Bulgaria");
+        sheiLu.setAddress("37 Washington Street, Denver, Colorado");
         sheiLu.setState(colorado);
         sheiLu.setSpecialty(dermatology);
         sheiLu.setCity(denver);

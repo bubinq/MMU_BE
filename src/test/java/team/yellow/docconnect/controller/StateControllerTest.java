@@ -113,6 +113,6 @@ class StateControllerTest {
         stateService.createState(stateToInsert);
         ResponseEntity<String> receivedResponse = stateController.deleteStateById(stateId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals("Successfully deleted state with id: "+ stateId, receivedResponse.getBody());
+        Assertions.assertEquals("Successfully deleted State with id: "+ stateId, receivedResponse.getBody());
     }
 }
