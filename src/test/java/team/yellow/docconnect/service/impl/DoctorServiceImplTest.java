@@ -27,18 +27,18 @@ class DoctorServiceImplTest {
     void shouldCreateDoctorWhenProvidedValidIds() {
         Long validCityId = 1L;
         Long validSpecialtyId =  1L;
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
-                        "Necromancer", validCountryId, validSpecialtyId, validCityId
+                        "Necromancer", validStateId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validStateId, validSpecialtyId))
                 .thenReturn(doctorToInsert);
-        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId);
+        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, validCityId, validStateId, validSpecialtyId);
         Assert.assertEquals(doctorToInsert,createdDoctor);
     }
 
@@ -46,19 +46,19 @@ class DoctorServiceImplTest {
     void shouldNotCreateDoctorWhenProvidedInvalidCityId() {
         Long validCityId = 1L;
         Long validSpecialtyId =  1L;
-        Long validCountryId = 1L;
+        Long validStateId = 1L;
         Long invalidCityId = 2L;
         DoctorDto doctorToInsert = new DoctorDto
                 (
                         1L, "Ferdinand", "II",
                         "example@gmail.com", "yup",1,"MM UNIVERSITY BULGARIA",
                         2.5, "http://www.example.com/","Great Saint Hospital of Europe",
-                         "Dracula", validCountryId, validSpecialtyId, validCityId
+                         "Dracula", validStateId, validSpecialtyId, validCityId
 
                 );
-        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validCountryId, validSpecialtyId))
+        Mockito.when(doctorService.createDoctor(doctorToInsert, validCityId, validStateId, validSpecialtyId))
                 .thenReturn(doctorToInsert);
-        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, invalidCityId, validCountryId, validSpecialtyId);
+        DoctorDto createdDoctor = doctorService.createDoctor(doctorToInsert, invalidCityId, validStateId, validSpecialtyId);
         Assert.assertNotEquals(doctorToInsert,createdDoctor);
     }
 

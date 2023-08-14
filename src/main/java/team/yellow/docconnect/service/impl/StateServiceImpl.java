@@ -43,8 +43,8 @@ public class StateServiceImpl implements StateService {
                 : Sort.by(sortBy).descending();
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-        Page<State> countries = stateRepository.findAll(pageable);
-        return getResponse(countries);
+        Page<State> states = stateRepository.findAll(pageable);
+        return getResponse(states);
     }
 
     @Override
@@ -62,14 +62,14 @@ public class StateServiceImpl implements StateService {
         stateRepository.delete(foundState);
     }
 
-    private StateResponse getResponse(Page<State> countries) {
-        List<StateDto> content = StateMapper.INSTANCE.entityToDTO(countries.getContent());
+    private StateResponse getResponse(Page<State> states) {
+        List<StateDto> content = StateMapper.INSTANCE.entityToDTO(states.getContent());
         StateResponse stateResponse = new StateResponse(content);
-        stateResponse.setPageNo(countries.getNumber());
-        stateResponse.setLast(countries.isLast());
-        stateResponse.setTotalPages(countries.getTotalPages());
-        stateResponse.setPageSize(countries.getSize());
-        stateResponse.setTotalElements(countries.getTotalElements());
+        stateResponse.setPageNo(states.getNumber());
+        stateResponse.setLast(states.isLast());
+        stateResponse.setTotalPages(states.getTotalPages());
+        stateResponse.setPageSize(states.getSize());
+        stateResponse.setTotalElements(states.getTotalElements());
         return stateResponse;
     }
 }

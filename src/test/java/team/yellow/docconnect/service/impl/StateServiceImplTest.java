@@ -27,12 +27,12 @@ class StateServiceImplTest {
     }
 
     @Test
-    void shouldCreateStateAndReturnCountryDto() {
-        Long countryId = 1L;
-        StateDto stateToInsert = new StateDto(countryId, "Bulgaria");
+    void shouldCreateStateAndReturnStateDto() {
+        Long stateId = 1L;
+        StateDto stateToInsert = new StateDto(stateId, "Bulgaria");
         Mockito.when(stateService.createState(stateToInsert)).thenReturn(stateToInsert);
-        StateDto createdCountry = stateService.createState(stateToInsert);
-        Assert.assertEquals(stateToInsert, createdCountry);
+        StateDto createdState = stateService.createState(stateToInsert);
+        Assert.assertEquals(stateToInsert, createdState);
     }
 
     @Test
@@ -40,8 +40,8 @@ class StateServiceImplTest {
         Long validId = 1L;
         StateDto expectedState = new StateDto(validId, "Bulgaria");
         Mockito.when(stateService.getStateById(validId)).thenReturn(expectedState);
-        StateDto foundCountry = stateService.getStateById(validId);
-        Assert.assertEquals(expectedState, foundCountry);
+        StateDto foundState = stateService.getStateById(validId);
+        Assert.assertEquals(expectedState, foundState);
     }
 
     @Test
@@ -50,8 +50,8 @@ class StateServiceImplTest {
         Long invalidId = 2L;
         StateDto expectedState = new StateDto(validId, "Bulgaria");
         Mockito.when(stateService.getStateById(validId)).thenReturn(expectedState);
-        StateDto foundCountry = stateService.getStateById(invalidId);
-        Assert.assertNotEquals(expectedState, foundCountry);
+        StateDto foundState = stateService.getStateById(invalidId);
+        Assert.assertNotEquals(expectedState, foundState);
     }
 
     @Test
@@ -67,7 +67,7 @@ class StateServiceImplTest {
                         )
         ).thenReturn(expectedStates);
 
-        StateResponse foundCountries = stateService.getAllStates
+        StateResponse foundStates = stateService.getAllStates
                 (
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
@@ -75,16 +75,16 @@ class StateServiceImplTest {
                         AppConstants.DEFAULT_SORT_DIRECTION
                 );
 
-        Assert.assertEquals(expectedStates, foundCountries);
+        Assert.assertEquals(expectedStates, foundStates);
     }
 
     @Test
-    void shouldUpdateCountryAndReturnStateDtoWhenProvidedValidId() {
+    void shouldUpdateStateAndReturnStateDtoWhenProvidedValidId() {
         Long validId = 1L;
         StateDto expectedUpdatedState = new StateDto(validId, "Bulgaria");
         Mockito.when(stateService.updateStateById(expectedUpdatedState,validId)).thenReturn(expectedUpdatedState);
-        StateDto updatedCountry = stateService.updateStateById(expectedUpdatedState, validId);
-        Assert.assertEquals(expectedUpdatedState, updatedCountry);
+        StateDto updatedState = stateService.updateStateById(expectedUpdatedState, validId);
+        Assert.assertEquals(expectedUpdatedState, updatedState);
     }
 
     @Test
@@ -93,7 +93,7 @@ class StateServiceImplTest {
         Long invalidId = 2L;
         StateDto expectedUpdatedState = new StateDto(validId, "Bulgaria");
         Mockito.when(stateService.updateStateById(expectedUpdatedState,validId)).thenReturn(expectedUpdatedState);
-        StateDto updatedCountry = stateService.updateStateById(expectedUpdatedState, invalidId);
-        Assert.assertNotEquals(expectedUpdatedState, updatedCountry);
+        StateDto updatedState = stateService.updateStateById(expectedUpdatedState, invalidId);
+        Assert.assertNotEquals(expectedUpdatedState, updatedState);
     }
 }
