@@ -80,42 +80,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if(userRepository.existsByEmailIgnoreCase(googleUserDto.email())){
             user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                     .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
-            user.setEmail(googleUserDto.email());
-            user.setFirstName(googleUserDto.given_name());
-            user.setLastName(googleUserDto.last_name());
-            user.setPassword(encodedPassword);
-            Set<Role> roles = new HashSet<>();
-            Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-            Role role = new Role();
-            if (userRole.isPresent()) {
-                role = userRole.get();
-            }
-            roles.add(role);
-            user.setRoles(roles);
-            userRepository.save(user);
-        }
-        else{
-            user.setEmail(googleUserDto.email());
-            user.setFirstName(googleUserDto.given_name());
-            user.setLastName(googleUserDto.last_name());
-            user.setPassword(encodedPassword);
-            user.setIsVerified(true);
-            Set<Role> roles = new HashSet<>();
-            Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-            Role role = new Role();
-            if (userRole.isPresent()) {
-                role = userRole.get();
-            }
-            roles.add(role);
-            user.setRoles(roles);
-            userRepository.save(user);
-        }
 
+        }
+        user.setEmail(googleUserDto.email());
+        user.setFirstName(googleUserDto.given_name());
+        user.setLastName(googleUserDto.last_name());
+        user.setPassword(encodedPassword);
+        user.setIsVerified(true);
+        userRepository.save(setRoles(user));
 
         user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                 .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
 
-//        System.out.println(user.getEmail());
         Authentication authentication = authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
 
@@ -124,13 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     }
 
-    private User buildUser(RegisterDto registerDto) {
-        User user = new User();
-        user.setFirstName(registerDto.firstName());
-        user.setLastName(registerDto.lastName());
-        user.setPassword(passwordEncoder.encode(registerDto.password()));
-        user.setEmail(registerDto.email());
-
+    private User setRoles(User user) {
         Set<Role> roles = new HashSet<>();
         Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
         Role role = new Role();
@@ -140,5 +110,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         roles.add(role);
         user.setRoles(roles);
         return user;
+    }
+
+    private User buildUser(RegisterDto registerDto) {
+        User user = new User();
+        user.setFirstName(registerDto.firstName());
+        user.setLastName(registerDto.lastName());
+        user.setPassword(passwordEncoder.encode(registerDto.password()));
+        user.setEmail(registerDto.email());
+        return setRoles(user);
     }
 }

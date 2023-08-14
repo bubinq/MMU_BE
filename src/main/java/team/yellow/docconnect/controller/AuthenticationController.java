@@ -1,5 +1,6 @@
 package team.yellow.docconnect.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,31 +54,15 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
+
     @Operation(
-            summary = "Google Login User REST API",
-            description = "Google Login User REST API is used to redirect user to google login"
+            summary = "Initiate Google Authentication REST API",
+            description = "Initiate Google Authentication REST API is used to return Google authorization url"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("/google_login")
-    public ResponseEntity<JWTAuthenticationResponse> googleLogin(@RequestParam(name = "access_token") String idToken) throws IOException {
-        String token = authService.googleSignIn(idToken);
-        String redirectUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:5173")
-                .queryParam("jwt_token", token)
-                .build()
-                .toUriString();
-//        JWTAuthenticationResponse response = new JWTAuthenticationResponse();
-//        response.setAccessToken(token);
-//        return ResponseEntity.ok(response);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", redirectUrl);
-        return new ResponseEntity<>(headers, HttpStatus.FOUND);
-    }
-
-
     @GetMapping("/initiate-google")
     public ResponseEntity<String> initiateGoogleOAuth() {
         ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
@@ -98,6 +83,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login/oauth2/code/google")
+    @Hidden
     public ResponseEntity<String> handleGoogleCallback(@RequestParam String code) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
 
