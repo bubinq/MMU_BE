@@ -19,12 +19,12 @@ public record RegisterDto(
 
         @NotEmpty(message = "Please enter a first name.")
         @Length(min = 1, max = 50, message = "First name must not exceed 50 characters.")
-        @Pattern(regexp = "^[a-z0-9_-]{3,15}$", message = "Please enter a valid first name.")
+        @Pattern(regexp = "^[A-Za-z'-. ]{1,50}$", message = "Please enter a valid first name.")
         String firstName,
 
         @NotEmpty(message = "Please enter a last name.")
         @Length(min = 1, max = 50, message = "Last name must not exceed 50 characters.")
-        @Pattern(regexp = "^[a-z0-9_-]{3,15}$", message = "Please enter a valid last name.")
+        @Pattern(regexp = "^^[A-Za-z'-. ]{1,50}$", message = "Please enter a valid last name.")
         String lastName,
 
         @NotEmpty(message = "Please enter a password.")

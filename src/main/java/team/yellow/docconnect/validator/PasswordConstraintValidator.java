@@ -6,7 +6,6 @@ import org.passay.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
 
@@ -38,9 +37,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
 			return true;
 		}
 
-		List<String> messages = validator.getMessages(result);
-		String messageTemplate = messages.stream()
-				.collect(Collectors.joining(","));
+		String messageTemplate = "Your password must have at least 8 characters, with a mix of uppercase, lowercase, numbers and symbols.";
 		context.buildConstraintViolationWithTemplate(messageTemplate)
 				.addConstraintViolation()
 				.disableDefaultConstraintViolation();
