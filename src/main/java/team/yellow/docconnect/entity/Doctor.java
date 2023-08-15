@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "doctor")
@@ -29,6 +30,7 @@ public class Doctor {
 //    @Column(nullable = false)
     private String education;
     @Column(name = "avg_rating", nullable = false)
+    @Value(value = "0")
     private double averageRating;
     @Column(nullable = false)
     private String imageUrl;

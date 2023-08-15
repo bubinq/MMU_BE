@@ -1959,5 +1959,37 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sheiLu.setSpecialty(dermatology);
         sheiLu.setCity(denver);
         doctorRepository.save(sheiLu);
+
+        Doctor steveWatson = new Doctor();
+        steveWatson.setFirstName("Steve");
+        steveWatson.setLastName("Watson");
+        steveWatson.setEmail("steve.watson@example.com");
+        steveWatson.setSummary("Experienced ophthalmologist with 23 years of practice, focusing on comprehensive medical and surgical care of the eyes and vision." +
+                " Graduated from Medical School P and completed Residency A. " +
+                "Devoted to providing top-tier ophthalmological care in Iowa.");
+        steveWatson.setExperience(23);
+        steveWatson.setEducation("Medical School P, Residency A");
+        steveWatson.setImageUrl("https://images.unsplash.com/photo-1537368910025-700350fe46c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRvY3RvcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60");
+        steveWatson.setAddress("615 N Dubuque Street, Iowa City, Iowa");
+        steveWatson.setState(iowa);
+        steveWatson.setSpecialty(ophthalmology);
+        steveWatson.setCity(iowaCity);
+        doctorRepository.save(steveWatson);
+
+        Doctor veronicaHart = new Doctor();
+        veronicaHart.setFirstName("Veronica");
+        veronicaHart.setLastName("Hart");
+        veronicaHart.setEmail("veronica.hart@example.com");
+        veronicaHart.setSummary("Experienced dermatologist with 13 years of practice, focusing on conditions that affect the skin, hair, and nails." +
+                " Graduated from Medical School E and completed Residency O. " +
+                "Devoted to providing top-tier dermatological care in Iowa.");
+        veronicaHart.setExperience(13);
+        veronicaHart.setEducation("Medical School E, Residency O");
+        veronicaHart.setImageUrl("https://thebiome.co.uk/wp-content/uploads/2020/05/depositphotos_80152446-stock-photo-smiling-female-doctor-holding-medical.jpg");
+        veronicaHart.setAddress("2 Abington Street, Atlanta, Georgia");
+        veronicaHart.setState(georgia);
+        veronicaHart.setSpecialty(dermatology);
+        veronicaHart.setCity(atlanta);
+        doctorRepository.save(veronicaHart);
     }
 }
