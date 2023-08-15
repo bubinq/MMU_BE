@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
+import team.yellow.docconnect.exception.ResourceNotFoundException;
+import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.utils.Messages;
 
 import java.security.Key;
@@ -22,13 +25,23 @@ public class JwtTokenProvider {
     @Value("${app.jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
+    private final UserRepository userRepository;
+
+    public JwtTokenProvider(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + jwtExpirationDate);
-
+        User user = userRepository.findUserByEmailIgnoreCase(username)
+                .orElseThrow( () ->new ResourceNotFoundException("User", "Email", username));
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("firstName", user.getFirstName());
+        claims.put("lastName", user.getLastName());
         return Jwts.builder()
-                .setSubject(username)
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
                 .signWith(key())
