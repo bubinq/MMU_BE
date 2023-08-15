@@ -14,10 +14,6 @@ import java.io.IOException;
 @Component
 public class GoogleTokenDecoder  {
 
-//    private static final String GOOGLE_CLIENT_ID = "100732516280-3uqf9q6kfjcd22688age9gf2l8ju43hg.apps.googleusercontent.com";
-
-
-
     public GoogleTokenDecoder() {
     }
 
