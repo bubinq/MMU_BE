@@ -1,0 +1,42 @@
+stages:
+  - build
+  - deploy
+
+default:
+  tags: [docker-linux]
+
+build:
+  stage: build
+  image: maven:3.8.5-openjdk-17
+  only:
+    - merge_requests
+    - test
+  before_script:
+    - 'microdnf install zip -y'
+    - 'mvn --version'
+  script:
+    - 'mvn clean install -DskipTests=true'
+    - 'mvn clean package -DskipTests=true'
+    - 'mvn package spring-boot:repackage -DskipTests=true'
+    - 'pushd target'
+    - 'zip ../publish.zip *.jar'
+    - 'popd'
+  artifacts:
+    expire_in: 24 hours
+    paths:
+      - 'publish.zip'
+
+deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  dependencies:
+    - build
+  only:
+    - test
+  before_script:
+    - 'az login --tenant ${AZURE_TENANT_ID} --service-principal -u ${AZURE_CLIENT_ID} -p ${AZURE_CLIENT_SECRET}'
+    - 'az account set --subscription ${AZURE_SUBSCRIPTION_ID}'
+  script:
+    - 'az webapp deployment source config-zip --resource-group ${RG} --name ${APP_NAME} --src publish.zip'
+
+
