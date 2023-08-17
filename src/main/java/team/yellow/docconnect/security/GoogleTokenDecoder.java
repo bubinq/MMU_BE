@@ -18,7 +18,7 @@ public class GoogleTokenDecoder  {
     }
 
     public  GoogleIdToken parseGoogleIdToken(String idTokenString) throws IOException {
-        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance(); // Use JacksonFactory for JSON parsing
+        JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
         JsonWebSignature jws = JsonWebSignature.parser(jsonFactory)
                 .setPayloadClass(GoogleIdToken.Payload.class)
@@ -38,13 +38,8 @@ public class GoogleTokenDecoder  {
             String givenName = (String) payload.get("given_name");
             String familyName = (String) payload.get("family_name");
 
-
-            System.out.println("Email: " + email);
-            System.out.println("Given Name: " + givenName);
-            System.out.println("Family Name: " + familyName);
             return new GoogleUserDto(email, givenName, familyName);
         } else {
-            System.out.println("No token");
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Invalid token");
         }
     }
