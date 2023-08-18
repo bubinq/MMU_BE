@@ -82,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String token = confirmationTokenService.createNewConfirmationToken(user);
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
-                        "http://localhost:8080/api/v1/auth/confirm?token=" + token));
+                        "http://localhost:5173/auth/confirm?token=" + token));
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
 
@@ -127,7 +127,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
         userRepository.save(user);
-        return "Congratulations!" + "\nYour password has been successfully reset.";
+        return Messages.SUCCESSFULLY_PASSWORD_RESET;
     }
 
     @Override
@@ -146,7 +146,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         checkPasswordResetTokenIsValid(token);
 
-        String confirmationLink = "http://localhost:8080/api/v1/auth/reset?token=" + token;
+        String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
         Context context = getContext(userToResetPassword, confirmationLink);
 
         emailService.sendMail("Email Reset Password", userEmail, templateEngine.process("email-forgot-password", context));
@@ -191,7 +191,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             confirmToken = confirmationToken.get();
         }
         if (confirmToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "The token has expired or is invalid");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
         }
     }
 

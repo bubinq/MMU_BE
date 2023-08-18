@@ -13,5 +13,7 @@ public class Messages {
     public static final String JWT_CLAIM_EMPTY = "JWT claim string is empty";
     public static final String SUCCESSFULLY_DELETED_MESSAGE = "Successfully deleted!";
     public static final String INCORRECT_CREDENTIALS = "Incorrect email or password. Please try again.";
+    public static final String TOKEN_EXPIRED_INVALID = "The token has expired or is invalid";
+    public static final String SUCCESSFULLY_PASSWORD_RESET = "Congratulations!" + "\nYour password has been successfully reset.";
 
 }
