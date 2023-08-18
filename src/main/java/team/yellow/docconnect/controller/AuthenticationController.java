@@ -17,6 +17,7 @@ import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
 import team.yellow.docconnect.service.AuthenticationService;
+import team.yellow.docconnect.service.ConfirmationTokenService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,10 +33,13 @@ public class AuthenticationController {
 
     private final AuthenticationService authService;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private final ConfirmationTokenService confirmationTokenService;
 
-    public AuthenticationController(AuthenticationService authService, ClientRegistrationRepository clientRegistrationRepository) {
+
+    public AuthenticationController(AuthenticationService authService, ClientRegistrationRepository clientRegistrationRepository, ConfirmationTokenService confirmationTokenService) {
         this.authService = authService;
         this.clientRegistrationRepository = clientRegistrationRepository;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Operation(
@@ -141,5 +145,19 @@ public class AuthenticationController {
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto){
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+
+    @Operation(
+            summary = "Confirm User's Email REST API",
+            description = "Confirm User's Email REST API is used to confirm a new user's email by confirmation token"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "Http Status 201 CREATED"
+    )
+    @GetMapping("confirm")
+    public ResponseEntity<String> confirm(@RequestParam String token){
+        return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
     }
 }

@@ -20,6 +20,7 @@ import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
 import team.yellow.docconnect.security.JwtTokenProvider;
 import team.yellow.docconnect.service.AuthenticationService;
+import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.service.EmailBuilderService;
 import team.yellow.docconnect.service.EmailService;
 import team.yellow.docconnect.utils.Messages;
@@ -41,9 +42,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final GoogleTokenDecoder googleTokenDecoder;
     private final EmailBuilderService emailBuilderService;
     private final EmailService emailService;
+    private final ConfirmationTokenService confirmationTokenService;
 
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -52,6 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.googleTokenDecoder = googleTokenDecoder;
         this.emailBuilderService = emailBuilderService;
         this.emailService = emailService;
+        this.confirmationTokenService = confirmationTokenService;
     }
 
     @Override
@@ -70,9 +73,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = buildUser(registerDto);
         userRepository.save(user);
+        String token = confirmationTokenService.createNewConfirmationToken(user);
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
-                "Confirmation url"));
+                        "http://localhost:8080/api/v1/auth/confirm?token=" + token));
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
 
