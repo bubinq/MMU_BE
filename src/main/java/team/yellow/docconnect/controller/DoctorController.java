@@ -13,6 +13,8 @@ import team.yellow.docconnect.payload.dto.DoctorDto;
 import team.yellow.docconnect.payload.response.DoctorResponse;
 import team.yellow.docconnect.service.DoctorService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
+
 @CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1")
@@ -109,7 +111,7 @@ public class DoctorController {
     @DeleteMapping("doctors/{doctorId}")
     public ResponseEntity<String> deleteDoctorById(@PathVariable Long doctorId){
         doctorService.deleteDoctorById(doctorId);
-        return ResponseEntity.ok("Successfully deleted Doctor with id:" + doctorId);
+        return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_DOCTOR + doctorId);
     }
 
     @Operation(
