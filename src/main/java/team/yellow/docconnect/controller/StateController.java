@@ -13,6 +13,8 @@ import team.yellow.docconnect.payload.dto.StateDto;
 import team.yellow.docconnect.payload.response.StateResponse;
 import team.yellow.docconnect.service.StateService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
+
 @CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("/api/v1/states")
@@ -106,6 +108,6 @@ public class StateController {
     @DeleteMapping("{stateId}")
     public ResponseEntity<String> deleteStateById(@PathVariable Long stateId) {
         stateService.deleteStateId(stateId);
-        return ResponseEntity.ok("Successfully deleted State with id: " + stateId);
+        return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_STATE + stateId);
     }
 }

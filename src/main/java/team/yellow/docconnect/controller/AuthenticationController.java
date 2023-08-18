@@ -3,6 +3,7 @@ package team.yellow.docconnect.controller;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import team.yellow.docconnect.payload.dto.ChangePasswordDto;
+import team.yellow.docconnect.payload.dto.ForgotPasswordDto;
 import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
@@ -92,7 +95,7 @@ public class AuthenticationController {
         RestTemplate restTemplate = new RestTemplate();
 
         ClientRegistration googleRegistration = clientRegistrationRepository.findByRegistrationId("google");
-        if(googleRegistration != null) {
+        if (googleRegistration != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setBasicAuth(googleRegistration.getClientId(), googleRegistration.getClientSecret());
@@ -126,9 +129,8 @@ public class AuthenticationController {
             return new ResponseEntity<>(headerz, HttpStatus.FOUND);
 //            return ResponseEntity.ok(idToken);
 
-        }
-        else{
-            return  ResponseEntity.ok("invalid code");
+        } else {
+            return ResponseEntity.ok("invalid code");
         }
 
     }
@@ -142,7 +144,7 @@ public class AuthenticationController {
             description = "Http Status 201 CREATED"
     )
     @PostMapping(value = {"/register", "/signup"})
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto){
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto) {
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -157,7 +159,39 @@ public class AuthenticationController {
             description = "Http Status 201 CREATED"
     )
     @GetMapping("confirm")
-    public ResponseEntity<String> confirm(@RequestParam String token){
+    public ResponseEntity<String> confirm(@RequestParam String token) {
         return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
+    }
+
+    @Operation(
+            summary = "Change User Password REST API",
+            description = "Change User Password API is used to change the password of an existing user in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PatchMapping
+    public ResponseEntity<String> changePassword(
+            @RequestBody @Valid ChangePasswordDto changePasswordDto,
+            @RequestParam String token) {
+        String response = authService.changePassword(changePasswordDto, token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Forgot Password Request REST API",
+            description = "Forgot Password Request REST API is used to send reset token to user's email "
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @PostMapping("forgot")
+    public void forgotPassword(@Valid @RequestBody ForgotPasswordDto forgotPasswordDto) {
+        authService.forgotPassword(forgotPasswordDto);
     }
 }

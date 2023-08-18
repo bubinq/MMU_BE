@@ -1,6 +1,5 @@
 package team.yellow.docconnect.repository;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,16 +15,12 @@ import java.util.Optional;
 @Tag(name = "Confirmation Token Repository")
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
 
-    @Operation(
-            summary = "Get Confirmation Token By Token",
-            description = "Search Confirmation Token By Token is used to get confirmation token from the database"
-    )
     Optional<ConfirmationToken> findByToken(String token);
 
-    @Operation(
-            summary = "Update Confirmation Token's Confirmed Date",
-            description = "Update Confirmation Token's Confirmed Date is used to update confirmation token's confirmed date"
-    )
+    @Query(value = "SELECT user_id FROM confirmation_token where token=?1", nativeQuery = true)
+    Long findUserIdByToken(String token);
+
+
     @Transactional
     @Modifying
     @Query("UPDATE ConfirmationToken c " +

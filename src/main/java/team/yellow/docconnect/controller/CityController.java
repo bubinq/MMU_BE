@@ -13,6 +13,8 @@ import team.yellow.docconnect.payload.dto.CityDto;
 import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.service.CityService;
 import team.yellow.docconnect.utils.AppConstants;
+import team.yellow.docconnect.utils.Messages;
+
 @CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1/")
@@ -126,6 +128,6 @@ public class CityController {
     @DeleteMapping("cities/{cityId}")
     public ResponseEntity<String> deleteCityById(@PathVariable Long cityId) {
         cityService.deleteCityById(cityId);
-        return ResponseEntity.ok("Successfully deleted");
+        return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_MESSAGE);
     }
 }
