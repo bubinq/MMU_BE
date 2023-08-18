@@ -8,13 +8,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import team.yellow.docconnect.entity.ConfirmationToken;
 import team.yellow.docconnect.entity.Role;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
-import team.yellow.docconnect.payload.dto.GoogleUserDto;
-import team.yellow.docconnect.payload.dto.LoginDto;
-import team.yellow.docconnect.payload.dto.RegisterDto;
+import team.yellow.docconnect.payload.dto.*;
+import team.yellow.docconnect.repository.ConfirmationTokenRepository;
 import team.yellow.docconnect.repository.RoleRepository;
 import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
@@ -26,6 +28,7 @@ import team.yellow.docconnect.service.EmailService;
 import team.yellow.docconnect.utils.Messages;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -43,9 +46,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final EmailBuilderService emailBuilderService;
     private final EmailService emailService;
     private final ConfirmationTokenService confirmationTokenService;
+    private final TemplateEngine templateEngine;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
 
-
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService, TemplateEngine templateEngine, ConfirmationTokenRepository confirmationTokenRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -55,6 +59,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.emailBuilderService = emailBuilderService;
         this.emailService = emailService;
         this.confirmationTokenService = confirmationTokenService;
+        this.templateEngine = templateEngine;
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 
     @Override
@@ -89,9 +95,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = new User();
 
-        if(userRepository.existsByEmailIgnoreCase(googleUserDto.email())){
+        if (userRepository.existsByEmailIgnoreCase(googleUserDto.email())) {
             user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
-                    .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
 
         }
         user.setEmail(googleUserDto.email());
@@ -102,14 +108,48 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         userRepository.save(setRoles(user));
 
         user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
-                .orElseThrow( () ->new ResourceNotFoundException("User", "Email", googleUserDto.email()));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
 
         Authentication authentication = authenticationManager
-                        .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
 
+    }
+
+    @Override
+    public String changePassword(ChangePasswordDto changePasswordDto, String token) {
+        Long userId = confirmationTokenRepository.findUserIdByToken(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
+        userRepository.save(user);
+        return "Congratulations!" + "\nYour password has been successfully reset.";
+    }
+
+    @Override
+    public void forgotPassword(ForgotPasswordDto forgotPasswordDto) {
+        User userToResetPassword = userRepository
+                .findUserByEmailIgnoreCase(forgotPasswordDto.email())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", forgotPasswordDto.email()));
+
+        // Optional ---- TO DELETE
+        if (!userToResetPassword.getIsVerified()) {
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "User email is not verified!");
+        }
+
+        String userEmail = userToResetPassword.getEmail();
+        String token = createNewPasswordResetToken(userToResetPassword);
+
+        checkPasswordResetTokenIsValid(token);
+
+        String confirmationLink = "http://localhost:8080/api/v1/auth/reset?token=" + token;
+        Context context = getContext(userToResetPassword, confirmationLink);
+
+        emailService.sendMail("Email Reset Password", userEmail, templateEngine.process("email-forgot-password", context));
     }
 
     private User setRoles(User user) {
@@ -131,5 +171,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(registerDto.password()));
         user.setEmail(registerDto.email());
         return setRoles(user);
+    }
+
+    private String createNewPasswordResetToken(User user) {
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+        confirmationToken.setToken(token);
+        confirmationToken.setCreatedAt(LocalDateTime.now());
+        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
+        confirmationToken.setUser(user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
+        return token;
+    }
+
+    private void checkPasswordResetTokenIsValid(String token) {
+        Optional<ConfirmationToken> confirmationToken = confirmationTokenRepository.findByToken(token);
+        ConfirmationToken confirmToken = new ConfirmationToken();
+        if (confirmationToken.isPresent()) {
+            confirmToken = confirmationToken.get();
+        }
+        if (confirmToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "The token has expired or is invalid");
+        }
+    }
+
+    private Context getContext(User user, String confirmationLink) {
+        Context context = new Context();
+        context.setVariable("firstName", user.getFirstName());
+        context.setVariable("lastName", user.getLastName());
+        context.setVariable("link", confirmationLink);
+        return context;
     }
 }
