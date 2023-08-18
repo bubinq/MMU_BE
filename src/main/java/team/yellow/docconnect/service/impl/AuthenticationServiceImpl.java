@@ -20,6 +20,8 @@ import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
 import team.yellow.docconnect.security.JwtTokenProvider;
 import team.yellow.docconnect.service.AuthenticationService;
+import team.yellow.docconnect.service.EmailBuilderService;
+import team.yellow.docconnect.service.EmailService;
 import team.yellow.docconnect.utils.Messages;
 
 import java.io.IOException;
@@ -37,16 +39,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final GoogleTokenDecoder googleTokenDecoder;
+    private final EmailBuilderService emailBuilderService;
+    private final EmailService emailService;
 
 
-
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.googleTokenDecoder = googleTokenDecoder;
+        this.emailBuilderService = emailBuilderService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -65,6 +70,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = buildUser(registerDto);
         userRepository.save(user);
+        emailService.sendMail("Email Confirmation", registerDto.email(),
+                emailBuilderService.buildConfirmationMail(registerDto.firstName(),
+                "Confirmation url"));
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
 
