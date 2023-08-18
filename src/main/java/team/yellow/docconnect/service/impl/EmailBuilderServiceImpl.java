@@ -15,15 +15,18 @@ public class EmailBuilderServiceImpl implements EmailBuilderService {
     }
 
     @Override
-    public Context buildConfirmationMail(String firstName, String confirmationUrl) {
+    public String buildConfirmationMail(String firstName, String confirmationUrl) {
         Context context = new Context();
         context.setVariable("name", firstName);
         context.setVariable("link", confirmationUrl);
-        return context;
+        return templateEngine.process("email-confirmation", context);
     }
 
     @Override
-    public Context buildResetPasswordMail() {
-        return null;
+    public String buildResetPasswordMail(String firstName, String resetUrl) {
+        Context context = new Context();
+        context.setVariable("name", firstName);
+        context.setVariable("link", resetUrl);
+        return templateEngine.process("email-forgot-password", context);
     }
 }

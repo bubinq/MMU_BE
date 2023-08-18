@@ -1,8 +1,6 @@
 package team.yellow.docconnect.service;
 
-import org.thymeleaf.context.Context;
-
 public interface EmailBuilderService {
-    Context buildConfirmationMail(String firstName, String confirmationUrl);
-    Context buildResetPasswordMail();
+    String buildConfirmationMail(String firstName, String confirmationUrl);
+    String buildResetPasswordMail(String firstName, String resetUrl);
 }
