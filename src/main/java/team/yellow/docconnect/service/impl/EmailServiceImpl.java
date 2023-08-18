@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
                 .setSenderAddress(sender)
                 .setToRecipients(recipient)
                 .setSubject(subject)
-                .setBodyPlainText(body);
+                .setBodyHtml(body);
 
         SyncPoller<EmailSendResult, EmailSendResult> poller = emailClient.beginSend(message);
         PollResponse<EmailSendResult> response = poller.waitForCompletion();
