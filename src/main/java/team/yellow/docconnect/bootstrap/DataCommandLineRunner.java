@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-@Profile("dev")
+@Profile("daniel")
 public class DataCommandLineRunner implements CommandLineRunner {
 
     private final StateRepository stateRepository;
@@ -59,7 +59,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         admin.setEmail("admin@gmail.com");
         admin.setPassword(new BCryptPasswordEncoder().encode("!Admin123"));
         admin.setCreatedAt(LocalDateTime.now());
-        admin.setIsVerified(false);
+        admin.setIsEmailVerified(true);
+        admin.setIs_deleted(false);
+        admin.setPrivacy_policy_agreement(true);
+        admin.setIsOver18(true);
+        admin.setUser_agreement(true);
         admin.setRoles(rolesAdmin);
         userRepository.save(admin);
 
@@ -69,7 +73,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         martin.setEmail("martin@gmail.com");
         martin.setPassword(new BCryptPasswordEncoder().encode("!Martin123"));
         martin.setCreatedAt(LocalDateTime.now());
-        martin.setIsVerified(false);
+        martin.setIsEmailVerified(false);
+        martin.setIs_deleted(false);
+        martin.setPrivacy_policy_agreement(true);
+        martin.setIsOver18(true);
+        martin.setUser_agreement(true);
         martin.setRoles(rolesUser);
         userRepository.save(martin);
 
@@ -79,7 +87,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         ivan.setEmail("ivan@gmail.com");
         ivan.setPassword(new BCryptPasswordEncoder().encode("!Ivan123"));
         ivan.setCreatedAt(LocalDateTime.now());
-        ivan.setIsVerified(false);
+        ivan.setIsEmailVerified(false);
+        ivan.setIs_deleted(false);
+        ivan.setPrivacy_policy_agreement(true);
+        ivan.setIsOver18(true);
+        ivan.setUser_agreement(true);
         ivan.setRoles(rolesUser);
         userRepository.save(ivan);
 
@@ -89,7 +101,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         petar.setEmail("petar@gmail.com");
         petar.setPassword(new BCryptPasswordEncoder().encode("!Petar123"));
         petar.setCreatedAt(LocalDateTime.now());
-        petar.setIsVerified(false);
+        petar.setIsEmailVerified(false);
+        petar.setIs_deleted(false);
+        petar.setPrivacy_policy_agreement(true);
+        petar.setIsOver18(true);
+        petar.setUser_agreement(true);
         petar.setRoles(rolesUser);
         userRepository.save(petar);
 
@@ -99,7 +115,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         james.setEmail("james@gmail.com");
         james.setPassword(new BCryptPasswordEncoder().encode("!James123"));
         james.setCreatedAt(LocalDateTime.now());
-        james.setIsVerified(false);
+        james.setIsEmailVerified(false);
+        james.setIs_deleted(false);
+        james.setPrivacy_policy_agreement(true);
+        james.setIsOver18(true);
+        james.setUser_agreement(true);
         james.setRoles(rolesUser);
         userRepository.save(james);
 
@@ -109,7 +129,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         susan.setEmail("susan@gmail.com");
         susan.setPassword(new BCryptPasswordEncoder().encode("!Susan123"));
         susan.setCreatedAt(LocalDateTime.now());
-        susan.setIsVerified(false);
+        susan.setIsEmailVerified(false);
+        susan.setIs_deleted(false);
+        susan.setPrivacy_policy_agreement(true);
+        susan.setIsOver18(true);
+        susan.setUser_agreement(true);
         susan.setRoles(rolesUser);
         userRepository.save(susan);
 
@@ -119,7 +143,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         nash.setEmail("nash@gmail.com");
         nash.setPassword(new BCryptPasswordEncoder().encode("!Nash123"));
         nash.setCreatedAt(LocalDateTime.now());
-        nash.setIsVerified(false);
+        nash.setIsEmailVerified(false);
+        nash.setIs_deleted(false);
+        nash.setPrivacy_policy_agreement(true);
+        nash.setIsOver18(true);
+        nash.setUser_agreement(true);
         nash.setRoles(rolesUser);
         userRepository.save(nash);
 
@@ -129,7 +157,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         sammy.setEmail("sammy@gmail.com");
         sammy.setPassword(new BCryptPasswordEncoder().encode("!Sammy123"));
         sammy.setCreatedAt(LocalDateTime.now());
-        sammy.setIsVerified(false);
+        sammy.setIsEmailVerified(false);
+        sammy.setIs_deleted(false);
+        sammy.setPrivacy_policy_agreement(true);
+        sammy.setIsOver18(true);
+        sammy.setUser_agreement(true);
         sammy.setRoles(rolesUser);
         userRepository.save(sammy);
 
@@ -139,7 +171,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         kara.setEmail("kara@gmail.com");
         kara.setPassword(new BCryptPasswordEncoder().encode("!Kara123"));
         kara.setCreatedAt(LocalDateTime.now());
-        kara.setIsVerified(false);
+        kara.setIsEmailVerified(false);
+        kara.setIs_deleted(false);
+        kara.setPrivacy_policy_agreement(true);
+        kara.setIsOver18(true);
+        kara.setUser_agreement(true);
         kara.setRoles(rolesUser);
         userRepository.save(kara);
 
@@ -149,7 +185,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         devin.setEmail("devin@gmail.com");
         devin.setPassword(new BCryptPasswordEncoder().encode("!Devin123"));
         devin.setCreatedAt(LocalDateTime.now());
-        devin.setIsVerified(false);
+        devin.setIsEmailVerified(false);
+        devin.setIs_deleted(false);
+        devin.setPrivacy_policy_agreement(true);
+        devin.setIsOver18(true);
+        devin.setUser_agreement(true);
         devin.setRoles(rolesUser);
         userRepository.save(devin);
 
