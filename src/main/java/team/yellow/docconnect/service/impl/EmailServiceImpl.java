@@ -8,7 +8,9 @@ import com.azure.core.credential.AzureKeyCredential;
 import com.azure.core.util.polling.PollResponse;
 import com.azure.core.util.polling.SyncPoller;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.yellow.docconnect.service.EmailService;
 
 @Service
@@ -20,6 +22,9 @@ public class EmailServiceImpl implements EmailService {
     private String key;
     @Value("${email.sender}")
     private String sender;
+
+    @Async
+    @Transactional
     @Override
     public void sendMail(String subject, String recipient, String body) {
         AzureKeyCredential azureKeyCredential = new AzureKeyCredential(key);

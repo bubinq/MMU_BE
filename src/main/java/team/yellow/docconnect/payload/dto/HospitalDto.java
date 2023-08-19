@@ -15,6 +15,7 @@ public record HospitalDto(
         @Size(min = 4, message = "Hospital address should be at least 4 characters long")
         String address,
 
-        Long city_id
+        Long cityId,
+        Long stateId
 ) {
 }

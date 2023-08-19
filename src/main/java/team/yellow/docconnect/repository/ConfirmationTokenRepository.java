@@ -1,6 +1,5 @@
 package team.yellow.docconnect.repository;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
-@Tag(name = "Confirmation Token Repository")
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
 
     Optional<ConfirmationToken> findByToken(String token);

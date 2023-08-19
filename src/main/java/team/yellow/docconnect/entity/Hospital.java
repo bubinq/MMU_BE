@@ -25,6 +25,10 @@ public class Hospital {
     private String address;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "cityId")
     private City city;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "state_id")
+    private State state;
 }

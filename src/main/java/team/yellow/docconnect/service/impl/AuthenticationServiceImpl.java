@@ -10,14 +10,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import team.yellow.docconnect.entity.ConfirmationToken;
-import team.yellow.docconnect.entity.Role;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.*;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
-import team.yellow.docconnect.repository.RoleRepository;
 import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
 import team.yellow.docconnect.security.JwtTokenProvider;
@@ -25,13 +22,10 @@ import team.yellow.docconnect.service.AuthenticationService;
 import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.service.EmailBuilderService;
 import team.yellow.docconnect.service.EmailService;
+import team.yellow.docconnect.service.helper.AuthenticationServiceHelper;
 import team.yellow.docconnect.utils.Messages;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -39,7 +33,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final GoogleTokenDecoder googleTokenDecoder;
@@ -48,11 +41,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final TemplateEngine templateEngine;
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final AuthenticationServiceHelper authenticationServiceHelper;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService, TemplateEngine templateEngine, ConfirmationTokenRepository confirmationTokenRepository) {
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService, TemplateEngine templateEngine, ConfirmationTokenRepository confirmationTokenRepository, AuthenticationServiceHelper authenticationServiceHelper) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
         this.googleTokenDecoder = googleTokenDecoder;
@@ -61,6 +54,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.confirmationTokenService = confirmationTokenService;
         this.templateEngine = templateEngine;
         this.confirmationTokenRepository = confirmationTokenRepository;
+        this.authenticationServiceHelper = authenticationServiceHelper;
     }
 
     @Override
@@ -77,7 +71,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_EXISTS);
         }
 
-        User user = buildUser(registerDto);
+        User user = authenticationServiceHelper.buildNormalUser(registerDto);
         userRepository.save(user);
         String token = confirmationTokenService.createNewConfirmationToken(user);
         emailService.sendMail("Email Confirmation", registerDto.email(),
@@ -100,12 +94,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
 
         }
+
         user.setEmail(googleUserDto.email());
         user.setFirstName(googleUserDto.given_name());
         user.setLastName(googleUserDto.last_name());
         user.setPassword(encodedPassword);
-        user.setIsVerified(true);
-        userRepository.save(setRoles(user));
+        user.setIsEmailVerified(true);
+        user.setIsOver18(false);
+        user.setPrivacy_policy_agreement(true);
+        user.setUser_agreement(true);
+        user.setIs_deleted(false);
+        userRepository.save(authenticationServiceHelper.setRoles(user));
 
         user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
@@ -137,69 +136,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", forgotPasswordDto.email()));
 
         // Optional ---- TO DELETE
-        if (!userToResetPassword.getIsVerified()) {
+        if (!userToResetPassword.getIsEmailVerified()) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "User email is not verified!");
         }
 
         String userEmail = userToResetPassword.getEmail();
-        String token = createNewPasswordResetToken(userToResetPassword);
+        String token = authenticationServiceHelper.createNewPasswordResetToken(userToResetPassword);
 
-        checkPasswordResetTokenIsValid(token);
+        authenticationServiceHelper.checkPasswordResetTokenIsValid(token);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
-        Context context = getContext(userToResetPassword, confirmationLink);
+        Context context = authenticationServiceHelper.getForgotPasswordContext(userToResetPassword, confirmationLink);
 
         emailService.sendMail("Email Reset Password", userEmail, templateEngine.process("email-forgot-password", context));
-    }
-
-    private User setRoles(User user) {
-        Set<Role> roles = new HashSet<>();
-        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
-        Role role = new Role();
-        if (userRole.isPresent()) {
-            role = userRole.get();
-        }
-        roles.add(role);
-        user.setRoles(roles);
-        return user;
-    }
-
-    private User buildUser(RegisterDto registerDto) {
-        User user = new User();
-        user.setFirstName(registerDto.firstName());
-        user.setLastName(registerDto.lastName());
-        user.setPassword(passwordEncoder.encode(registerDto.password()));
-        user.setEmail(registerDto.email());
-        return setRoles(user);
-    }
-
-    private String createNewPasswordResetToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        confirmationToken.setCreatedAt(LocalDateTime.now());
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
-        confirmationToken.setUser(user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
-    }
-
-    private void checkPasswordResetTokenIsValid(String token) {
-        Optional<ConfirmationToken> confirmationToken = confirmationTokenRepository.findByToken(token);
-        ConfirmationToken confirmToken = new ConfirmationToken();
-        if (confirmationToken.isPresent()) {
-            confirmToken = confirmationToken.get();
-        }
-        if (confirmToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
-        }
-    }
-
-    private Context getContext(User user, String confirmationLink) {
-        Context context = new Context();
-        context.setVariable("firstName", user.getFirstName());
-        context.setVariable("lastName", user.getLastName());
-        context.setVariable("link", confirmationLink);
-        return context;
     }
 }
