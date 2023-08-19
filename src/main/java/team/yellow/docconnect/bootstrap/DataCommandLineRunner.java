@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-@Profile("daniel")
+@Profile("dev")
 public class DataCommandLineRunner implements CommandLineRunner {
 
     private final StateRepository stateRepository;
