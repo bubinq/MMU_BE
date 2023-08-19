@@ -17,7 +17,7 @@ import team.yellow.docconnect.utils.Messages;
 
 @CrossOrigin(maxAge = 999999999)
 @RestController
-@RequestMapping("api/v1/hospitals")
+@RequestMapping("api/v1")
 @Tag(name = "CRUD REST APIs for Hospital Resource")
 public class HospitalController {
 
@@ -39,9 +39,10 @@ public class HospitalController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
-    public ResponseEntity<HospitalDto> createHospital(@Valid @RequestBody HospitalDto hospitalDto) {
-        return new ResponseEntity<>(hospitalService.createHospital(hospitalDto), HttpStatus.CREATED);
+    @PostMapping("states/{stateId}/cities/{cityId}/hospitals")
+    public ResponseEntity<HospitalDto> createHospital(@Valid @RequestBody HospitalDto hospitalDto,
+                                                      @PathVariable Long stateId, @PathVariable Long cityId) {
+        return new ResponseEntity<>(hospitalService.createHospital(hospitalDto, stateId, cityId), HttpStatus.CREATED);
     }
 
     @Operation(
@@ -52,28 +53,49 @@ public class HospitalController {
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping("{id}")
+    @GetMapping("hospitals/{id}")
     public ResponseEntity<HospitalDto> getHospitalById(@PathVariable Long id) {
         return ResponseEntity.ok(hospitalService.getHospitalById(id));
     }
 
     @Operation(
-            summary = "Get All Hospitals REST API",
-            description = "Get All Hospitals REST API is used to fetch all the hospitals from the database"
+            summary = "Get All Hospitals By City REST API",
+            description = "Get All Hospitals By City REST API is used to fetch all the hospitals by city id from the database"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @GetMapping
-    public ResponseEntity<HospitalResponse> getAllHospitals
+    @GetMapping("cities/{cityId}/hospitals")
+    public ResponseEntity<HospitalResponse> getAllHospitalsByCity
             (
+                    @PathVariable Long cityId,
                     @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
                     @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
                     @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
                     @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
             ) {
-        return ResponseEntity.ok(hospitalService.getAllHospitals(pageNo, pageSize, sortBy, sortDir));
+        return ResponseEntity.ok(hospitalService.getAllHospitalsByCityId(cityId, pageNo, pageSize, sortBy, sortDir));
+    }
+
+    @Operation(
+            summary = "Get All Hospitals By State REST API",
+            description = "Get All Hospitals By State REST API is used to fetch all the hospitals by state id from the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @GetMapping("states/{stateId}/hospitals")
+    public ResponseEntity<HospitalResponse> getAllHospitalsByState
+            (
+                    @PathVariable Long stateId,
+                    @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+                    @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                    @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                    @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+            ) {
+        return ResponseEntity.ok(hospitalService.getAllHospitalsByStateId(stateId, pageNo, pageSize, sortBy, sortDir));
     }
 
     @Operation(
@@ -88,7 +110,7 @@ public class HospitalController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("{id}")
+    @PutMapping("hospitals/{id}")
     public ResponseEntity<HospitalDto> updateHospitalById(@RequestBody @Valid HospitalDto hospitalDto, @PathVariable Long id) {
         return ResponseEntity.ok(hospitalService.updateHospitalById(id, hospitalDto));
     }
@@ -105,7 +127,7 @@ public class HospitalController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("{id}")
+    @DeleteMapping("hospitals/{id}")
     public ResponseEntity<String> deleteHospitalById(@PathVariable Long id) {
         hospitalService.deleteHospitalById(id);
         return ResponseEntity.ok(Messages.SUCCESSFULLY_DELETED_MESSAGE);
