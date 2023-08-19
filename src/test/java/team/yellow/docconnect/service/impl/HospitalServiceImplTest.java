@@ -20,6 +20,7 @@ class HospitalServiceImplTest {
 
     @Mock
     private HospitalService hospitalService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -29,9 +30,10 @@ class HospitalServiceImplTest {
     void testCreateHospitalAndReturnHospitalDto() {
         Long hospitalId = 1L;
         Long cityId = 1L;
-        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId);
-        Mockito.when(hospitalService.createHospital(hospital)).thenReturn(hospital);
-        HospitalDto newHospital = hospitalService.createHospital(hospital);
+        Long stateId = 1L;
+        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId, stateId);
+        Mockito.when(hospitalService.createHospital(hospital, cityId, stateId)).thenReturn(hospital);
+        HospitalDto newHospital = hospitalService.createHospital(hospital, cityId, stateId);
         Assert.assertEquals(hospital, newHospital);
     }
 
@@ -39,7 +41,8 @@ class HospitalServiceImplTest {
     void testReturnHospitalDtoWhenProvidedValidId() {
         Long hospitalId = 1L;
         Long cityId = 1L;
-        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId);
+        Long stateId = 1L;
+        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId, stateId);
         Mockito.when(hospitalService.getHospitalById(hospitalId)).thenReturn(hospital);
         HospitalDto newHospital = hospitalService.getHospitalById(hospitalId);
         Assert.assertEquals(hospital, newHospital);
@@ -50,26 +53,54 @@ class HospitalServiceImplTest {
         Long validHospitalId = 1L;
         Long invalidHospitalId = 2L;
         Long cityId = 1L;
-        HospitalDto hospital = new HospitalDto(validHospitalId, "Hospital", "address", cityId);
+        Long stateId = 1L;
+        HospitalDto hospital = new HospitalDto(validHospitalId, "Hospital", "address", cityId, stateId);
         Mockito.when(hospitalService.getHospitalById(validHospitalId)).thenReturn(hospital);
         HospitalDto newHospital = hospitalService.getHospitalById(invalidHospitalId);
         Assert.assertNotEquals(hospital, newHospital);
     }
 
     @Test
-    void testReturnAllHospitalsPaginated() {
+    void testReturnAllHospitalsByCityIdPaginated() {
+        Long cityId = 1L;
         HospitalResponse expectedHospitalResponse = new HospitalResponse();
-        Mockito.when(hospitalService. getAllHospitals(
-
-                                Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
-                                Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
-                                AppConstants.DEFAULT_SORT_BY,
-                                AppConstants.DEFAULT_SORT_DIRECTION
-                        )
+        Mockito.when(hospitalService.getAllHospitalsByCityId(
+                        cityId,
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                        AppConstants.DEFAULT_SORT_BY,
+                        AppConstants.DEFAULT_SORT_DIRECTION
+                )
         ).thenReturn(expectedHospitalResponse);
 
-        HospitalResponse foundHospitalResponse = hospitalService.getAllHospitals
+        HospitalResponse foundHospitalResponse = hospitalService.getAllHospitalsByCityId
                 (
+                        cityId,
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                        AppConstants.DEFAULT_SORT_BY,
+                        AppConstants.DEFAULT_SORT_DIRECTION
+                );
+
+        Assert.assertEquals(expectedHospitalResponse, foundHospitalResponse);
+    }
+
+    @Test
+    void testReturnAllHospitalsByStateIdPaginated() {
+        Long stateId = 1L;
+        HospitalResponse expectedHospitalResponse = new HospitalResponse();
+        Mockito.when(hospitalService.getAllHospitalsByStateId(
+                        stateId,
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
+                        Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
+                        AppConstants.DEFAULT_SORT_BY,
+                        AppConstants.DEFAULT_SORT_DIRECTION
+                )
+        ).thenReturn(expectedHospitalResponse);
+
+        HospitalResponse foundHospitalResponse = hospitalService.getAllHospitalsByStateId
+                (
+                        stateId,
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_NUMBER),
                         Integer.parseInt(AppConstants.DEFAULT_PAGE_SIZE),
                         AppConstants.DEFAULT_SORT_BY,
@@ -83,8 +114,9 @@ class HospitalServiceImplTest {
     void testUpdateHospitalAndReturnHospitalDtoWhenProvidedValidId() {
         Long hospitalId = 1L;
         Long cityId = 1L;
-        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId);
-        Mockito.when(hospitalService.updateHospitalById(hospitalId,hospital)).thenReturn(hospital);
+        Long stateId = 1L;
+        HospitalDto hospital = new HospitalDto(hospitalId, "Hospital", "address", cityId, stateId);
+        Mockito.when(hospitalService.updateHospitalById(hospitalId, hospital)).thenReturn(hospital);
         HospitalDto newHospital = hospitalService.updateHospitalById(hospitalId, hospital);
         Assert.assertEquals(hospital, newHospital);
     }
@@ -94,8 +126,9 @@ class HospitalServiceImplTest {
         Long validHospitalId = 1L;
         Long invalidHospitalId = 2L;
         Long cityId = 1L;
-        HospitalDto hospital = new HospitalDto(validHospitalId, "Hospital", "address", cityId);
-        Mockito.when(hospitalService.updateHospitalById(validHospitalId,hospital)).thenReturn(hospital);
+        Long stateId = 1L;
+        HospitalDto hospital = new HospitalDto(validHospitalId, "Hospital", "address", cityId, stateId);
+        Mockito.when(hospitalService.updateHospitalById(validHospitalId, hospital)).thenReturn(hospital);
         HospitalDto newHospital = hospitalService.updateHospitalById(invalidHospitalId, hospital);
         Assert.assertNotEquals(hospital, newHospital);
     }
