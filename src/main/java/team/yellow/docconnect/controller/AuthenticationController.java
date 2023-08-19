@@ -174,7 +174,7 @@ public class AuthenticationController {
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
-    @PatchMapping
+    @PatchMapping("changePassword")
     public ResponseEntity<String> changePassword(
             @RequestBody @Valid ChangePasswordDto changePasswordDto,
             @RequestParam String token) {
