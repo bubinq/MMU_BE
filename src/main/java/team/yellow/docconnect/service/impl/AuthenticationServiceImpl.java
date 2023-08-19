@@ -100,7 +100,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setLastName(googleUserDto.last_name());
         user.setPassword(encodedPassword);
         user.setIsEmailVerified(true);
-        user.setIsOver18(false);
+        user.setIsOver18(true);
         user.setPrivacy_policy_agreement(true);
         user.setUser_agreement(true);
         user.setIs_deleted(false);
