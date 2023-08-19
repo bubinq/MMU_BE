@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -24,10 +23,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String firstName;
 
-//    @Column(nullable = false)
+    //    @Column(nullable = false)
     private String lastName;
 
     @Column(nullable = false, unique = true)
@@ -39,9 +38,18 @@ public class User {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Generated
-    @ColumnDefault(value = "false")
-    private Boolean isVerified;
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    private Boolean isEmailVerified;
+
+    private Boolean isOver18;
+
+    private Boolean privacy_policy_agreement;
+
+    private Boolean user_agreement;
+
+    private Boolean is_deleted;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
