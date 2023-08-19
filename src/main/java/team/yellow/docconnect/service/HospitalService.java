@@ -5,11 +5,13 @@ import team.yellow.docconnect.payload.response.HospitalResponse;
 
 public interface HospitalService {
 
-    HospitalDto createHospital(HospitalDto hospitalDto);
+    HospitalDto createHospital(HospitalDto hospitalDto, Long cityId, Long stateId);
 
     HospitalDto getHospitalById(Long id);
 
-    HospitalResponse getAllHospitals(int pageNo, int pageSize, String sortBy, String sortDir);
+    HospitalResponse getAllHospitalsByCityId(Long cityId, int pageNo, int pageSize, String sortBy, String sortDir);
+
+    HospitalResponse getAllHospitalsByStateId(Long stateId, int pageNo, int pageSize, String sortBy, String sortDir);
 
     HospitalDto updateHospitalById(Long id, HospitalDto hospitalDto);
 

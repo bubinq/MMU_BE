@@ -78,6 +78,8 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor","Id", doctorId));
         City foundCity = cityRepository.findById(doctorDto.cityId())
                 .orElseThrow(() -> new ResourceNotFoundException("City", "Id", doctorDto.cityId()));
+        State foundState = stateRepository.findById(doctorDto.stateId())
+                .orElseThrow(() -> new ResourceNotFoundException("State", "Id", doctorDto.stateId()));
         foundDoctor.setEducation(doctorDto.education());
         foundDoctor.setExperience(doctorDto.experience());
         foundDoctor.setSummary(doctorDto.summary());
@@ -86,6 +88,7 @@ public class DoctorServiceImpl implements DoctorService {
         foundDoctor.setLastName(doctorDto.lastName());
         foundDoctor.setEmail(doctorDto.email());
         foundDoctor.setCity(foundCity);
+        foundDoctor.setState(foundState);
         return DoctorMapper.INSTANCE.entityToDTO(doctorRepository.save(foundDoctor));
     }
 

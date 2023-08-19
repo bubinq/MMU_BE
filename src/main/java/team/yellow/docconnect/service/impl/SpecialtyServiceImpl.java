@@ -12,16 +12,17 @@ import team.yellow.docconnect.payload.mapper.SpecialtyMapper;
 import team.yellow.docconnect.payload.response.SpecialtyResponse;
 import team.yellow.docconnect.repository.SpecialtyRepository;
 import team.yellow.docconnect.service.SpecialtyService;
-
-import java.util.List;
+import team.yellow.docconnect.service.helper.SpecialtyServiceHelper;
 
 @Service
 public class SpecialtyServiceImpl implements SpecialtyService {
 
     private final SpecialtyRepository specialtyRepository;
+    private final SpecialtyServiceHelper specialtyServiceHelper;
 
-    public SpecialtyServiceImpl(SpecialtyRepository specialtyRepository) {
+    public SpecialtyServiceImpl(SpecialtyRepository specialtyRepository, SpecialtyServiceHelper specialtyServiceHelper) {
         this.specialtyRepository = specialtyRepository;
+        this.specialtyServiceHelper = specialtyServiceHelper;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class SpecialtyServiceImpl implements SpecialtyService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Specialty> allSpecialties = specialtyRepository.findAll(pageable);
-        return getSpecialtyResponse(allSpecialties);
+        return specialtyServiceHelper.getSpecialtyResponse(allSpecialties);
     }
 
     @Override
@@ -60,16 +61,5 @@ public class SpecialtyServiceImpl implements SpecialtyService {
         Specialty specialty = specialtyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty", "id", id));
         specialtyRepository.delete(specialty);
-    }
-
-    private SpecialtyResponse getSpecialtyResponse(Page<Specialty> allSpecialties) {
-        List<SpecialtyDto> content = SpecialtyMapper.INSTANCE.entityToDTO(allSpecialties.getContent());
-        SpecialtyResponse specialtyResponse = new SpecialtyResponse(content);
-        specialtyResponse.setPageNo(allSpecialties.getNumber());
-        specialtyResponse.setLast(allSpecialties.isLast());
-        specialtyResponse.setTotalPages(allSpecialties.getTotalPages());
-        specialtyResponse.setPageSize(allSpecialties.getSize());
-        specialtyResponse.setTotalElements(allSpecialties.getTotalElements());
-        return specialtyResponse;
     }
 }

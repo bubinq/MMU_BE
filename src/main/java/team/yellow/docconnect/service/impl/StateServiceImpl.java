@@ -12,16 +12,17 @@ import team.yellow.docconnect.payload.mapper.StateMapper;
 import team.yellow.docconnect.payload.response.StateResponse;
 import team.yellow.docconnect.repository.StateRepository;
 import team.yellow.docconnect.service.StateService;
-
-import java.util.List;
+import team.yellow.docconnect.service.helper.StateServiceHelper;
 
 @Service
 public class StateServiceImpl implements StateService {
 
     private final StateRepository stateRepository;
+    private final StateServiceHelper stateServiceHelper;
 
-    public StateServiceImpl(StateRepository stateRepository) {
+    public StateServiceImpl(StateRepository stateRepository, StateServiceHelper stateServiceHelper) {
         this.stateRepository = stateRepository;
+        this.stateServiceHelper = stateServiceHelper;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class StateServiceImpl implements StateService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<State> states = stateRepository.findAll(pageable);
-        return getResponse(states);
+        return stateServiceHelper.getStateResponse(states);
     }
 
     @Override
@@ -60,16 +61,5 @@ public class StateServiceImpl implements StateService {
         State foundState = stateRepository.findById(stateId)
                 .orElseThrow(() -> new ResourceNotFoundException("State", "Id", stateId));
         stateRepository.delete(foundState);
-    }
-
-    private StateResponse getResponse(Page<State> states) {
-        List<StateDto> content = StateMapper.INSTANCE.entityToDTO(states.getContent());
-        StateResponse stateResponse = new StateResponse(content);
-        stateResponse.setPageNo(states.getNumber());
-        stateResponse.setLast(states.isLast());
-        stateResponse.setTotalPages(states.getTotalPages());
-        stateResponse.setPageSize(states.getSize());
-        stateResponse.setTotalElements(states.getTotalElements());
-        return stateResponse;
     }
 }

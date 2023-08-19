@@ -14,18 +14,19 @@ import team.yellow.docconnect.payload.response.CityResponse;
 import team.yellow.docconnect.repository.CityRepository;
 import team.yellow.docconnect.repository.StateRepository;
 import team.yellow.docconnect.service.CityService;
-
-import java.util.List;
+import team.yellow.docconnect.service.helper.CityServiceHelper;
 
 @Service
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
     private final StateRepository stateRepository;
+    private final CityServiceHelper cityServiceHelper;
 
-    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository) {
+    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository, CityServiceHelper cityServiceHelper) {
         this.cityRepository = cityRepository;
         this.stateRepository = stateRepository;
+        this.cityServiceHelper = cityServiceHelper;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class CityServiceImpl implements CityService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<City> allCities = cityRepository.findAll(pageable);
-        return getResponse(allCities);
+        return cityServiceHelper.getCityResponse(allCities);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class CityServiceImpl implements CityService {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<City> content = cityRepository.findAllByState_Id(stateId, pageable);
-        return getResponse(content);
+        return cityServiceHelper.getCityResponse(content);
     }
 
 
@@ -78,16 +79,5 @@ public class CityServiceImpl implements CityService {
         City foundCity = cityRepository.findById(cityId)
                 .orElseThrow(() -> new ResourceNotFoundException("City", "Id", cityId));
         cityRepository.delete(foundCity);
-    }
-
-    private CityResponse getResponse(Page<City> cities) {
-        List<CityDto> allCities = CityMapper.INSTANCE.entityToDTO(cities.getContent());
-        CityResponse cityResponse = new CityResponse(allCities);
-        cityResponse.setPageNo(cities.getNumber());
-        cityResponse.setLast(cities.isLast());
-        cityResponse.setTotalPages(cities.getTotalPages());
-        cityResponse.setPageSize(cities.getSize());
-        cityResponse.setTotalElements(cities.getTotalElements());
-        return cityResponse;
     }
 }
