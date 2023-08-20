@@ -73,6 +73,10 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/auth/**").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**").permitAll()
+                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/signin").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/signup").permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
