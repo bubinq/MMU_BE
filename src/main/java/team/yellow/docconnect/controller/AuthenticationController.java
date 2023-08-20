@@ -29,7 +29,6 @@ import java.util.Objects;
 
 @Slf4j
 @RestController
-@CrossOrigin(maxAge = 999999999)
 @RequestMapping("api/v1/auth")
 @Tag(name = "Login and Register REST APIs for Authentication Resource")
 public class AuthenticationController {

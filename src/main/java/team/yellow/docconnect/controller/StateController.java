@@ -15,7 +15,6 @@ import team.yellow.docconnect.service.StateService;
 import team.yellow.docconnect.utils.AppConstants;
 import team.yellow.docconnect.utils.Messages;
 
-@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("/api/v1/states")
 @Tag(name = "CRUD REST APIs for State Resource")
