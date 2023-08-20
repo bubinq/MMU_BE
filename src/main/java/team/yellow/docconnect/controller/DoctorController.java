@@ -15,7 +15,6 @@ import team.yellow.docconnect.service.DoctorService;
 import team.yellow.docconnect.utils.AppConstants;
 import team.yellow.docconnect.utils.Messages;
 
-@CrossOrigin(maxAge = 999999999)
 @RestController
 @RequestMapping("api/v1")
 @Tag(name = "CRUD REST APIs for Doctor Resource")
