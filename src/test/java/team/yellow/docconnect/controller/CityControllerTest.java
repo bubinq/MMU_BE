@@ -178,7 +178,7 @@ class CityControllerTest {
         cityService.createCity(cityToDelete, 1L);
         ResponseEntity<String> receivedResponse = cityController.deleteCityById(validCityId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals("Successfully deleted", receivedResponse.getBody());
+        Assertions.assertEquals("Successfully deleted!", receivedResponse.getBody());
 
     }
 }
