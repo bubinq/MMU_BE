@@ -252,7 +252,7 @@ class DoctorControllerTest {
         doctorService.createDoctor(doctorToDelete, 1L, 1L, 1L);
         ResponseEntity<String> receivedResponse = doctorController.deleteDoctorById(doctorId);
         Assertions.assertEquals(HttpStatus.OK, receivedResponse.getStatusCode());
-        Assertions.assertEquals("Successfully deleted Doctor with id:"+ doctorId, receivedResponse.getBody());
+        Assertions.assertEquals("Successfully deleted Doctor with id: "+ doctorId, receivedResponse.getBody());
 
     }
 
