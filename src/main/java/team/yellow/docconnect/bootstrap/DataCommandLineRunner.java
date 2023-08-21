@@ -201,7 +201,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
         tokenTypeRepository.save(tokenType);
 
         TokenType tokenType2 = new TokenType();
-        tokenType.setName("Confirmation_Token");
+        tokenType2.setName("Confirmation_Token");
         tokenTypeRepository.save(tokenType2);
 
         State alabama = new State();
