@@ -14,6 +14,7 @@ public class Messages {
     public static final String SUCCESSFULLY_DELETED_MESSAGE = "Successfully deleted!";
     public static final String INCORRECT_CREDENTIALS = "Incorrect email or password. Please try again.";
     public static final String TOKEN_EXPIRED_INVALID = "The token has expired or is invalid";
+    public static final String PREVIOUS_TOKEN_NOT_EXPIRED = "A previous token has not expired yet";
     public static final String SUCCESSFULLY_PASSWORD_RESET = "Congratulations!" + "\nYour password has been successfully reset.";
     public static final String SUCCESSFULLY_VERIFIED_EMAIL = "Congratulations!" + "\nYour email has been successfully verified.";
     public static final String EMAIL_ALREADY_VERIFIED = "Your email has already been verified.";

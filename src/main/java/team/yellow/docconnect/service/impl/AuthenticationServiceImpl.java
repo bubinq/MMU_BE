@@ -118,7 +118,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        confirmationTokenService.validateResetToken(token);
+        confirmationTokenService.validateConfirmationToken(token,"Reset_Token");
 
         user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
         userRepository.save(user);
@@ -176,19 +176,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Verification_Token")
                 .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Verification_Token"));
-        String token = confirmationTokenService.createNewConfirmationToken(user,tokenType);
 
-        authenticationServiceHelper.checkEmailVerificationTokenIsValid(token);
+        if(user.getIsEmailVerified()) {
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Email already confirmed");
+        }
+
+        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userId,tokenType.getId());
+        if(lastToken!=null) {
+            confirmationTokenService.checkTokenExpired(lastToken);
+        }
+
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+        authenticationServiceHelper.checkEmailVerificationTokenIsValid(newToken);
 
         emailService.sendMail("Email Confirmation", user.getEmail(),
                 emailBuilderService.buildConfirmationMail(user.getFirstName(),
-                        "http://localhost:5173/auth/confirm?token=" + token));
+                        "http://localhost:5173/auth/confirm?token=" + newToken));
         return Messages.SUCCESSFULLY_RESEND_VERIFICATION_EMAIL;
     }
 
     @Override
     public String verifyEmail( String token) {
-        confirmationTokenService.validateVerificationToken(token);
+        confirmationTokenService.validateConfirmationToken(token,"Verification_Token");
 
         Long userId = confirmationTokenRepository.findUserIdByToken(token);
         User user = userRepository.findById(userId)
