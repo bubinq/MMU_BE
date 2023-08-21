@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
@@ -135,8 +134,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationServiceHelper.checkPasswordResetTokenIsValid(token);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
-        Context context = authenticationServiceHelper.getForgotPasswordContext(userToResetPassword, confirmationLink);
+        emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
+                .buildResetPasswordMail(userToResetPassword, confirmationLink));
+    }
 
-        emailService.sendMail("Email Reset Password", userEmail, templateEngine.process("email-forgot-password", context));
+    @Override
+    public String resendForgotPassword(String token) {
+        Long userId = confirmationTokenRepository.findUserIdByToken(token);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        String userEmail = user.getEmail();
+        String newToken = authenticationServiceHelper.createNewPasswordResetToken(user);
+
+        String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
+        emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
+                .buildResetPasswordMail(user, confirmationLink));
+
+        return Messages.SUCCESSFULLY_RESEND_FORGOT_PASSWORD;
     }
 }

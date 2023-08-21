@@ -18,4 +18,6 @@ public interface AuthenticationService {
     String changePassword(ChangePasswordDto changePasswordDto, String token);
 
     void forgotPassword(ForgotPasswordDto forgotPasswordDto);
+
+    String resendForgotPassword(String token);
 }

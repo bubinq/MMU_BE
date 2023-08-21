@@ -3,6 +3,7 @@ package team.yellow.docconnect.service.impl;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.service.EmailBuilderService;
 
 @Service
@@ -23,9 +24,10 @@ public class EmailBuilderServiceImpl implements EmailBuilderService {
     }
 
     @Override
-    public String buildResetPasswordMail(String firstName, String resetUrl) {
+    public String buildResetPasswordMail(User user, String resetUrl) {
         Context context = new Context();
-        context.setVariable("name", firstName);
+        context.setVariable("firstName", user.getFirstName());
+        context.setVariable("lastName", user.getLastName());
         context.setVariable("link", resetUrl);
         return templateEngine.process("email-forgot-password", context);
     }
