@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +16,11 @@ import team.yellow.docconnect.service.SpecialtyService;
 import team.yellow.docconnect.service.helper.SpecialtyServiceHelper;
 
 @Service
+@AllArgsConstructor
 public class SpecialtyServiceImpl implements SpecialtyService {
 
     private final SpecialtyRepository specialtyRepository;
     private final SpecialtyServiceHelper specialtyServiceHelper;
-
-    public SpecialtyServiceImpl(SpecialtyRepository specialtyRepository, SpecialtyServiceHelper specialtyServiceHelper) {
-        this.specialtyRepository = specialtyRepository;
-        this.specialtyServiceHelper = specialtyServiceHelper;
-    }
 
     @Override
     public SpecialtyDto createSpecialty(SpecialtyDto specialtyDto) {

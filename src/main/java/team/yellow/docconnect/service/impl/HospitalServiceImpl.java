@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,7 @@ import team.yellow.docconnect.service.HospitalService;
 import team.yellow.docconnect.service.helper.HospitalServiceHelper;
 
 @Service
+@AllArgsConstructor
 public class HospitalServiceImpl implements HospitalService {
 
     private final HospitalRepository hospitalRepository;
@@ -26,12 +28,6 @@ public class HospitalServiceImpl implements HospitalService {
     private final HospitalServiceHelper hospitalServiceHelper;
     private final StateRepository stateRepository;
 
-    public HospitalServiceImpl(HospitalRepository hospitalRepository, CityRepository cityRepository, HospitalServiceHelper hospitalServiceHelper, StateRepository stateRepository) {
-        this.hospitalRepository = hospitalRepository;
-        this.cityRepository = cityRepository;
-        this.hospitalServiceHelper = hospitalServiceHelper;
-        this.stateRepository = stateRepository;
-    }
 
     @Override
     public HospitalDto createHospital(HospitalDto hospitalDto, Long stateId, Long cityId) {

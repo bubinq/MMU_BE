@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,22 +23,14 @@ import team.yellow.docconnect.service.DoctorService;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorRepository doctorRepository;
     private final CityRepository cityRepository;
-
     private final StateRepository stateRepository;
     private final SpecialtyRepository specialtyRepository;
 
-
-    public DoctorServiceImpl(DoctorRepository doctorRepository, CityRepository cityRepository,
-                             StateRepository stateRepository, SpecialtyRepository specialtyRepository) {
-        this.doctorRepository = doctorRepository;
-        this.cityRepository = cityRepository;
-        this.stateRepository = stateRepository;
-        this.specialtyRepository = specialtyRepository;
-    }
 
     @Override
     public DoctorDto createDoctor(DoctorDto doctorDto, Long cityId, Long stateId, Long specialtyId) {
