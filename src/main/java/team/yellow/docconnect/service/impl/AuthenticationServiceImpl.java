@@ -137,9 +137,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String userEmail = userToResetPassword.getEmail();
-        TokenType resetToken =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
+        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
                 .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
-        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,resetToken);
+
+        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userToResetPassword.getId(),tokenType.getId());
+        if(lastToken!=null) {
+            confirmationTokenService.checkTokenExpired(lastToken);
+        }
+
+        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,tokenType);
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
@@ -157,9 +163,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String userEmail = user.getEmail();
 
-        TokenType resetToken =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
+        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
                 .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
-        String newToken = confirmationTokenService.createNewConfirmationToken(user,resetToken);
+
+        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userId,tokenType.getId());
+        if(lastToken!=null) {
+            confirmationTokenService.checkTokenExpired(lastToken);
+        }
+
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,tokenType);
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 

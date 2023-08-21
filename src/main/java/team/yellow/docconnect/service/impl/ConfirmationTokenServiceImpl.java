@@ -31,10 +31,10 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
         if(confirmationToken.getConfirmedAt() != null){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Email already confirmed");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
         }
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Expired Token");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST,Messages.TOKEN_EXPIRED_INVALID );
         }
         if(!confirmationToken.getTokenType().getName().equalsIgnoreCase(tokenTypeName)){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
