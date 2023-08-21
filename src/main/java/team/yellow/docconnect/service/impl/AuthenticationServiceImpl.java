@@ -9,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
@@ -40,7 +39,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final EmailBuilderService emailBuilderService;
     private final EmailService emailService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final TemplateEngine templateEngine;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AuthenticationServiceHelper authenticationServiceHelper;
 
@@ -112,6 +110,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
+        confirmationTokenService.validateResetToken(token);
+
         user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
         userRepository.save(user);
         return Messages.SUCCESSFULLY_PASSWORD_RESET;
@@ -129,7 +129,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String userEmail = userToResetPassword.getEmail();
-        String token = authenticationServiceHelper.createNewPasswordResetToken(userToResetPassword);
+        String token = confirmationTokenService.createNewResetToken(userToResetPassword);
 
         authenticationServiceHelper.checkPasswordResetTokenIsValid(token);
 
@@ -146,7 +146,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         String userEmail = user.getEmail();
-        String newToken = authenticationServiceHelper.createNewPasswordResetToken(user);
+        String newToken = confirmationTokenService.createNewResetToken(user);
+
+        authenticationServiceHelper.checkPasswordResetTokenIsValid(newToken);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
         emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
