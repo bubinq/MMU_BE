@@ -135,7 +135,7 @@ public class AuthenticationController {
             description = "Register User REST API is used to save user into database"
     )
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             description = "Http Status 201 CREATED"
     )
     @PostMapping(value = {"/register", "/signup"})
@@ -144,37 +144,31 @@ public class AuthenticationController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "Send Email Verification REST API",
+            description = "Send Email Verification REST API is used to send to the user's email a confirmation link"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @PostMapping("send-email-verification")
+    public ResponseEntity<String> sendEmailVerification(@RequestParam Long userId) {
+        String response = authService.sendEmailVerification(userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @Operation(
             summary = "Confirm User's Email REST API",
             description = "Confirm User's Email REST API is used to confirm a new user's email by confirmation token"
     )
     @ApiResponse(
-            responseCode = "201",
-            description = "Http Status 201 CREATED"
-    )
-    @GetMapping("confirm")
-    public ResponseEntity<String> confirm(@RequestParam String token) {
-        return ResponseEntity.ok(confirmationTokenService.confirmToken(token));
-    }
-
-    @Operation(
-            summary = "Change User Password REST API",
-            description = "Change User Password API is used to change the password of an existing user in the database"
-    )
-    @ApiResponse(
             responseCode = "200",
             description = "Http Status 200 SUCCESS"
     )
-    @SecurityRequirement(
-            name = "Bearer Authentication"
-    )
-    @PatchMapping("change-password")
-    public ResponseEntity<String> changePassword(
-            @RequestBody @Valid ChangePasswordDto changePasswordDto,
-            @RequestParam String token) {
-        String response = authService.changePassword(changePasswordDto, token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("verify-email")
+    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
+        return ResponseEntity.ok(authService.verifyEmail(token));
     }
 
     @Operation(
@@ -201,5 +195,24 @@ public class AuthenticationController {
     @PostMapping("resend-forgot")
     public ResponseEntity<String> resendForgotPassword(@RequestParam String token){
         return ResponseEntity.ok(authService.resendForgotPassword(token));
+    }
+
+    @Operation(
+            summary = "Change User Password REST API",
+            description = "Change User Password API is used to change the password of an existing user in the database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @SecurityRequirement(
+            name = "Bearer Authentication"
+    )
+    @PatchMapping("change-password")
+    public ResponseEntity<String> changePassword(
+            @RequestBody @Valid ChangePasswordDto changePasswordDto,
+            @RequestParam String token) {
+        String response = authService.changePassword(changePasswordDto, token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

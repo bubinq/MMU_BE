@@ -15,9 +15,12 @@ public class Messages {
     public static final String INCORRECT_CREDENTIALS = "Incorrect email or password. Please try again.";
     public static final String TOKEN_EXPIRED_INVALID = "The token has expired or is invalid";
     public static final String SUCCESSFULLY_PASSWORD_RESET = "Congratulations!" + "\nYour password has been successfully reset.";
+    public static final String SUCCESSFULLY_VERIFIED_EMAIL = "Congratulations!" + "\nYour email has been successfully verified.";
+    public static final String EMAIL_ALREADY_VERIFIED = "Your email has already been verified.";
     public static final String SUCCESSFULLY_DELETED_DOCTOR = "Successfully deleted Doctor with id: ";
     public static final String SUCCESSFULLY_DELETED_STATE = "Successfully deleted State with id: ";
     public static final String SUCCESSFULLY_RESEND_FORGOT_PASSWORD = "Successfully resend reset password link to your email";
+    public static final String SUCCESSFULLY_RESEND_VERIFICATION_EMAIL = "Successfully resend verification link to your email";
     public static final String INVALID_TOKEN_TYPE ="Invalid Token type";
 
 }

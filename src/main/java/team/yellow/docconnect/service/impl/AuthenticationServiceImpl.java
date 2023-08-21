@@ -9,11 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import team.yellow.docconnect.entity.TokenType;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.*;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
+import team.yellow.docconnect.repository.TokenTypeRepository;
 import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
 import team.yellow.docconnect.security.JwtTokenProvider;
@@ -41,6 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AuthenticationServiceHelper authenticationServiceHelper;
+    private final TokenTypeRepository tokenTypeRepository;
 
 
     @Override
@@ -59,10 +62,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
         userRepository.save(user);
-        String token = confirmationTokenService.createNewConfirmationToken(user);
+
+        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Verification_Token")
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Verification_Token"));
+        String token = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
                         "http://localhost:5173/auth/confirm?token=" + token));
+
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
 
@@ -129,9 +137,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String userEmail = userToResetPassword.getEmail();
-        String token = confirmationTokenService.createNewResetToken(userToResetPassword);
+        TokenType resetToken =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
+        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,resetToken);
 
-        authenticationServiceHelper.checkPasswordResetTokenIsValid(token);
+        authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
         emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
@@ -146,9 +156,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         String userEmail = user.getEmail();
-        String newToken = confirmationTokenService.createNewResetToken(user);
 
-        authenticationServiceHelper.checkPasswordResetTokenIsValid(newToken);
+        TokenType resetToken =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,resetToken);
+
+        authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
         emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
@@ -156,4 +169,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return Messages.SUCCESSFULLY_RESEND_FORGOT_PASSWORD;
     }
+
+    @Override
+    public String sendEmailVerification(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Verification_Token")
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Verification_Token"));
+        String token = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+
+        authenticationServiceHelper.checkEmailVerificationTokenIsValid(token);
+
+        emailService.sendMail("Email Confirmation", user.getEmail(),
+                emailBuilderService.buildConfirmationMail(user.getFirstName(),
+                        "http://localhost:5173/auth/confirm?token=" + token));
+        return Messages.SUCCESSFULLY_RESEND_VERIFICATION_EMAIL;
+    }
+
+    @Override
+    public String verifyEmail( String token) {
+        confirmationTokenService.validateVerificationToken(token);
+
+        Long userId = confirmationTokenRepository.findUserIdByToken(token);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        userRepository.confirmEmail(user.getEmail());
+        userRepository.save(user);
+
+        return Messages.SUCCESSFULLY_VERIFIED_EMAIL;
+    }
+
 }

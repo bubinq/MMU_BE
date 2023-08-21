@@ -31,7 +31,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
-    public String confirmToken(String token) {
+    public void validateVerificationToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
         if(confirmationToken.getConfirmedAt() != null){
@@ -40,12 +40,10 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Expired Token");
         }
-        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Confirmation_Token")){
+        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Verification_Token")){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
         }
         setConfirmationDate(token);
-        userRepository.confirmEmail(confirmationToken.getUser().getEmail());
-        return "Successfully confirmed";
     }
 
     @Override
@@ -71,12 +69,10 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
-    public String createNewConfirmationToken(User user) {
+    public String createNewConfirmationToken(User user, TokenType tokenType) {
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken();
         confirmationToken.setToken(token);
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Confirmation_Token")
-                        .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Confirmation_Token"));
         confirmationToken.setTokenType(tokenType);
         confirmationToken.setCreatedAt(LocalDateTime.now());
         confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
@@ -85,21 +81,4 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         this.saveConfirmationToken(confirmationToken);
         return token;
     }
-
-    @Override
-    public String createNewResetToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
-        confirmationToken.setTokenType(tokenType);
-        confirmationToken.setCreatedAt(LocalDateTime.now());
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
-        confirmationToken.setUser(user);
-
-        this.saveConfirmationToken(confirmationToken);
-        return token;
-    }
-
 }
