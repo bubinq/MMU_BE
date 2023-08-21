@@ -15,7 +15,7 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     Optional<ConfirmationToken> findByToken(String token);
 
-    @Query(value = "SELECT user_id FROM confirmation_token where token=?1", nativeQuery = true)
+    @Query(value = "SELECT user_id FROM token where token_value=?1", nativeQuery = true)
     Long findUserIdByToken(String token);
 
 

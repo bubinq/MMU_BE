@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "confirmation_token")
+@Table(name = "token")
 public class ConfirmationToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "token_value")
     private String token;
 
     @Column(nullable = false)
@@ -33,4 +33,8 @@ public class ConfirmationToken {
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "token_type_id")
+    private TokenType tokenType;
 }

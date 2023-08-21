@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.helper;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -10,29 +11,22 @@ import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
 import team.yellow.docconnect.repository.RoleRepository;
-import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.utils.Messages;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Component
+@AllArgsConstructor
 public class AuthenticationServiceHelper {
 
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
-    public AuthenticationServiceHelper(RoleRepository roleRepository, PasswordEncoder passwordEncoder, ConfirmationTokenService confirmationTokenService, ConfirmationTokenRepository confirmationTokenRepository) {
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.confirmationTokenService = confirmationTokenService;
-        this.confirmationTokenRepository = confirmationTokenRepository;
-    }
+
 
     public User setRoles(User user) {
         Set<Role> roles = new HashSet<>();
@@ -60,16 +54,6 @@ public class AuthenticationServiceHelper {
         return setRoles(user);
     }
 
-    public String createNewPasswordResetToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        confirmationToken.setCreatedAt(LocalDateTime.now());
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
-        confirmationToken.setUser(user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
-    }
 
     public void checkPasswordResetTokenIsValid(String token) {
         Optional<ConfirmationToken> confirmationToken = confirmationTokenRepository.findByToken(token);

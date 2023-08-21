@@ -8,8 +8,9 @@ public interface ConfirmationTokenService {
     void saveConfirmationToken(ConfirmationToken token);
     String confirmToken(String token);
 
-    ConfirmationToken confirmResetToken(String token);
+    void validateResetToken(String token);
     void setConfirmationDate(String token);
 
     String createNewConfirmationToken(User user);
+    String createNewResetToken(User user);
 }
