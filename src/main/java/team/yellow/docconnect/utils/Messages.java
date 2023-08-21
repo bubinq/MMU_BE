@@ -18,5 +18,6 @@ public class Messages {
     public static final String SUCCESSFULLY_DELETED_DOCTOR = "Successfully deleted Doctor with id: ";
     public static final String SUCCESSFULLY_DELETED_STATE = "Successfully deleted State with id: ";
     public static final String SUCCESSFULLY_RESEND_FORGOT_PASSWORD = "Successfully resend reset password link to your email";
+    public static final String INVALID_TOKEN_TYPE ="Invalid Token type";
 
 }

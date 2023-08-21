@@ -22,6 +22,7 @@ public class DataCommandLineRunner implements CommandLineRunner {
     private final DoctorRepository doctorRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final TokenTypeRepository tokenTypeRepository;
 
     @Autowired
     public DataCommandLineRunner(
@@ -29,13 +30,15 @@ public class DataCommandLineRunner implements CommandLineRunner {
             CityRepository cityRepository,
             SpecialtyRepository specialtyRepository,
             DoctorRepository doctorRepository,
-            RoleRepository roleRepository, UserRepository userRepository) {
+            RoleRepository roleRepository, UserRepository userRepository,
+            TokenTypeRepository tokenTypeRepository) {
         this.stateRepository = stateRepository;
         this.cityRepository = cityRepository;
         this.specialtyRepository = specialtyRepository;
         this.doctorRepository = doctorRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.tokenTypeRepository = tokenTypeRepository;
     }
 
     @Override
@@ -192,6 +195,14 @@ public class DataCommandLineRunner implements CommandLineRunner {
         devin.setUser_agreement(true);
         devin.setRoles(rolesUser);
         userRepository.save(devin);
+
+        TokenType tokenType = new TokenType();
+        tokenType.setName("Reset_Token");
+        tokenTypeRepository.save(tokenType);
+
+        TokenType tokenType2 = new TokenType();
+        tokenType.setName("Confirmation_Token");
+        tokenTypeRepository.save(tokenType2);
 
         State alabama = new State();
         alabama.setName("Alabama");
