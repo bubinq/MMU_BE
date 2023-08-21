@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,17 +18,12 @@ import team.yellow.docconnect.service.CityService;
 import team.yellow.docconnect.service.helper.CityServiceHelper;
 
 @Service
+@AllArgsConstructor
 public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
     private final StateRepository stateRepository;
     private final CityServiceHelper cityServiceHelper;
-
-    public CityServiceImpl(CityRepository cityRepository, StateRepository stateRepository, CityServiceHelper cityServiceHelper) {
-        this.cityRepository = cityRepository;
-        this.stateRepository = stateRepository;
-        this.cityServiceHelper = cityServiceHelper;
-    }
 
     @Override
     public CityDto createCity(CityDto cityDto, Long stateId) {

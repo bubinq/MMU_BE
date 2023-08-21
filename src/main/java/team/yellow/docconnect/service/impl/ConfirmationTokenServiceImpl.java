@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import team.yellow.docconnect.entity.ConfirmationToken;
@@ -14,15 +15,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final UserRepository userRepository;
-
-    public ConfirmationTokenServiceImpl(ConfirmationTokenRepository confirmationTokenRepository, UserRepository userRepository) {
-        this.confirmationTokenRepository = confirmationTokenRepository;
-        this.userRepository = userRepository;
-    }
 
     @Override
     public void saveConfirmationToken(ConfirmationToken token) {

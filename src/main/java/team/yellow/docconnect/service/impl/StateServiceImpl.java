@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +16,11 @@ import team.yellow.docconnect.service.StateService;
 import team.yellow.docconnect.service.helper.StateServiceHelper;
 
 @Service
+@AllArgsConstructor
 public class StateServiceImpl implements StateService {
 
     private final StateRepository stateRepository;
     private final StateServiceHelper stateServiceHelper;
-
-    public StateServiceImpl(StateRepository stateRepository, StateServiceHelper stateServiceHelper) {
-        this.stateRepository = stateRepository;
-        this.stateServiceHelper = stateServiceHelper;
-    }
 
     @Override
     public StateDto createState(StateDto stateDto) {

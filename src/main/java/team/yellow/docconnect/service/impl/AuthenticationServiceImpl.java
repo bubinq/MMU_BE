@@ -1,5 +1,6 @@
 package team.yellow.docconnect.service.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
@@ -43,19 +45,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AuthenticationServiceHelper authenticationServiceHelper;
 
-    public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, GoogleTokenDecoder googleTokenDecoder, EmailBuilderService emailBuilderService, EmailService emailService, ConfirmationTokenService confirmationTokenService, TemplateEngine templateEngine, ConfirmationTokenRepository confirmationTokenRepository, AuthenticationServiceHelper authenticationServiceHelper) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.googleTokenDecoder = googleTokenDecoder;
-        this.emailBuilderService = emailBuilderService;
-        this.emailService = emailService;
-        this.confirmationTokenService = confirmationTokenService;
-        this.templateEngine = templateEngine;
-        this.confirmationTokenRepository = confirmationTokenRepository;
-        this.authenticationServiceHelper = authenticationServiceHelper;
-    }
 
     @Override
     public String login(LoginDto loginDto) {

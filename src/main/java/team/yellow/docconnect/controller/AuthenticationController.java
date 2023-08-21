@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -31,18 +32,13 @@ import java.util.Objects;
 @RestController
 @RequestMapping("api/v1/auth")
 @Tag(name = "Login and Register REST APIs for Authentication Resource")
+@AllArgsConstructor
 public class AuthenticationController {
 
     private final AuthenticationService authService;
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final ConfirmationTokenService confirmationTokenService;
 
-
-    public AuthenticationController(AuthenticationService authService, ClientRegistrationRepository clientRegistrationRepository, ConfirmationTokenService confirmationTokenService) {
-        this.authService = authService;
-        this.clientRegistrationRepository = clientRegistrationRepository;
-        this.confirmationTokenService = confirmationTokenService;
-    }
 
     @Operation(
             summary = "Login User REST API",
@@ -173,7 +169,7 @@ public class AuthenticationController {
     @SecurityRequirement(
             name = "Bearer Authentication"
     )
-    @PatchMapping("changePassword")
+    @PatchMapping("change-password")
     public ResponseEntity<String> changePassword(
             @RequestBody @Valid ChangePasswordDto changePasswordDto,
             @RequestParam String token) {
