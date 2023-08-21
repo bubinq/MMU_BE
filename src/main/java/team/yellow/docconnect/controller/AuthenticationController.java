@@ -189,4 +189,17 @@ public class AuthenticationController {
     public void forgotPassword(@Valid @RequestBody ForgotPasswordDto forgotPasswordDto) {
         authService.forgotPassword(forgotPasswordDto);
     }
+
+    @Operation(
+            summary = "Forgot Password Resend Request REST API",
+            description = "Forgot Password Resend Request REST API is used to resend reset token to user's email "
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @PostMapping("resend-forgot")
+    public ResponseEntity<String> resendForgotPassword(@RequestParam String token){
+        return ResponseEntity.ok(authService.resendForgotPassword(token));
+    }
 }

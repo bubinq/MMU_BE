@@ -3,7 +3,6 @@ package team.yellow.docconnect.service.helper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.context.Context;
 import team.yellow.docconnect.entity.ConfirmationToken;
 import team.yellow.docconnect.entity.Role;
 import team.yellow.docconnect.entity.User;
@@ -83,11 +82,4 @@ public class AuthenticationServiceHelper {
         }
     }
 
-    public Context getForgotPasswordContext(User user, String confirmationLink) {
-        Context context = new Context();
-        context.setVariable("firstName", user.getFirstName());
-        context.setVariable("lastName", user.getLastName());
-        context.setVariable("link", confirmationLink);
-        return context;
-    }
 }
