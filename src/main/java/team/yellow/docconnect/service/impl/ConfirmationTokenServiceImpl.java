@@ -40,7 +40,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Expired Token");
         }
-        if(confirmationToken.getTokenType().getName().equalsIgnoreCase("Confirmation_Token")){
+        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Confirmation_Token")){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
         }
         setConfirmationDate(token);
@@ -58,7 +58,7 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
         }
-        if(confirmationToken.getTokenType().getName().equalsIgnoreCase("Reset_Token")){
+        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Reset_Token")){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
         }
         setConfirmationDate(token);
