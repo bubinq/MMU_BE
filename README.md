@@ -49,6 +49,16 @@ REST API will start running at <http://localhost:8080>
 docker compose down
 ```
 
+## How to run local
+
+**1. You have to put this into your VM options**
+```bash
+-Djasypt.encryptor.password=yellow
+```
+
+![VM_options.png](VM_options.png)
+
+
 ## Endpoints
 + http://localhost:8080/swagger-ui/index.html - Every endpoint is documented here.
 
