@@ -23,6 +23,7 @@ import team.yellow.docconnect.service.EmailBuilderService;
 import team.yellow.docconnect.service.EmailService;
 import team.yellow.docconnect.service.helper.AuthenticationServiceHelper;
 import team.yellow.docconnect.utils.Messages;
+import team.yellow.docconnect.utils.TokenName;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -60,7 +61,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
         userRepository.save(user);
 
-        String token = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
+        String token = confirmationTokenService.createNewConfirmationToken(user, TokenName.VERIFICATION.getName());
 
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
@@ -113,7 +114,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        confirmationTokenService.validateConfirmationToken(token,"Reset_Token");
+        confirmationTokenService.validateConfirmationToken(token, TokenName.RESET.getName());
 
         user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
         userRepository.save(user);
@@ -131,9 +132,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         String userEmail = userToResetPassword.getEmail();
-        confirmationTokenService.checkForPendingTokens(userToResetPassword, "Reset_Token");
+        confirmationTokenService.checkForPendingTokens(userToResetPassword, TokenName.RESET.getName());
 
-        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,"Reset_Token");
+        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword, TokenName.RESET.getName());
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
@@ -149,9 +150,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        confirmationTokenService.checkForPendingTokens(user, "Reset_Token");
+        confirmationTokenService.checkForPendingTokens(user,  TokenName.RESET.getName());
 
-        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Reset_Token");
+        String newToken = confirmationTokenService.createNewConfirmationToken(user, TokenName.RESET.getName());
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 
@@ -171,9 +172,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_ALREADY_VERIFIED);
         }
 
-        confirmationTokenService.checkForPendingTokens(user, "Verification_Token");
+        confirmationTokenService.checkForPendingTokens(user, TokenName.VERIFICATION.getName());
 
-        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
+        String newToken = confirmationTokenService.createNewConfirmationToken(user, TokenName.VERIFICATION.getName());
         authenticationServiceHelper.checkEmailVerificationTokenIsValid(newToken);
 
         emailService.sendMail("Email Confirmation", user.getEmail(),
@@ -184,7 +185,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String verifyEmail( String token) {
-        confirmationTokenService.validateConfirmationToken(token,"Verification_Token");
+        confirmationTokenService.validateConfirmationToken(token, TokenName.VERIFICATION.getName());
 
         Long userId = confirmationTokenRepository.findUserIdByToken(token);
         User user = userRepository.findById(userId)
