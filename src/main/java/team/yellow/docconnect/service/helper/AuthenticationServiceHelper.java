@@ -8,6 +8,7 @@ import team.yellow.docconnect.entity.ConfirmationToken;
 import team.yellow.docconnect.entity.Role;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
+import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
 import team.yellow.docconnect.repository.RoleRepository;
@@ -55,13 +56,23 @@ public class AuthenticationServiceHelper {
     }
 
 
-    public void checkPasswordResetTokenIsValid(String token) {
+    public void checkConfirmationTokenIsValid(String token) {
         Optional<ConfirmationToken> confirmationToken = confirmationTokenRepository.findByToken(token);
         ConfirmationToken confirmToken = new ConfirmationToken();
         if (confirmationToken.isPresent()) {
             confirmToken = confirmationToken.get();
         }
         if (confirmToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
+        }
+    }
+    public void checkEmailVerificationTokenIsValid(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
+        if(confirmationToken.getConfirmedAt() != null){
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST,Messages.EMAIL_ALREADY_VERIFIED);
+        }
+        if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
         }
     }

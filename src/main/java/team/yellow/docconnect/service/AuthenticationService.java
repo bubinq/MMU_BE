@@ -15,9 +15,13 @@ public interface AuthenticationService {
 
     String googleSignIn(String idToken) throws IOException;
 
+    String verifyEmail( String token);
+
     String changePassword(ChangePasswordDto changePasswordDto, String token);
 
     void forgotPassword(ForgotPasswordDto forgotPasswordDto);
 
     String resendForgotPassword(String token);
+
+    String sendEmailVerification(Long userId);
 }

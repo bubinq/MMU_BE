@@ -10,7 +10,6 @@ import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
 import team.yellow.docconnect.repository.TokenTypeRepository;
-import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.utils.Messages;
 
@@ -22,7 +21,6 @@ import java.util.UUID;
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
-    private final UserRepository userRepository;
     private final TokenTypeRepository tokenTypeRepository;
 
     @Override
@@ -31,75 +29,62 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
-    public String confirmToken(String token) {
+    public void validateConfirmationToken(String token, String tokenTypeName) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
         if(confirmationToken.getConfirmedAt() != null){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Email already confirmed");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
         }
         if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Expired Token");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST,Messages.TOKEN_EXPIRED_INVALID );
         }
-        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Confirmation_Token")){
+        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase(tokenTypeName)){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
         }
-        setConfirmationDate(token);
-        userRepository.confirmEmail(confirmationToken.getUser().getEmail());
-        return "Successfully confirmed";
+        confirmToken(token);
     }
 
     @Override
-    public void validateResetToken(String token) {
+    public void confirmToken(String token) {
+        confirmationTokenRepository.updateConfirmedAtAndExpiresAt(token, LocalDateTime.now());
+    }
+
+    @Override
+    public String createNewConfirmationToken(User user, String tokenType) {
+
+        TokenType foundType =  tokenTypeRepository.findTokenTypeByName(tokenType)
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", tokenType));
+
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken();
+        confirmationToken.setToken(token);
+        confirmationToken.setTokenType(foundType);
+        confirmationToken.setCreatedAt(LocalDateTime.now());
+        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
+        confirmationToken.setUser(user);
+
+        this.saveConfirmationToken(confirmationToken);
+        return token;
+    }
+
+    @Override
+    public void checkTokenExpired(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Token", "value", token));
-        if(confirmationToken.getConfirmedAt() != null){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
-        }
-        if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
-        }
-        if(!confirmationToken.getTokenType().getName().equalsIgnoreCase("Reset_Token")){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.INVALID_TOKEN_TYPE);
-        }
-        setConfirmationDate(token);
-    }
+                .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
 
-
-    @Override
-    public void setConfirmationDate(String token) {
-        confirmationTokenRepository.updateConfirmedAt(token, LocalDateTime.now());
+        if(confirmationToken.getExpiresAt().isAfter(LocalDateTime.now())){
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.PREVIOUS_TOKEN_NOT_EXPIRED);
+        }
     }
 
     @Override
-    public String createNewConfirmationToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Confirmation_Token")
-                        .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Confirmation_Token"));
-        confirmationToken.setTokenType(tokenType);
-        confirmationToken.setCreatedAt(LocalDateTime.now());
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
-        confirmationToken.setUser(user);
+    public void checkForPendingTokens(User user, String tokenType) {
+        TokenType foundToken =  tokenTypeRepository.findTokenTypeByName(tokenType)
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", tokenType));
 
-        this.saveConfirmationToken(confirmationToken);
-        return token;
+        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(user.getId(),foundToken.getId());
+        if(lastToken!=null) {
+            checkTokenExpired(lastToken);
+        }
     }
-
-    @Override
-    public String createNewResetToken(User user) {
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.setToken(token);
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
-        confirmationToken.setTokenType(tokenType);
-        confirmationToken.setCreatedAt(LocalDateTime.now());
-        confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
-        confirmationToken.setUser(user);
-
-        this.saveConfirmationToken(confirmationToken);
-        return token;
-    }
-
 }

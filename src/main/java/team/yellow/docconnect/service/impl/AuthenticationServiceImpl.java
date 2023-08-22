@@ -59,10 +59,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
         userRepository.save(user);
-        String token = confirmationTokenService.createNewConfirmationToken(user);
+
+        String token = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
+
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
                         "http://localhost:5173/auth/confirm?token=" + token));
+
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
 
@@ -110,7 +113,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        confirmationTokenService.validateResetToken(token);
+        confirmationTokenService.validateConfirmationToken(token,"Reset_Token");
 
         user.setPassword(passwordEncoder.encode(changePasswordDto.password()));
         userRepository.save(user);
@@ -123,15 +126,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .findUserByEmailIgnoreCase(forgotPasswordDto.email())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", forgotPasswordDto.email()));
 
-        // Optional ---- TO DELETE
         if (!userToResetPassword.getIsEmailVerified()) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "User email is not verified!");
         }
 
         String userEmail = userToResetPassword.getEmail();
-        String token = confirmationTokenService.createNewResetToken(userToResetPassword);
+        confirmationTokenService.checkForPendingTokens(userToResetPassword, "Reset_Token");
 
-        authenticationServiceHelper.checkPasswordResetTokenIsValid(token);
+        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,"Reset_Token");
+
+        authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
         emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
@@ -145,15 +149,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        String userEmail = user.getEmail();
-        String newToken = confirmationTokenService.createNewResetToken(user);
+        confirmationTokenService.checkForPendingTokens(user, "Reset_Token");
 
-        authenticationServiceHelper.checkPasswordResetTokenIsValid(newToken);
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Reset_Token");
+
+        authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
-        emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
+        emailService.sendMail("Email Reset Password", user.getEmail(), emailBuilderService
                 .buildResetPasswordMail(user, confirmationLink));
 
         return Messages.SUCCESSFULLY_RESEND_FORGOT_PASSWORD;
     }
+
+    @Override
+    public String sendEmailVerification(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        if(user.getIsEmailVerified()) {
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_ALREADY_VERIFIED);
+        }
+
+        confirmationTokenService.checkForPendingTokens(user, "Verification_Token");
+
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
+        authenticationServiceHelper.checkEmailVerificationTokenIsValid(newToken);
+
+        emailService.sendMail("Email Confirmation", user.getEmail(),
+                emailBuilderService.buildConfirmationMail(user.getFirstName(),
+                        "http://localhost:5173/auth/confirm?token=" + newToken));
+        return Messages.SUCCESSFULLY_RESEND_VERIFICATION_EMAIL;
+    }
+
+    @Override
+    public String verifyEmail( String token) {
+        confirmationTokenService.validateConfirmationToken(token,"Verification_Token");
+
+        Long userId = confirmationTokenRepository.findUserIdByToken(token);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        userRepository.confirmEmail(user.getEmail());
+        userRepository.save(user);
+
+        return Messages.SUCCESSFULLY_VERIFIED_EMAIL;
+    }
+
 }
