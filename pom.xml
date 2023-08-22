@@ -184,6 +184,20 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-maven-plugin</artifactId>
+                <version>3.0.5</version>
+                <executions>
+                    <execution>
+                        <id>encrypt-properties</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>encrypt</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
