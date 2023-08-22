@@ -9,13 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import team.yellow.docconnect.entity.TokenType;
 import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.payload.dto.*;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
-import team.yellow.docconnect.repository.TokenTypeRepository;
 import team.yellow.docconnect.repository.UserRepository;
 import team.yellow.docconnect.security.GoogleTokenDecoder;
 import team.yellow.docconnect.security.JwtTokenProvider;
@@ -43,7 +41,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AuthenticationServiceHelper authenticationServiceHelper;
-    private final TokenTypeRepository tokenTypeRepository;
 
 
     @Override
@@ -63,9 +60,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
         userRepository.save(user);
 
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Verification_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Verification_Token"));
-        String token = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+        String token = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
 
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
@@ -131,21 +126,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .findUserByEmailIgnoreCase(forgotPasswordDto.email())
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", forgotPasswordDto.email()));
 
-        // Optional ---- TO DELETE
         if (!userToResetPassword.getIsEmailVerified()) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "User email is not verified!");
         }
 
         String userEmail = userToResetPassword.getEmail();
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
+        confirmationTokenService.checkForPendingTokens(userToResetPassword, "Reset_Token");
 
-        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userToResetPassword.getId(),tokenType.getId());
-        if(lastToken!=null) {
-            confirmationTokenService.checkTokenExpired(lastToken);
-        }
-
-        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,tokenType);
+        String token = confirmationTokenService.createNewConfirmationToken(userToResetPassword,"Reset_Token");
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
@@ -161,22 +149,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        String userEmail = user.getEmail();
+        confirmationTokenService.checkForPendingTokens(user, "Reset_Token");
 
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Reset_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Reset_Token"));
-
-        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userId,tokenType.getId());
-        if(lastToken!=null) {
-            confirmationTokenService.checkTokenExpired(lastToken);
-        }
-
-        String newToken = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Reset_Token");
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 
         String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
-        emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
+        emailService.sendMail("Email Reset Password", user.getEmail(), emailBuilderService
                 .buildResetPasswordMail(user, confirmationLink));
 
         return Messages.SUCCESSFULLY_RESEND_FORGOT_PASSWORD;
@@ -186,19 +166,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public String sendEmailVerification(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-        TokenType tokenType =  tokenTypeRepository.findTokenTypeByName("Verification_Token")
-                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", "Verification_Token"));
 
         if(user.getIsEmailVerified()) {
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, "Email already confirmed");
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_ALREADY_VERIFIED);
         }
 
-        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(userId,tokenType.getId());
-        if(lastToken!=null) {
-            confirmationTokenService.checkTokenExpired(lastToken);
-        }
+        confirmationTokenService.checkForPendingTokens(user, "Verification_Token");
 
-        String newToken = confirmationTokenService.createNewConfirmationToken(user,tokenType);
+        String newToken = confirmationTokenService.createNewConfirmationToken(user,"Verification_Token");
         authenticationServiceHelper.checkEmailVerificationTokenIsValid(newToken);
 
         emailService.sendMail("Email Confirmation", user.getEmail(),

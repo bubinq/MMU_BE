@@ -9,6 +9,7 @@ import team.yellow.docconnect.entity.User;
 import team.yellow.docconnect.exception.HealthCareAPIException;
 import team.yellow.docconnect.exception.ResourceNotFoundException;
 import team.yellow.docconnect.repository.ConfirmationTokenRepository;
+import team.yellow.docconnect.repository.TokenTypeRepository;
 import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.utils.Messages;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final TokenTypeRepository tokenTypeRepository;
 
     @Override
     public void saveConfirmationToken(ConfirmationToken token) {
@@ -48,11 +50,15 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
-    public String createNewConfirmationToken(User user, TokenType tokenType) {
+    public String createNewConfirmationToken(User user, String tokenType) {
+
+        TokenType foundType =  tokenTypeRepository.findTokenTypeByName(tokenType)
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", tokenType));
+
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken();
         confirmationToken.setToken(token);
-        confirmationToken.setTokenType(tokenType);
+        confirmationToken.setTokenType(foundType);
         confirmationToken.setCreatedAt(LocalDateTime.now());
         confirmationToken.setExpiresAt(LocalDateTime.now().plusMinutes(60));
         confirmationToken.setUser(user);
@@ -68,6 +74,17 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
 
         if(confirmationToken.getExpiresAt().isAfter(LocalDateTime.now())){
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.PREVIOUS_TOKEN_NOT_EXPIRED);
+        }
+    }
+
+    @Override
+    public void checkForPendingTokens(User user, String tokenType) {
+        TokenType foundToken =  tokenTypeRepository.findTokenTypeByName(tokenType)
+                .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", tokenType));
+
+        String lastToken= confirmationTokenRepository.findLatestTokenByUserIdAndTokenTypeId(user.getId(),foundToken.getId());
+        if(lastToken!=null) {
+            checkTokenExpired(lastToken);
         }
     }
 }
