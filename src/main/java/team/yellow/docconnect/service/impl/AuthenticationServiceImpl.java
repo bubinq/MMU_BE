@@ -23,6 +23,7 @@ import team.yellow.docconnect.service.EmailBuilderService;
 import team.yellow.docconnect.service.EmailService;
 import team.yellow.docconnect.service.helper.AuthenticationServiceHelper;
 import team.yellow.docconnect.utils.Messages;
+import team.yellow.docconnect.utils.PropertyVariables;
 import team.yellow.docconnect.utils.TokenName;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final AuthenticationServiceHelper authenticationServiceHelper;
+    private final PropertyVariables propertyVariables;
 
 
     @Override
@@ -65,7 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         emailService.sendMail("Email Confirmation", registerDto.email(),
                 emailBuilderService.buildConfirmationMail(registerDto.firstName(),
-                        "http://localhost:5173/auth/confirm?token=" + token));
+                        propertyVariables.getEmailUri() + token));
 
         return Messages.USER_SUCCESSFULLY_REGISTERED;
     }
@@ -138,7 +140,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(token);
 
-        String confirmationLink = "http://localhost:5173/auth/reset?token=" + token;
+        String confirmationLink = propertyVariables.getPasswordUri() + token;
         emailService.sendMail("Email Reset Password", userEmail, emailBuilderService
                 .buildResetPasswordMail(userToResetPassword, confirmationLink));
     }
@@ -150,13 +152,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        confirmationTokenService.checkForPendingTokens(user,  TokenName.RESET.getName());
+        confirmationTokenService.checkForPendingTokens(user, TokenName.RESET.getName());
 
         String newToken = confirmationTokenService.createNewConfirmationToken(user, TokenName.RESET.getName());
 
         authenticationServiceHelper.checkConfirmationTokenIsValid(newToken);
 
-        String confirmationLink = "http://localhost:5173/auth/reset?token=" + newToken;
+        String confirmationLink = propertyVariables.getPasswordUri() + newToken;
         emailService.sendMail("Email Reset Password", user.getEmail(), emailBuilderService
                 .buildResetPasswordMail(user, confirmationLink));
 
@@ -168,7 +170,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        if(user.getIsEmailVerified()) {
+        if (user.getIsEmailVerified()) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_ALREADY_VERIFIED);
         }
 
@@ -179,12 +181,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         emailService.sendMail("Email Confirmation", user.getEmail(),
                 emailBuilderService.buildConfirmationMail(user.getFirstName(),
-                        "http://localhost:5173/auth/confirm?token=" + newToken));
+                        propertyVariables.getEmailUri() + newToken));
         return Messages.SUCCESSFULLY_RESEND_VERIFICATION_EMAIL;
     }
 
     @Override
-    public String verifyEmail( String token) {
+    public String verifyEmail(String token) {
         confirmationTokenService.validateConfirmationToken(token, TokenName.VERIFICATION.getName());
 
         Long userId = confirmationTokenRepository.findUserIdByToken(token);

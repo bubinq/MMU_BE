@@ -21,7 +21,7 @@ import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
 import team.yellow.docconnect.service.AuthenticationService;
-import team.yellow.docconnect.service.ConfirmationTokenService;
+import team.yellow.docconnect.utils.PropertyVariables;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,8 +37,7 @@ public class AuthenticationController {
 
     private final AuthenticationService authService;
     private final ClientRegistrationRepository clientRegistrationRepository;
-    private final ConfirmationTokenService confirmationTokenService;
-
+    private final PropertyVariables propertyVariables;
 
     @Operation(
             summary = "Login User REST API",
@@ -113,7 +112,7 @@ public class AuthenticationController {
 
             String token = authService.googleSignIn(idToken);
             String redirectUrl = UriComponentsBuilder
-                    .fromUriString("http://localhost:5173")
+                    .fromUriString(propertyVariables.getRedirectUri())
                     .queryParam("jwt_token", token)
                     .build()
                     .toUriString();
