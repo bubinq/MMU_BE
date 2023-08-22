@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import team.yellow.docconnect.entity.*;
 import team.yellow.docconnect.repository.*;
+import team.yellow.docconnect.utils.TokenName;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -197,11 +198,11 @@ public class DataCommandLineRunner implements CommandLineRunner {
         userRepository.save(devin);
 
         TokenType tokenType = new TokenType();
-        tokenType.setName("Reset_Token");
+        tokenType.setName( TokenName.RESET.getName());
         tokenTypeRepository.save(tokenType);
 
         TokenType tokenType2 = new TokenType();
-        tokenType2.setName("Verification_Token");
+        tokenType2.setName(TokenName.VERIFICATION.getName());
         tokenTypeRepository.save(tokenType2);
 
         State alabama = new State();
