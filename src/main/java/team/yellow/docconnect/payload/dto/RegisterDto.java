@@ -1,18 +1,16 @@
 package team.yellow.docconnect.payload.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.Length;
 import team.yellow.docconnect.validator.PasswordValueMatches;
 import team.yellow.docconnect.validator.ValidPassword;
+
 
 @PasswordValueMatches.List({
         @PasswordValueMatches(
                 field = "password",
                 fieldMatch = "matchingPassword",
-                message = "Those passwords didn’t match. Please try again."
+                message = "Those passwords didn't match. Please try again."
         )
 })
 public record RegisterDto(
@@ -41,6 +39,9 @@ public record RegisterDto(
 
         @NotEmpty(message = "Please enter an email address.")
         @Email(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Please enter a valid email address.")
-        String email
-) {
+        String email,
+
+        @AssertTrue(message = "You must be over 18")
+        Boolean isOver18
+        ) {
 }

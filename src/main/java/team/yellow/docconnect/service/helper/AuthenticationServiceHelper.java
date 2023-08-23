@@ -47,8 +47,8 @@ public class AuthenticationServiceHelper {
         user.setLastName(registerDto.lastName());
         user.setPassword(passwordEncoder.encode(registerDto.password()));
         user.setEmail(registerDto.email());
+        user.setIsOver18(registerDto.isOver18());
         user.setIsEmailVerified(false);
-        user.setIsOver18(true);
         user.setPrivacy_policy_agreement(true);
         user.setUser_agreement(true);
         user.setIs_deleted(false);

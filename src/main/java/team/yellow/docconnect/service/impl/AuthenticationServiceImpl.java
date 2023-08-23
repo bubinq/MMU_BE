@@ -55,13 +55,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String register(RegisterDto registerDto, boolean isOver18) {
+    public String register(RegisterDto registerDto) {
         if (userRepository.existsByEmailIgnoreCase(registerDto.email())) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_EXISTS);
-        }
-
-        if(!isOver18){
-            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.USER_NOT_OVER_18);
         }
 
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
