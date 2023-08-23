@@ -43,6 +43,7 @@ public class User {
 
     private Boolean isEmailVerified;
 
+    @Column(name = "is_over_18")
     private Boolean isOver18;
 
     private Boolean privacy_policy_agreement;
