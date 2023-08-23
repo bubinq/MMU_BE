@@ -139,10 +139,9 @@ public class AuthenticationController {
     )
     @PostMapping(value = {"/register", "/signup"})
     public ResponseEntity<String> register(
-            @RequestParam(value = "isOver18") boolean isOver18,
             @Valid @RequestBody RegisterDto registerDto
     ) {
-        String response = authService.register(registerDto, isOver18);
+        String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
