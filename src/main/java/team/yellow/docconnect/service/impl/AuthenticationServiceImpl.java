@@ -55,9 +55,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String register(RegisterDto registerDto) {
+    public String register(RegisterDto registerDto, boolean isOver18) {
         if (userRepository.existsByEmailIgnoreCase(registerDto.email())) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_EXISTS);
+        }
+
+        if(!isOver18){
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.USER_NOT_OVER_18);
         }
 
         User user = authenticationServiceHelper.buildNormalUser(registerDto);
@@ -84,7 +88,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.existsByEmailIgnoreCase(googleUserDto.email())) {
             user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                     .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
-
         }
 
         user.setEmail(googleUserDto.email());
@@ -166,9 +169,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String sendEmailVerification(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+    public String sendEmailVerification(String email) {
+        User user = userRepository.findUserByEmailIgnoreCase(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
         if (user.getIsEmailVerified()) {
             throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.EMAIL_ALREADY_VERIFIED);

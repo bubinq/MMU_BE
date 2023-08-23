@@ -11,7 +11,7 @@ public interface AuthenticationService {
 
     String login(LoginDto loginDto);
 
-    String register(RegisterDto registerDto);
+    String register(RegisterDto registerDto, boolean isOver18);
 
     String googleSignIn(String idToken) throws IOException;
 
@@ -23,5 +23,5 @@ public interface AuthenticationService {
 
     String resendForgotPassword(String token);
 
-    String sendEmailVerification(Long userId);
+    String sendEmailVerification(String email);
 }

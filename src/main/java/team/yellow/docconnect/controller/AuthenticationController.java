@@ -138,8 +138,11 @@ public class AuthenticationController {
             description = "Http Status 201 CREATED"
     )
     @PostMapping(value = {"/register", "/signup"})
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterDto registerDto) {
-        String response = authService.register(registerDto);
+    public ResponseEntity<String> register(
+            @RequestParam(value = "isOver18") boolean isOver18,
+            @Valid @RequestBody RegisterDto registerDto
+    ) {
+        String response = authService.register(registerDto, isOver18);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -152,8 +155,8 @@ public class AuthenticationController {
             description = "Http Status 200 SUCCESS"
     )
     @PostMapping("send-email-verification")
-    public ResponseEntity<String> sendEmailVerification(@RequestParam Long userId) {
-        String response = authService.sendEmailVerification(userId);
+    public ResponseEntity<String> sendEmailVerification(@RequestParam String email) {
+        String response = authService.sendEmailVerification(email);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
