@@ -23,5 +23,6 @@ public class Messages {
     public static final String SUCCESSFULLY_RESEND_FORGOT_PASSWORD = "Successfully resend reset password link to your email";
     public static final String SUCCESSFULLY_RESEND_VERIFICATION_EMAIL = "Successfully resend verification link to your email";
     public static final String INVALID_TOKEN_TYPE ="Invalid Token type";
+    public static final String USER_NOT_OVER_18 ="You must be over 18 to use the Application";
 
 }
