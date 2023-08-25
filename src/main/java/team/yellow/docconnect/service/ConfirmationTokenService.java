@@ -10,4 +10,5 @@ public interface ConfirmationTokenService {
     String createNewConfirmationToken(User user, String tokenType);
     void checkTokenExpired(String token);
     void checkForPendingTokens(User user, String tokenType);
+    void validateToken(String token);
 }
