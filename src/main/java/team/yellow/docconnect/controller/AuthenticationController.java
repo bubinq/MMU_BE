@@ -21,6 +21,7 @@ import team.yellow.docconnect.payload.dto.LoginDto;
 import team.yellow.docconnect.payload.dto.RegisterDto;
 import team.yellow.docconnect.payload.response.JWTAuthenticationResponse;
 import team.yellow.docconnect.service.AuthenticationService;
+import team.yellow.docconnect.service.ConfirmationTokenService;
 import team.yellow.docconnect.utils.PropertyVariables;
 
 import java.io.IOException;
@@ -38,6 +39,7 @@ public class AuthenticationController {
     private final AuthenticationService authService;
     private final ClientRegistrationRepository clientRegistrationRepository;
     private final PropertyVariables propertyVariables;
+    private final ConfirmationTokenService confirmationTokenService;
 
     @Operation(
             summary = "Login User REST API",
@@ -215,5 +217,18 @@ public class AuthenticationController {
             @RequestParam String token) {
         String response = authService.changePassword(changePasswordDto, token);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Validate Token REST API",
+            description = "Validate Token REST API is used to check if the token is expired before proceeding"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "Http Status 200 SUCCESS"
+    )
+    @GetMapping("validate-token")
+    public void validateTaken(@RequestParam String token){
+        confirmationTokenService.checkTokenExpired(token);
     }
 }
