@@ -78,6 +78,22 @@ public class ConfirmationTokenServiceImpl implements ConfirmationTokenService {
     }
 
     @Override
+    public void validateToken(String token){
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new ResourceNotFoundException("confirmationToken", "token", token));
+       generalValidation(confirmationToken);
+    }
+
+    private void generalValidation(ConfirmationToken confirmationToken){
+        if(confirmationToken.getConfirmedAt() != null){
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST, Messages.TOKEN_EXPIRED_INVALID);
+        }
+        if(confirmationToken.getExpiresAt().isBefore((LocalDateTime.now()))){
+            throw new HealthCareAPIException(HttpStatus.BAD_REQUEST,Messages.TOKEN_EXPIRED_INVALID );
+        }
+    }
+
+    @Override
     public void checkForPendingTokens(User user, String tokenType) {
         TokenType foundToken =  tokenTypeRepository.findTokenTypeByName(tokenType)
                 .orElseThrow(() -> new ResourceNotFoundException("TokenType", "name", tokenType));

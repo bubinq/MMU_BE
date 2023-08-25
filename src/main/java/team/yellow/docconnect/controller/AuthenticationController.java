@@ -229,6 +229,6 @@ public class AuthenticationController {
     )
     @GetMapping("validate-token")
     public void validateTaken(@RequestParam String token){
-        confirmationTokenService.checkTokenExpired(token);
+        confirmationTokenService.validateToken(token);
     }
 }
