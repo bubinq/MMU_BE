@@ -84,22 +84,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (userRepository.existsByEmailIgnoreCase(googleUserDto.email())) {
             user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
                     .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
+            user.setPassword(encodedPassword);
+            userRepository.save(authenticationServiceHelper.setRoles(user));
+
+        }else {
+            user.setEmail(googleUserDto.email());
+            user.setFirstName(googleUserDto.given_name());
+            user.setLastName(googleUserDto.last_name());
+            user.setPassword(encodedPassword);
+            user.setIsEmailVerified(true);
+            user.setIsOver18(true);
+            user.setPrivacy_policy_agreement(true);
+            user.setUser_agreement(true);
+            user.setIs_deleted(false);
+            userRepository.save(authenticationServiceHelper.setRoles(user));
+
+            user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
+                    .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
         }
-
-        user.setEmail(googleUserDto.email());
-        user.setFirstName(googleUserDto.given_name());
-        user.setLastName(googleUserDto.last_name());
-        user.setPassword(encodedPassword);
-        user.setIsEmailVerified(true);
-        user.setIsOver18(true);
-        user.setPrivacy_policy_agreement(true);
-        user.setUser_agreement(true);
-        user.setIs_deleted(false);
-        userRepository.save(authenticationServiceHelper.setRoles(user));
-
-        user = userRepository.findUserByEmailIgnoreCase(googleUserDto.email())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "Email", googleUserDto.email()));
-
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), randomPassword));
 
